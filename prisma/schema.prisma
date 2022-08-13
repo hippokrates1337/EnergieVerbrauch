@@ -1,0 +1,5 @@
+// Learn more about this file in the docs at https://pris.ly/d/prisma-schema
+datasource db {
+    provider = "postgresql"
+    url = "postgres://gitpod@localhost/energieverbrauch"
+}

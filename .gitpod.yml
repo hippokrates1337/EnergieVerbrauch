@@ -16,6 +16,8 @@ vscode:
   extensions:
     - svelte.svelte-vscode
 
+    - Prisma.prisma
+
 github:
   prebuilds:
     master: true
