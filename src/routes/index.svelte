@@ -1,6 +1,7 @@
+<svelte:head>
+    <title>Energieverbrauch vergleichen</title>
+</svelte:head>
+
 <h1>Vergleiche Deinen Energieverbrauch</h1>
 
-<form action="" method="">
-    <button>Register</button>
-</form>
-
+<a href="/register">Register</a>
