@@ -7,12 +7,17 @@ tasks:
       npm run dev
     env:
       DATABASE_URL: postgres://gitpod@localhost/energieverbrauch
+  - command: npx prisma studio
+    env:
+      DATABASE_URL: postgres://gitpod@localhost/energieverbrauch
 
 ports:
   - port: 5173
     onOpen: open-preview
   - port: 5432
     onOpen: ignore
+  - port: 5555
+    onOpen: open-browser
 
 vscode:
   extensions:
