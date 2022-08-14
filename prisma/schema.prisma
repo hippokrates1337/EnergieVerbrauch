@@ -14,5 +14,5 @@ model User {
     name String
     email String
     password String
-    createdAt DateTime
+    createdAt DateTime @default(now())
 }
