@@ -5,6 +5,8 @@ tasks:
     command: |
       export HMR_HOST=`gp url 5173`
       npm run dev
+    env:
+      DATABASE_URL: postgres://gitpod@localhost/energieverbrauch
 
 ports:
   - port: 5173
