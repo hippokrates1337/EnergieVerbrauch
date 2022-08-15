@@ -5,7 +5,7 @@
 <h1>Anmeldung als neuer Benutzer</h1>
 
 <div>
-    <form action="" method="">
+    <form action="/register.json" method="post">
         <label for="userName">Benutzername: </label>
         <input type="text" name="userName" aria-label="Specify your user name" />
         <label for="email">E-Mail-Adresse: </label>
