@@ -5,7 +5,7 @@
 		"predev": "npx prisma migrate dev",
 		"dev": "vite dev",
 		"build": "vite build",
-		"postbuild": "cp prisma/schema.prisma .vercel_build_output/functions/node/render/ && cp node_modules/@prisma/engines/*query* .vercel_build_output/functions/node/render/",
+		
 		"package": "svelte-kit package",
 		"preview": "vite preview",
 		"test": "playwright test",
