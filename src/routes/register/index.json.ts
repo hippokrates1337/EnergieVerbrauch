@@ -1,12 +1,23 @@
 import type { RequestHandler } from "@sveltejs/kit";
+import PrismaClient from "$lib/prisma";
+
+const prisma = new PrismaClient();
 
 export const POST: RequestHandler = async (event) => {
-    const userName = (await event.request.formData()).get("userName");
-    const email = (await event.request.formData()).get("email");
-    const password = (await event.request.formData()).get("password");
+    const data = await event.request.formData();
+
+    await prisma.user.create({
+        data: {
+            name: data.get("userName") as string,
+            email: data.get("email") as string,
+            password: data.get("password") as string
+        }
+    });
 
     return {
-        status: 200,
-        body: {userName: userName, email: email, password: password}
+        status: 303,
+        headers: {
+            location: "/register"
+        }
     }
 }
