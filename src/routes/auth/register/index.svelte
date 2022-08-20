@@ -51,9 +51,9 @@
         <label for="email">E-Mail-Adresse: </label>
         <input type="text" id="email" name="email" required aria-label="Provide an email address" />
         <label for="password">Passwort: </label>
-        <input type="text" id="password" name="password" required aria-label="Select a password" />
+        <input type="password" id="password" name="password" required aria-label="Select a password" />
         <label for="passwordRepeat">Passwort wiederholen: </label>
-        <input type="text" id="passwordRepeat" name="passwordRepeat" required aria-label="Repeat password" />
+        <input type="password" id="passwordRepeat" name="passwordRepeat" required aria-label="Repeat password" />
         <button aria-label="Submit user registration">Registrieren</button>
     </form>
 </div>
