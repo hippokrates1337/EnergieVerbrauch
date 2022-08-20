@@ -3,7 +3,7 @@ import * as cookie from "cookie";
 
 import PrismaClient from "$lib/prisma";
 
-const prisma = new PrismaClient();
+const db = new PrismaClient();
 
 export const handle: Handle = async ({ event, resolve }) => {
     const cookieHeader = event.request.headers.get("cookie");
@@ -13,7 +13,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         return await resolve(event);
     }
 
-    const session = await prisma.user.findUnique({
+    const session = await db.user.findUnique({
         where: {
             userAuthToken: cookies.session
         }

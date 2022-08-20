@@ -54,7 +54,7 @@
         <input type="password" id="password" name="password" required aria-label="Select a password" />
         <label for="passwordRepeat">Passwort wiederholen: </label>
         <input type="password" id="passwordRepeat" name="passwordRepeat" required aria-label="Repeat password" />
-        <button aria-label="Submit user registration">Registrieren</button>
+        <button type="submit" aria-label="Submit user registration">Registrieren</button>
     </form>
 </div>
 
