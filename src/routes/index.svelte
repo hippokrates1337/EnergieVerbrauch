@@ -4,4 +4,4 @@
 
 <h1>Vergleiche Deinen Energieverbrauch</h1>
 
-<a href="/register">Register</a>
+<a href="/auth/register">Register</a>
