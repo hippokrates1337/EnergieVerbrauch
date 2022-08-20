@@ -37,8 +37,8 @@
     <label for="userName">Benutzername: </label>
     <input type="text" id="userName" name="userName" required aria-label="Specify your user name" />
     <label for="password">Passwort: </label>
-    <input type="text" id="password" name="password" required aria-label="Select a password" />
-    <button aria-label="Submit user registration">Registrieren</button>
+    <input type="password" id="password" name="password" required aria-label="Select a password" />
+    <button aria-label="Submit user registration">Anmelden</button>
 </form>
 
 {#if error}

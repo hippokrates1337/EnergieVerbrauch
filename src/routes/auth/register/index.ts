@@ -40,6 +40,15 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         };
     }
 
+    if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        return {
+            status: 400,
+            body: {
+                error: "Ungültige E-Mail-Adresse angegeben."
+            }
+        };
+    }
+
     try {
         await db.user.create({
             data: {
