@@ -11,11 +11,9 @@
 
         const res = await fetch("/protected/obsunits");
         let units: ObservationUnit[] = [];
-        console.log(units);
         if(res.ok) {
             units = await res.json().data;
         }
-        console.log(units);
 
         return {
             status: 200,
