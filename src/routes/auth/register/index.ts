@@ -2,7 +2,7 @@ import type { RequestEvent, RequestHandler } from "@sveltejs/kit";
 import PrismaClient from "$lib/prisma";
 import * as bcrypt from "bcrypt";
 
-const prisma = new PrismaClient();
+const db = new PrismaClient();
 const saltRounds = 10;
 
 export const POST: RequestHandler = async (event: RequestEvent) => {
@@ -41,7 +41,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
     }
 
     try {
-        await prisma.user.create({
+        await db.user.create({
             data: {
                 name: userName,
                 email: email,
