@@ -12,14 +12,14 @@
         const res = await fetch("/protected/obsunits");
         let units: ObservationUnit[] = [];
         if(res.ok) {
-            units = await res.json().data;
+            units = await res.json();
         }
 
         return {
             status: 200,
             props: {
                 user: session.user.userName,
-                obsUnits: units
+                obsUnits: units.data
             }
         };
     }
