@@ -7,3 +7,9 @@ type User = {
     updatedAt: Date,
     userAuthToken: string
 }
+
+type ObservationUnit = {
+    uid: string,
+    name: string,
+    user: string
+}

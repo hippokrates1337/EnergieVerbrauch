@@ -18,3 +18,9 @@ model User {
     updatedAt DateTime @updatedAt
     userAuthToken String @unique @default(cuid())
 }
+
+model ObservationUnit {
+    uid String @id @default(cuid())
+    user String
+    name String
+}
