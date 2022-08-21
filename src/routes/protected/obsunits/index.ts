@@ -5,7 +5,11 @@ import { off } from "process";
 const db = new PrismaClient();
 
 export const GET: RequestHandler = async (event: RequestEvent) => {
-    const data = await db.observationUnit.findMany();
+    const data = await db.observationUnit.findMany({
+        where: {
+            user: event.locals.user?.userName
+        }
+    });
 
     if(!data) {
         return {
