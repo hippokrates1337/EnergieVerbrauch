@@ -1,6 +1,5 @@
 import type { RequestHandler, RequestEvent } from "@sveltejs/kit";
 import PrismaClient from "$lib/prisma";
-import { off } from "process";
 
 const db = new PrismaClient();
 

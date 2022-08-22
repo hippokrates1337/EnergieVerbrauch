@@ -9,8 +9,9 @@
             };
         }
 
+        // Load user's observation units (to be passed into props)
         const res = await fetch("/protected/obsunits");
-        let units: ObservationUnit[] = [];
+        let units;
         if(res.ok) {
             units = await res.json();
         }
@@ -50,10 +51,9 @@
     }
 </script>
 
-<h1>Innerer Bereich</h1>
+<h1>Innerer Bereich - {user}</h1>
 
 <h2>Hinterlegte Beobachtungseinheiten</h2>
-<!-- TO DO: Show all existing observation units-->
 <ul>
     {#each obsUnits as unit}
         <li>{unit.name}</li>
@@ -69,3 +69,5 @@
 {#if addUnitError}
     <p>{addUnitError}</p>
 {/if}
+
+<h2>Hinterlegte Datenpunkte</h2>
