@@ -3,7 +3,8 @@ type Send = Promise<{
     success?: string,
     user?: {
         userName: string
-    }
+    },
+    data?: any
 }>
 
 export const send = async (form: HTMLFormElement): Send => {

@@ -11,5 +11,19 @@ type User = {
 type ObservationUnit = {
     uid: string,
     name: string,
-    user: string
+    user: string,
+    createdAt: Date,
+    updatedAt: Date
+}
+
+type Observation = {
+    uid: string,
+    user: string,
+    obsUnit: string,
+    date: Date,
+    type: string,
+    value: number,
+    unit: string,
+    createdAt: Date,
+    updatedAt: Date
 }

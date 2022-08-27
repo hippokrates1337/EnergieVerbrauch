@@ -4,7 +4,7 @@ import PrismaClient from "$lib/prisma";
 const db = new PrismaClient();
 
 export const GET: RequestHandler = async (event: RequestEvent) => {
-    const data = await db.observationUnit.findMany({
+    const data = await db.observation.findMany({
         where: {
             user: event.locals.user?.userName
         }
@@ -14,35 +14,42 @@ export const GET: RequestHandler = async (event: RequestEvent) => {
         return {
             status: 500,
             body: {
-                error: "Konnte Verbraucher nicht aus der Datenbank laden."
+                error: "Konnte Verbrauchswerte nicht aus der Datenbank laden."
             }
         };
     }
-
+    
     return {
         status: 200,
         body: {
             data: data
         }
-    };
+    }
 }
 
 export const POST: RequestHandler = async (event: RequestEvent) => {
     const data = await event.request.formData();
-    const unitName = data.get("unitName");
-  
-    const newUnit = await db.observationUnit.create({
+    const obsUnit = data.get("obsunit");
+    const date = new Date(data.get("obsdate") as string);
+    const obsType = data.get("obstype");
+    const obsValue = parseFloat(data.get("obsvalue") as string);
+
+    const newObs = await db.observation.create({
         data: {
             user: event.locals.user?.userName as string,
-            name: unitName as string
+            obsUnit: obsUnit as string,
+            date: date as Date,
+            type: obsType as string,
+            value: obsValue as number,
+            unit: obsType == "electricity" ? "kWh" : "m3"
         }
     });
 
-    if(!newUnit) {
+    if(!newObs) {
         return {
             status: 500,
             body: {
-                error: "Neuer Verbraucher konnte nicht in der Datenbank angelegt werden."
+                error: "Neuer Verbrauchswert konnte nicht in der Datenbank angelegt werden."
             } 
         }
     }
@@ -50,8 +57,8 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
     return {
         status: 200,
         body: {
-            success: "Verbraucher erfolgreich angelegt.",
-            data: newUnit
+            success: "Verbrauchswert erfolgreich angelegt.",
+            data: newObs
         }
     };
 }
