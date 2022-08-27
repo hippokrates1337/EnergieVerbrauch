@@ -19,6 +19,7 @@ type ObservationUnit = {
 type Observation = {
     uid: string,
     user: string,
+    obsUnit: string,
     date: Date,
     type: string,
     value: number,

@@ -30,6 +30,7 @@ model ObservationUnit {
 model Observation {
     uid String @id @default(cuid())
     user String
+    obsUnit String
     date DateTime
     type String
     value Float

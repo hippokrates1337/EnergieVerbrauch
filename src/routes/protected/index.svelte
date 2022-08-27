@@ -10,17 +10,25 @@
         }
 
         // Load user's observation units (to be passed into props)
-        const res = await fetch("/protected/obsunits");
+        let res = await fetch("/protected/obsunits");
         let units;
         if(res.ok) {
             units = await res.json();
+        }
+
+        // Load user's observations (to be passed into props)
+        res = await fetch("/protected/observations");
+        let obs;
+        if(res.ok) {
+            obs = await res.json();
         }
 
         return {
             status: 200,
             props: {
                 user: session.user.userName,
-                obsUnits: units.data
+                obsUnits: units.data,
+                observations: obs.data
             }
         };
     }
@@ -93,7 +101,9 @@
 <h2>Hinterlegte Verbrauchswerte</h2>
 
 <ul>
-<!-- TO DO: Insert observations-->
+    {#each observations as obs}
+    <li>{new Date(obs.date).toLocaleDateString()}: {obs.value} {obs.unit}</li>
+    {/each}
 </ul>
 
 <form on:submit|preventDefault={addObservation} action="/protected/observations" method="post" autocomplete="off">
@@ -107,8 +117,8 @@
     <input type="date" id="obsdate" name="obsdate" aria-label="Datum des Verbrauchswerts"/>
     <label for="obstype">Verbrauchsart: </label>
     <select bind:value={obsUnitOfMeasure} name="obstype" id="obstype" aria-label="Art des Verbrauchs">
-        <option value="electricity">Strom (kWh)</option>
-        <option value="water">Wasser (m3)</option>
+        <option value="electricity">Strom</option>
+        <option value="water">Wasser</option>
     </select>
     <label for="obsvalue">Verbrauchswert: </label>
     <input type="text" id="obsvalue" name="obsvalue" aria-label="Verbrauchswert" />

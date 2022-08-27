@@ -14,7 +14,7 @@ export const GET: RequestHandler = async (event: RequestEvent) => {
         return {
             status: 500,
             body: {
-                error: "Konnte Beobachtungseinheiten nicht aus der Datenbank laden."
+                error: "Konnte Verbraucher nicht aus der Datenbank laden."
             }
         };
     }
@@ -42,7 +42,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         return {
             status: 500,
             body: {
-                error: "Neue Beobachtungseinheit konnte nicht in der Datenbank angelegt werden."
+                error: "Neuer Verbraucher konnte nicht in der Datenbank angelegt werden."
             } 
         }
     }
@@ -50,7 +50,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
     return {
         status: 200,
         body: {
-            success: "Beobachtungseinheit erfolgreich angelegt.",
+            success: "Verbraucher erfolgreich angelegt.",
             data: newUnit
         }
     };
