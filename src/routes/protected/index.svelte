@@ -97,15 +97,25 @@
 </ul>
 
 <form on:submit|preventDefault={addObservation} action="/protected/observations" method="post" autocomplete="off">
-<label for="obsdate">Datum: </label>
-<input type="date" id="obsdate" name="obsdate" aria-label="Datum des Verbrauchswerts"/>
-<label for="obstype">Verbrauchsart: </label>
-<select bind:value={obsUnitOfMeasure} name="obstype" id="obstype" aria-label="Art des Verbrauchs">
-    <option value="electricity">Strom (kWh)</option>
-    <option value="water">Wasser (m3)</option>
-</select>
-<label for="obsvalue">Verbrauchswert: </label>
-<input type="text" id="obsvalue" name="obsvalue" aria-label="Verbrauchswert" />
-{obsUnitOfMeasure == "electricity" ? "kWh" : "m3"}
-<button type="submit" aria-label="Neuen Verbrauchswert hinzufügen">Hinzufügen</button>
+    <label for="obsunit">Verbraucher: </label>
+    <select name="obsunit" id="obsunit" aria-label="Auswahl des Verbrauchers">
+        {#each obsUnits as unit}
+            <option>{unit.name}</option>
+        {/each}
+    </select>
+    <label for="obsdate">Datum: </label>
+    <input type="date" id="obsdate" name="obsdate" aria-label="Datum des Verbrauchswerts"/>
+    <label for="obstype">Verbrauchsart: </label>
+    <select bind:value={obsUnitOfMeasure} name="obstype" id="obstype" aria-label="Art des Verbrauchs">
+        <option value="electricity">Strom (kWh)</option>
+        <option value="water">Wasser (m3)</option>
+    </select>
+    <label for="obsvalue">Verbrauchswert: </label>
+    <input type="text" id="obsvalue" name="obsvalue" aria-label="Verbrauchswert" />
+    {obsUnitOfMeasure == "electricity" ? "kWh" : "m3"}
+    <button type="submit" aria-label="Neuen Verbrauchswert hinzufügen">Hinzufügen</button>
 </form>
+
+{#if addObservationError}
+    <p>{addObservationError}</p>
+{/if}
