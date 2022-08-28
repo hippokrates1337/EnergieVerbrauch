@@ -1,5 +1,6 @@
 import type { RequestHandler, RequestEvent } from "@sveltejs/kit";
 import PrismaClient from "$lib/prisma";
+import { execPath } from "process";
 
 const db = new PrismaClient();
 
@@ -33,6 +34,42 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
     const date = new Date(data.get("obsdate") as string);
     const obsType = data.get("obstype");
     const obsValue = parseFloat(data.get("obsvalue") as string);
+
+    if(!obsUnit || typeof obsUnit !== "string") {
+        return {
+            status: 400,
+            body: {
+                error: "Unbekannter Verbraucher für den Verbrauchswert angegeben."
+            } 
+        }
+    }
+
+    if(!date || date.valueOf() > Date.now()) {
+        return {
+            status: 400,
+            body: {
+                error: "Es muss ein korrektes Datum in der Vergangenheit angegeben werden."
+            } 
+        }
+    }
+
+    if(!obsType || typeof obsType !== "string") {
+        return {
+            status: 400,
+            body: {
+                error: "Art des Verbrauchs muss als Text angegeben werden."
+            } 
+        }
+    }
+
+    if(!obsValue) {
+        return {
+            status: 400,
+            body: {
+                error: "Art des Verbrauchs muss als Text angegeben werden."
+            } 
+        }
+    }
 
     const newObs = await db.observation.create({
         data: {
