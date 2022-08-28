@@ -4,6 +4,7 @@
 declare namespace App {
 	interface Locals {
 		user?: {
+			uid: string,
 			userName: string
 		}
 	}
@@ -12,6 +13,7 @@ declare namespace App {
 	// interface PublicEnv {}
 	interface Session {
 		user?: {
+			uid: string,
 			userName: string
 		}
 	}

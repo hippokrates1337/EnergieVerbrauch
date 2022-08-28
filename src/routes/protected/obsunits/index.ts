@@ -6,7 +6,7 @@ const db = new PrismaClient();
 export const GET: RequestHandler = async (event: RequestEvent) => {
     const data = await db.observationUnit.findMany({
         where: {
-            user: event.locals.user?.userName
+            user: event.locals.user?.uid
         }
     });
 
@@ -33,7 +33,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
   
     const newUnit = await db.observationUnit.create({
         data: {
-            user: event.locals.user?.userName as string,
+            user: event.locals.user?.uid as string,
             name: unitName as string
         }
     });
