@@ -21,6 +21,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
     if(session) {
         event.locals.user = {
+            uid: session.uid,
             userName: session.name
         };
     }
@@ -35,6 +36,7 @@ export const getSession: GetSession = ({ locals }) => {
 
     return {
         user: {
+            uid: locals.user.uid,
             userName: locals.user.userName
         }
     };
