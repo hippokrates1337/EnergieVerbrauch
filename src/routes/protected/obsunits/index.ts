@@ -30,6 +30,15 @@ export const GET: RequestHandler = async (event: RequestEvent) => {
 export const POST: RequestHandler = async (event: RequestEvent) => {
     const data = await event.request.formData();
     const unitName = data.get("unitName");
+
+    if(typeof unitName !== "string") {
+        return {
+            status: 400,
+            body: {
+                error: "Verbrauchername muss als Text angegeben werden."
+            }
+        }
+    }
   
     const newUnit = await db.observationUnit.create({
         data: {
