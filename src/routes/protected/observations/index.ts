@@ -66,7 +66,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         return {
             status: 400,
             body: {
-                error: "Art des Verbrauchs muss als Text angegeben werden."
+                error: "Es muss ein Verbrauchswert als Zahl angegeben werden."
             } 
         }
     }
