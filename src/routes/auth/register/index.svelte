@@ -39,22 +39,32 @@
 </script>
 
 <svelte:head>
-    <title>Neuen benutzer registrieren</title>
+    <title>Als neuer Benutzer registrieren</title>
 </svelte:head>
 
-<h1>Anmeldung als neuer Benutzer</h1>
-
-<div>
+<div class="container border border-secondary p-3">
     <form on:submit|preventDefault={register} method="post" autocomplete="off">
-        <label for="userName">Benutzername: </label>
-        <input type="text" id="userName" name="userName" required aria-label="Specify your user name" />
-        <label for="email">E-Mail-Adresse: </label>
-        <input type="text" id="email" name="email" required aria-label="Provide an email address" />
-        <label for="password">Passwort: </label>
-        <input type="password" id="password" name="password" required aria-label="Select a password" />
-        <label for="passwordRepeat">Passwort wiederholen: </label>
-        <input type="password" id="passwordRepeat" name="passwordRepeat" required aria-label="Repeat password" />
-        <button type="submit" aria-label="Submit user registration">Registrieren</button>
+        <div class="row mb-2">
+            <div class="col">
+                <input placeholder="Benutzername" class="form-control" type="text" id="userName" name="userName" required aria-label="Specify your user name" />
+            </div>
+            <div class="col">
+                <input placeholder="E-Mail-Adresse" class="form-control" type="text" id="email" name="email" required aria-label="Provide an email address" />
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <input placeholder="Passwort" class="form-control" type="password" id="password" name="password" required aria-label="Select a password" />
+            </div>
+            <div class="col">
+                <input placeholder="Passwort wiederholen" class="form-control" type="password" id="passwordRepeat" name="passwordRepeat" required aria-label="Repeat password" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-secondary" type="submit" aria-label="Submit user registration">Registrieren</button>
+            </div>
+        </div>
     </form>
 </div>
 
@@ -68,5 +78,3 @@
     <p>Du kannst Dich nun <a href="/auth/login">einloggen</a>.</p>
 </div>
 {/if}
-
-<a href="/.">Home</a>
