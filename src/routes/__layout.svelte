@@ -6,7 +6,7 @@
     <title>Energieverbrauch vergleichen</title>
 </svelte:head>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color:darkgreen;">
     <span class="navbar-brand">PLACEHOLDER</span>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navharSupportedContent" aria-expanded="false" aria-label="Navigation ein- oder ausklappen">
         <span class="navbar-toggler-icon"></span>
@@ -29,7 +29,7 @@
         <ul class="navbar-nav ms-auto">
             {#if !$session.user}
             <li class="nav-item">
-                <a class="nav-link" href="/auth/register">Regustrieren</a>
+                <a class="nav-link" href="/auth/register">Registrieren</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/auth/login">Anmelden</a>

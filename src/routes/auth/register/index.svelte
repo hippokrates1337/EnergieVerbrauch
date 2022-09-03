@@ -42,52 +42,71 @@
     <title>Als neuer Benutzer registrieren</title>
 </svelte:head>
 
-<div class="container border border-secondary p-3 mt-5">
-    <h3 class="text-dark">Als neuer Benutzer anmelden</h3>
-    <form on:submit|preventDefault={register} method="post" autocomplete="off">
-        <div class="row mb-2">
-            <div class="col">
-                <div class="form-floating">
-                    <input placeholder="Benutzername" class="form-control" type="text" id="userName" name="userName" required aria-label="Specify your user name" />
-                    <label for="userName">Benutzername</label>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-floating">
-                    <input placeholder="E-Mail-Adresse" class="form-control" type="text" id="email" name="email" required aria-label="Provide an email address" />
-                    <label for="email">E-Mail-Adresse</label>
-                </div>
-            </div>
-        </div>
-        <div class="row mb-2">
-            <div class="col">
-                <div class="form-floating">
-                    <input placeholder="Passwort" class="form-control" type="password" id="password" name="password" required aria-label="Select a password" />
-                    <label for="password">Passwort</label>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-floating">
-                    <input placeholder="Passwort wiederholen" class="form-control" type="password" id="passwordRepeat" name="passwordRepeat" required aria-label="Repeat password" />
-                    <label for="passwordRepeat">Passwort wiederholen</label>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="float-end">
-                    <button class="btn btn-secondary" type="submit" aria-label="Submit user registration">Registrieren</button>
-                </div>
-            </div>
-        </div>
-    </form>
-    {#if error}
-        <p class="text-danger">{error}</p>
-    {/if}
+<section class="vh-100">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-12 col-xl-11">
+                <div class="card text-black" style="border-radius: 25px; background-color: #FAF9F6">
+                    <div class="card-body p-md-5">
+                        <div class="row justify-content-center">
+                            <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Neuer Benutzer</p>
 
-    {#if success}
-    <div>
-        <p class="text-success">Erfolgreich als neuer Benutzer registriert. Du kannst Dich nun <a href="/auth/login">einloggen</a>.</p>
+                                <form class="mx-1 mx-md-4" on:submit|preventDefault={register} method="post" autocomplete="off">
+                                    <div class="d-flex flex-row align-items-center mb-4">
+                                        <i class="fa fa-user fa-lg me-3 fa-fw"></i>
+                                        <div class="form-outline flex-fill mb-0">
+                                            <input class="form-control" placeholder="Benutzername" type="text" id="userName" name="userName" required aria-label="Specify your user name" />
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex flex-row align-items-center mb-4">
+                                        <i class="fa fa-envelope fa-lg me-3 fa-fw"></i>
+                                        <div class="form-outline flex-fill mb-0">
+                                            <input class="form-control" placeholder="E-Mail-Adresse" type="text" id="email" name="email" required aria-label="Provide an email address" />
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex flex-row align-items-center mb-4">
+                                        <i class="fa fa-lock fa-lg me-3 fa-fw"></i>
+                                        <div class="form-outline flex-fill mb-0">
+                                            <input placeholder="Passwort" class="form-control" type="password" id="password" name="password" required aria-label="Select a password" />
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex flex-row align-items-center mb-4">
+                                        <i class="fa fa-key fa-lg me-3 fa-fw"></i>
+                                        <div class="form-outline flex-fill mb-0">
+                                            <input placeholder="Passwort wiederholen" class="form-control" type="password" id="passwordRepeat" name="passwordRepeat" required aria-label="Repeat password" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-check d-flex justify-content-center mb-5">
+                                        <input class="form-check-input me-2" type="checkbox" value="" id="consent" />
+                                        <label class="form-check-label" for="consent">
+                                            Ich stimme zu, dass alle meine Angaben für Zwecke dieser Webseite genutzt werden können.
+                                        </label>
+                                    </div>
+
+                                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                        <button class="btn btn-primary btn-lg" type="submit" aria-label="Submit user registration">Registrieren</button>
+                                    </div>
+                                </form>
+
+                                {#if error}
+                                    <p class="text-danger">{error}</p>
+                                {/if}
+
+                                {#if success}
+                                <div>
+                                    <p class="text-success">Erfolgreich als neuer Benutzer registriert. Du kannst Dich nun <a href="/auth/login">einloggen</a>.</p>
+                                </div>
+                                {/if}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    {/if}
-</div>
+</section>
