@@ -48,7 +48,16 @@
     }
 </script>
 
-<h2>Verbraucher verwalten</h2>
+<section class="vh-100">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <h2>Verbraucher verwalten</h2>
 
-<AddObservationUnit on:add={e => addUnit(e.detail)} {addUnitError}/>
-<ListObservationUnits {obsUnits}/>
+            <ListObservationUnits {obsUnits}/>
+            <AddObservationUnit on:add={e => addUnit(e.detail)} {addUnitError}/>
+        </div>
+    </div>
+</section>
+
+
+
