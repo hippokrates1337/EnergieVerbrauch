@@ -18,7 +18,7 @@
                 <a class="nav-link" href="/">Startseite</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href={null} id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Meine Daten</a>
+                <a class="nav-link dropdown-toggle" href={null} id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Meine Daten</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/protected">Übersicht</a>
                     <a class="dropdown-item" href="/protected/manageObsUnits">Verbraucher verwalten</a>
