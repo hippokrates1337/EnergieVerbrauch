@@ -55,6 +55,13 @@
             formElement.reset();
         }
     }
+
+    const changeUnitName = async (names: string[]) => {
+        // TO DO: Implement backend logic to update unit name
+        console.log("Received new names: " + names[0] + " - " + names[1]);
+
+        // TO DO: Update list of observation units to pass into components
+    }
 </script>
 
 <section class="vh-100">
@@ -67,7 +74,7 @@
                             <div class="col-md-10 col-lg-8 col-xl-6 order-2 order-lg-1">
                                 <h2>Verbraucher verwalten</h2>
 
-                                <ListObservationUnits {obsUnits} {observations}/>
+                                <ListObservationUnits {obsUnits} {observations} on:changeName={e => changeUnitName(e.detail)}/>
                                 <hr style="border-top: 3px double #8c8b8b">
                                 <AddObservationUnit on:add={e => addUnit(e.detail)} {addUnitError}/>
                             </div>

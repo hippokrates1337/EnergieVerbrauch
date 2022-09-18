@@ -1,13 +1,19 @@
 <script lang="ts">
+    import { createEventDispatcher } from "svelte";
+    const dispatch = createEventDispatcher();
+
     export let obsUnits: ObservationUnit[];
     export let observations: Observation[];
-    let showEdit:boolean = false;
+    let showEdit: boolean = false;
+    let newUnitName: string;
 
     const toggleEdit = () => {
-        showEdit == !showEdit;
-        alert("This worked");
+        showEdit = !showEdit;
     }
 
+    const changeObsUnitName = (unitName: string, newName: string) => {
+        dispatch("changeName", [unitName, newName]);
+    }
 </script>
 
 <div class="row bg-light p-3">
@@ -23,10 +29,10 @@
             {#each obsUnits as unit, i}
                 <div class="tab-pane fade {i == 0 ? 'active show' : ''} border-0 bg-light" id="list{i}" role="tabpanel" aria-labelledby="list{i}">
                     <b>Name:</b> {unit.name}
-                    <i class="fa fa-pencil" on:click={toggleEdit}></i>
+                    <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => toggleEdit()}><i class="fa fa-pencil"></i></button>
                     {#if showEdit}
-                        <input type="text" />
-                        <button type="submit">Ändern</button>
+                        <input type="text" bind:value={newUnitName}/>
+                        <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => changeObsUnitName(unit.name, newUnitName)}><i class="fa fa-floppy-o"></i></button>
                     {/if}
                     <br>
                     <b>Hinzugefügt am:</b> {new Date(unit.createdAt).toDateString()}
