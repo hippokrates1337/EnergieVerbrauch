@@ -57,10 +57,22 @@
     }
 
     const changeUnitName = async (names: string[]) => {
-        // TO DO: Implement backend logic to update unit name
-        console.log("Received new names: " + names[0] + " - " + names[1]);
+        let response = await fetch("/protected/obsunits", {
+            method: "PATCH",
+            body: JSON.stringify({
+                oldName: names[0],
+                newName: names[1]
+            })
+        });
 
-        // TO DO: Update list of observation units to pass into components
+        // TODO: Check sorting of observation units
+
+        // Update list of observation units
+        response = await fetch("/protected/obsunits");
+        if(response.ok) {
+            console.log(obsUnits);
+            obsUnits = (await response.json()).data;
+        }
     }
 </script>
 
@@ -71,7 +83,7 @@
                 <div class="card text-black" style="border-radius: 25px; background-color: #19FFAF">
                     <div class="card-body p-md-5">
                         <div class="row justify-content-center">
-                            <div class="col-md-10 col-lg-8 col-xl-6 order-2 order-lg-1">
+                            <div class="col-md-10 col-lg-9 order-2 order-lg-1">
                                 <h2>Verbraucher verwalten</h2>
 
                                 <ListObservationUnits {obsUnits} {observations} on:changeName={e => changeUnitName(e.detail)}/>

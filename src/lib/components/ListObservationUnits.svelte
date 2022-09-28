@@ -13,6 +13,7 @@
 
     const changeObsUnitName = (unitName: string, newName: string) => {
         dispatch("changeName", [unitName, newName]);
+        newUnitName = "";
     }
 </script>
 
@@ -35,7 +36,7 @@
                         <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => changeObsUnitName(unit.name, newUnitName)}><i class="fa fa-floppy-o"></i></button>
                     {/if}
                     <br>
-                    <b>Hinzugefügt am:</b> {new Date(unit.createdAt).toDateString()}
+                    <b>Hinzugefügt am:</b> {new Date(unit.createdAt).toDateString()}<br>
                     <b>Hinterlegte Verbrauchswerte:</b> {observations.filter(e => e.obsUnit == unit.name).length}
                 </div>
             {/each}

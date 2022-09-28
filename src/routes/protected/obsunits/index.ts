@@ -64,3 +64,27 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         }
     };
 }
+
+export const PATCH: RequestHandler = async (event: RequestEvent) => {
+    const data = await event.request.json();
+
+    // TO DO: Find a way to identify observation units by ID not by name (otherwise problem with identical names)
+
+    const updatedUnit = await db.observationUnit.updateMany({
+        where: {
+            user: event.locals.user?.uid,
+            name: data.oldName
+        },
+        data: {
+            name: data.newName
+        }
+    });
+
+    return {
+        status: 200,
+        body: {
+            success: "Verbraucher erfolgreich umbenannt.",
+            data: updatedUnit
+        }
+    }
+}
