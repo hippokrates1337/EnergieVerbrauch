@@ -2,7 +2,8 @@ type Send = Promise<{
     error?: string,
     success?: string,
     user?: {
-        userName: string
+        userName: string,
+        uid: string
     },
     data?: any
 }>

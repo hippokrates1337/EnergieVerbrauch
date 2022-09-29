@@ -56,12 +56,12 @@
         }
     }
 
-    const changeUnitName = async (names: string[]) => {
+    const changeUnitName = async (change: {uid: string, newName: string}) => {
         let response = await fetch("/protected/obsunits", {
             method: "PATCH",
             body: JSON.stringify({
-                oldName: names[0],
-                newName: names[1]
+                uid: change.uid,
+                newName: change.newName
             })
         });
 
@@ -72,6 +72,9 @@
         if(response.ok) {
             console.log(obsUnits);
             obsUnits = (await response.json()).data;
+            obsUnits.sort((a, b) => {
+                return a.createdAt > b.createdAt ? 1 : -1;
+            });
         }
     }
 </script>
