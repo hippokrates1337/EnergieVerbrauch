@@ -20,7 +20,7 @@
     }
 </script>
 {#if obsUnits.length > 0}
-    <div class="row bg-light p-3">
+    <div class="row p-3 mb-3">
         <div class="col-4">
             <div class="list-group list-group-light" id="listTab" role="tablist">
                 {#each obsUnits as unit, i}
@@ -31,7 +31,7 @@
         <div class="col-8">
             <div class="tab-content" id="navTabContent">
                 {#each obsUnits as unit, i}
-                    <div class="tab-pane fade {i == 0 ? 'active show' : ''} border-0 bg-light" id="list{i}" role="tabpanel" aria-labelledby="list{i}">
+                    <div class="tab-pane fade {i == 0 ? 'active show' : ''} border-0" id="list{i}" role="tabpanel" aria-labelledby="list{i}">
                         <b>Name:</b> {unit.name}
                         <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => toggleEdit()}><i class="fa fa-pencil"></i></button>
                         {#if showEdit}
