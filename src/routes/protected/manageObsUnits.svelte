@@ -79,25 +79,12 @@
     }
 </script>
 
-<section class="vh-100">
-    <div class="container h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-md-10 col-lg-9">
-                <div class="card text-black bg-light" style="border-radius: 5px">
-                    <div class="card-body p-md-5">
-                        <div class="row justify-content-center">
-                            <h2>Verbraucher verwalten</h2>
 
-                            <ListObservationUnits {obsUnits} {observations} on:changeName={e => changeUnitName(e.detail)}/>
-                            <hr style="border-top: 3px double #8c8b8b">
-                            <AddObservationUnit on:add={e => addUnit(e.detail)} {addUnitError}/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<h2>Verbraucher verwalten</h2>
+
+<ListObservationUnits {obsUnits} {observations} on:changeName={e => changeUnitName(e.detail)}/>
+<hr style="border-top: 3px double #8c8b8b">
+<AddObservationUnit on:add={e => addUnit(e.detail)} {addUnitError}/>
 
 
 
