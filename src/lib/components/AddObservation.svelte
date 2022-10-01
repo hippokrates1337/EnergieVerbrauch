@@ -49,23 +49,39 @@
 </script>
 
 <form on:submit|preventDefault={addObservation} action="/protected/observations" method="post" autocomplete="off">
-    <label for="obsunit">Verbraucher: </label>
-    <select name="obsunit" id="obsunit" aria-label="Auswahl des Verbrauchers">
-        {#each obsUnits as unit}
-            <option>{unit.name}</option>
-        {/each}
-    </select>
-    <label for="obsdate">Datum: </label>
-    <input type="date" id="obsdate" name="obsdate" aria-label="Datum des Verbrauchswerts"/>
-    <label for="obstype">Verbrauchsart: </label>
-    <select bind:value={obsUnitOfMeasure} name="obstype" id="obstype" aria-label="Art des Verbrauchs">
-        <option value="electricity">Strom</option>
-        <option value="water">Wasser</option>
-    </select>
-    <label for="obsvalue">Verbrauchswert: </label>
-    <input type="text" id="obsvalue" name="obsvalue" aria-label="Verbrauchswert" />
-    {obsUnitOfMeasure == "electricity" ? "kWh" : "m3"}
-    <button type="submit" aria-label="Neuen Verbrauchswert hinzufügen">Hinzufügen</button>
+    <div class="d-flex flex-row align-items-center mb-4">
+        <i class="fa fa-home fa-lg ms-3 fa-fw"></i>
+        <div class="form-outline flex-fill mb-0">
+            <select class="form-select" name="obsunit" id="obsunit" aria-label="Auswahl des Verbrauchers" required>
+                {#each obsUnits as unit}
+                    <option>{unit.name}</option>
+                {/each}
+            </select>
+        </div>
+        <i class="fa fa-calendar fa-lg ms-3 fa-fw"></i>
+        <div class="form-outline flex-fill mb-0">
+            <input class="form-control" type="date" id="obsdate" name="obsdate" aria-label="Datum des Verbrauchswerts" required/>
+        </div>
+    </div>
+    <div class="d-flex flex-row align-items-center mb-4">
+        <i class="fa fa-bolt ms-3 fa-fw"></i><i class="fa fa-tint me-3 fa-fw"></i>
+        <div class="form-outline flex-fill mb-0">
+            <select bind:value={obsUnitOfMeasure} class="form-select" name="obstype" id="obstype" aria-label="Art des Verbrauchs" required>
+                <option value="electricity">Strom</option>
+                <option value="coldWater">Kaltwasser</option>
+                <option value="warmWater">Warmwasser</option>
+            </select>
+        </div>
+    
+        <i class="fa fa-calculator fa-lg ms-3 fa-fw"></i>
+        <div class="form-outline flex-fill mb-0">
+            <input class="form-control" type="text" id="obsvalue" name="obsvalue" aria-label="Verbrauchswert" required />
+        </div>
+        {obsUnitOfMeasure == "electricity" ? "kWh" : "m3"}
+    </div>
+    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+        <button class="btn btn-primary" type="submit" aria-label="Neuen Verbrauchswert hinzufügen">Hinzufügen</button>
+    </div>
 </form>
 
 {#if addObservationError}

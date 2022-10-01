@@ -71,18 +71,20 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         }
     }
 
-    const newObs = await db.observation.create({
-        data: {
-            user: event.locals.user?.uid as string,
-            obsUnit: obsUnit as string,
-            date: date as Date,
-            type: obsType as string,
-            value: obsValue as number,
-            unit: obsType == "electricity" ? "kWh" : "m3"
-        }
-    });
+    let newObs;
 
-    if(!newObs) {
+    try {
+        newObs = await db.observation.create({
+            data: {
+                user: event.locals.user?.uid as string,
+                obsUnit: obsUnit as string,
+                date: date as Date,
+                type: obsType as string,
+                value: obsValue as number,
+                unit: obsType == "electricity" ? "kWh" : "m3"
+            }
+        });
+    } catch(error) {
         return {
             status: 500,
             body: {

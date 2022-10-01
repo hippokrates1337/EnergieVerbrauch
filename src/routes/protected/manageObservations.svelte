@@ -60,8 +60,8 @@
     }
 </script>
 
-<h2>Verbrauchswerte verwalten</h2>
+<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Verbrauchswerte verwalten</p>
 
 <AddObservation {obsUnits} {addObservationError} on:add={e => addObservation(e.detail)}/>
-
+<hr style="border-top: 3px double #8c8b8b">
 <ListObservations {observations}/>
