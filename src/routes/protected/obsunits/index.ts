@@ -40,14 +40,15 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         }
     }
   
-    const newUnit = await db.observationUnit.create({
-        data: {
-            user: event.locals.user?.uid as string,
-            name: unitName as string
-        }
-    });
-
-    if(!newUnit) {
+    let newUnit;
+    try {
+        newUnit = await db.observationUnit.create({
+            data: {
+                user: event.locals.user?.uid as string,
+                name: unitName as string
+            }
+        });
+    } catch (error) {
         return {
             status: 500,
             body: {
