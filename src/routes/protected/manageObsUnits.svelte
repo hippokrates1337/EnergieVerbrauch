@@ -16,10 +16,18 @@
             units = await res.json();
         }
 
+        // Load user's observations (to be passed into props)
+        res = await fetch("/protected/observations");
+        let obs;
+        if(res.ok) {
+            obs = await res.json();
+        }
+
         return {
             status: 200,
             props: {
-                obsUnits: units.data
+                obsUnits: units.data,
+                observations: obs.data
             }
         };
     }
@@ -31,6 +39,7 @@
     import AddObservationUnit from "$lib/components/AddObservationUnit.svelte";
 
     export let obsUnits: ObservationUnit[];
+    export let observations: Observation[];
     let addUnitError = "";
 
     const addUnit = async (formElement: HTMLFormElement) => {
@@ -46,9 +55,36 @@
             formElement.reset();
         }
     }
+
+    const changeUnitName = async (change: {uid: string, newName: string}) => {
+        let response = await fetch("/protected/obsunits", {
+            method: "PATCH",
+            body: JSON.stringify({
+                uid: change.uid,
+                newName: change.newName
+            })
+        });
+
+        // TODO: Check sorting of observation units
+
+        // Update list of observation units
+        response = await fetch("/protected/obsunits");
+        if(response.ok) {
+            console.log(obsUnits);
+            obsUnits = (await response.json()).data;
+            obsUnits.sort((a, b) => {
+                return a.createdAt > b.createdAt ? 1 : -1;
+            });
+        }
+    }
 </script>
+
 
 <h2>Verbraucher verwalten</h2>
 
+<ListObservationUnits {obsUnits} {observations} on:changeName={e => changeUnitName(e.detail)}/>
+<hr style="border-top: 3px double #8c8b8b">
 <AddObservationUnit on:add={e => addUnit(e.detail)} {addUnitError}/>
-<ListObservationUnits {obsUnits}/>
+
+
+

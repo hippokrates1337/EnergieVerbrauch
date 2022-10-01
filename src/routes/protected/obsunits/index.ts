@@ -64,3 +64,25 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         }
     };
 }
+
+export const PATCH: RequestHandler = async (event: RequestEvent) => {
+    const data = await event.request.json();
+
+    const updatedUnit = await db.observationUnit.updateMany({
+        where: {
+            user: event.locals.user?.uid,
+            uid: data.uid
+        },
+        data: {
+            name: data.newName
+        }
+    });
+
+    return {
+        status: 200,
+        body: {
+            success: "Verbraucher erfolgreich umbenannt.",
+            data: updatedUnit
+        }
+    }
+}
