@@ -101,3 +101,23 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         }
     };
 }
+
+export const DELETE: RequestHandler = async (event: RequestEvent) => {
+    const data = await event.request.json();
+
+    try {
+        await db.observation.delete({
+            where: {
+                uid: data.uid
+            }
+        });
+    } catch(error) {
+        return {
+            status: 500
+        }
+    }
+
+    return {
+        status: 200
+    }
+}

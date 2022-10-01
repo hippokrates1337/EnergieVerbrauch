@@ -65,12 +65,9 @@
             })
         });
 
-        // TODO: Check sorting of observation units
-
         // Update list of observation units
         response = await fetch("/protected/obsunits");
         if(response.ok) {
-            console.log(obsUnits);
             obsUnits = (await response.json()).data;
             obsUnits.sort((a, b) => {
                 return a.createdAt > b.createdAt ? 1 : -1;

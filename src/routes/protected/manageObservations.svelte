@@ -58,10 +58,24 @@
             formElement.reset();
         }
     }
+
+    const deleteObservation = async (uid: String) => {
+        let response = await fetch("/protected/observations", {
+            method: "DELETE",
+            body: JSON.stringify({
+                uid: uid
+            })
+        });
+
+        response = await fetch("/protected/observations");
+        if(response.ok) {
+            observations = (await response.json()).data;
+        }
+    }
 </script>
 
 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Verbrauchswerte verwalten</p>
 
 <AddObservation {obsUnits} {addObservationError} on:add={e => addObservation(e.detail)}/>
 <hr style="border-top: 3px double #8c8b8b">
-<ListObservations {observations}/>
+<ListObservations {observations} on:delete={e => deleteObservation(e.detail)}/>
