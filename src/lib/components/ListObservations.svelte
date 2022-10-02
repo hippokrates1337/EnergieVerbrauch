@@ -29,22 +29,26 @@
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
 
+    import dayjs from "dayjs";
+
     export let observations: Observation[];
     export let obsUnits: ObservationUnit[];
     let electricity: Observation[] = [], coldWater: Observation[] = [], warmWater: Observation[] = [];
     let showEdit: boolean = false;
-    let obsUnitOfMeasure: string;
+    let obsUnitOfMeasure: String;
     
     $: electricity = observations.filter(a => a.type == "electricity");
     $: coldWater = observations.filter(a => a.type == "coldWater");
     $: warmWater = observations.filter(a => a.type == "warmWater");
 
+
     const deleteObs = (uid: String) => {
         dispatch("delete", uid);
     }
 
-    const toggleEdit = () => {
+    const toggleEdit = (type: String) => {
         showEdit = !showEdit;
+        obsUnitOfMeasure = type;
     }
 
     const changeObservation = async (event: SubmitEvent) => {
@@ -59,7 +63,7 @@
     <li>
         {new Date(obs.startDate).toLocaleDateString()} - {new Date(obs.endDate).toLocaleDateString()}: {obs.value} {obs.unit}
         <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => deleteObs(obs.uid)}><i class="fa fa-trash"></i></button>
-        <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => toggleEdit()}><i class="fa fa-pencil"></i></button>
+        <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => toggleEdit(obs.type)}><i class="fa fa-pencil"></i></button>
         {#if showEdit}
             <form on:submit|preventDefault={changeObservation} action="/protected/observations" method="patch" autocomplete="off">
                 <div class="d-flex flex-row align-items-center mb-4">
@@ -83,15 +87,15 @@
                 <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fa fa-play fa-lg ms-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
-                        <input class="form-control" type="date" id="startdate" name="startdate" aria-label="Beginn des Verbrauchs" required/>
+                        <input class="form-control" type="date" value={dayjs(obs.startDate).format("YYYY-MM-DD")} id="startdate" name="startdate" aria-label="Beginn des Verbrauchs" required/>
                     </div>
                     <i class="fa fa-stop fa-lg ms-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
-                        <input class="form-control" type="date" id="enddate" name="enddate" aria-label="Ende des Verbrauchs" required/>
+                        <input class="form-control" type="date" value={dayjs(obs.endDate).format("YYYY-MM-DD")} id="enddate" name="enddate" aria-label="Ende des Verbrauchs" required/>
                     </div> 
                     <i class="fa fa-calculator fa-lg ms-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
-                        <input class="form-control" type="text" id="obsvalue" name="obsvalue" aria-label="Verbrauchswert" required />
+                        <input class="form-control" type="text" value={obs.value} id="obsvalue" name="obsvalue" aria-label="Verbrauchswert" required />
                     </div>
                     {obsUnitOfMeasure == "electricity" ? "kWh" : "m3"}
                     <button type="submit" class="btn btn-sm btn-shadow-none"><i class="fa fa-floppy-o"></i></button>
