@@ -87,6 +87,13 @@
             method: "PATCH",
             body: JSON.stringify(newData)
         });
+
+        if(response.ok) {
+            response = await fetch("/protected/observations");
+            if(response.ok) {
+                observations = (await response.json()).data;
+            }
+        }
     }
 </script>
 
