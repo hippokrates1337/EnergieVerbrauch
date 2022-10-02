@@ -30,7 +30,10 @@
     const dispatch = createEventDispatcher();
 
     export let observations: Observation[];
+    export let obsUnits: ObservationUnit[];
     let electricity: Observation[] = [], coldWater: Observation[] = [], warmWater: Observation[] = [];
+    let showEdit: boolean = false;
+    let obsUnitOfMeasure: string;
     
     $: electricity = observations.filter(a => a.type == "electricity");
     $: coldWater = observations.filter(a => a.type == "coldWater");
@@ -38,6 +41,15 @@
 
     const deleteObs = (uid: String) => {
         dispatch("delete", uid);
+    }
+
+    const toggleEdit = () => {
+        showEdit = !showEdit;
+    }
+
+    const changeObservation = async (event: SubmitEvent) => {
+        const formElement = event.target as HTMLFormElement;
+        dispatch("change", formElement);
     }
 </script>
 
@@ -47,6 +59,45 @@
     <li>
         {new Date(obs.startDate).toLocaleDateString()} - {new Date(obs.endDate).toLocaleDateString()}: {obs.value} {obs.unit}
         <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => deleteObs(obs.uid)}><i class="fa fa-trash"></i></button>
+        <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => toggleEdit()}><i class="fa fa-pencil"></i></button>
+        {#if showEdit}
+            <form on:submit|preventDefault={changeObservation} action="/protected/observations" method="patch" autocomplete="off">
+                <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fa fa-home fa-lg ms-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                        <select class="form-select" name="obsunit" id="obsunit" aria-label="Auswahl des Verbrauchers" required>
+                            {#each obsUnits as unit}
+                                <option>{unit.name}</option>
+                            {/each}
+                        </select>
+                    </div>
+                    <i class="fa fa-bolt ms-3 fa-fw"></i><i class="fa fa-tint me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                        <select bind:value={obsUnitOfMeasure} class="form-select" name="obstype" id="obstype" aria-label="Art des Verbrauchs" required>
+                            <option value="electricity">Strom</option>
+                            <option value="coldWater">Kaltwasser</option>
+                            <option value="warmWater">Warmwasser</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fa fa-play fa-lg ms-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                        <input class="form-control" type="date" id="startdate" name="startdate" aria-label="Beginn des Verbrauchs" required/>
+                    </div>
+                    <i class="fa fa-stop fa-lg ms-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                        <input class="form-control" type="date" id="enddate" name="enddate" aria-label="Ende des Verbrauchs" required/>
+                    </div> 
+                    <i class="fa fa-calculator fa-lg ms-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                        <input class="form-control" type="text" id="obsvalue" name="obsvalue" aria-label="Verbrauchswert" required />
+                    </div>
+                    {obsUnitOfMeasure == "electricity" ? "kWh" : "m3"}
+                    <button type="submit" class="btn btn-sm btn-shadow-none"><i class="fa fa-floppy-o"></i></button>
+                </div>
+            </form>
+        {/if}
     </li>
     {/each}
 </ul>

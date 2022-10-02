@@ -78,4 +78,4 @@
 
 <AddObservation {obsUnits} {addObservationError} on:add={e => addObservation(e.detail)}/>
 <hr style="border-top: 3px double #8c8b8b">
-<ListObservations {observations} on:delete={e => deleteObservation(e.detail)}/>
+<ListObservations {observations} {obsUnits} on:delete={e => deleteObservation(e.detail)}/>
