@@ -45,7 +45,7 @@
 <ul>
     {#each coldWater as obs}
     <li>
-        {new Date(obs.date).toLocaleDateString()}: {obs.value} {obs.unit}
+        {new Date(obs.startDate).toLocaleDateString()} - {new Date(obs.endDate).toLocaleDateString()}: {obs.value} {obs.unit}
         <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => deleteObs(obs.uid)}><i class="fa fa-trash"></i></button>
     </li>
     {/each}
@@ -55,7 +55,7 @@
 <ul>
     {#each warmWater as obs}
     <li>
-        {new Date(obs.date).toLocaleDateString()}: {obs.value} {obs.unit}
+        {new Date(obs.startDate).toLocaleDateString()} - {new Date(obs.endDate).toLocaleDateString()}: {obs.value} {obs.unit}
         <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => deleteObs(obs.uid)}><i class="fa fa-trash"></i></button>
     </li>
     {/each}
@@ -65,7 +65,7 @@
 <ul>
     {#each electricity as obs}
     <li>
-        {new Date(obs.date).toLocaleDateString()}: {obs.value} {obs.unit}
+        {new Date(obs.startDate).toLocaleDateString()} - {new Date(obs.endDate).toLocaleDateString()}: {obs.value} {obs.unit}
         <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => deleteObs(obs.uid)}><i class="fa fa-trash"></i></button>
     </li>
     {/each}
