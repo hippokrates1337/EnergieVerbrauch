@@ -46,6 +46,8 @@
     const addObservation = async (formElement: HTMLFormElement) => {
         addObservationError = "";
 
+        // TO DO: Ensure observation unit is mapped to observation using UID and not observation unit name!
+
         const response = await send(formElement);
 
         if(response.error) {
@@ -72,10 +74,24 @@
             observations = (await response.json()).data;
         }
     }
+
+    const changeObservation = async (newData: {
+        uid: string,
+        newObsUnit: string,
+        newType: string,
+        newStartDate: string,
+        newEndDate: string,
+        newValue: number
+    }) => {
+        let response = await fetch("/protected/observations", {
+            method: "PATCH",
+            body: JSON.stringify(newData)
+        });
+    }
 </script>
 
 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Verbrauchswerte verwalten</p>
 
 <AddObservation {obsUnits} {addObservationError} on:add={e => addObservation(e.detail)}/>
 <hr style="border-top: 3px double #8c8b8b">
-<ListObservations {observations} {obsUnits} on:delete={e => deleteObservation(e.detail)}/>
+<ListObservations {observations} {obsUnits} on:delete={e => deleteObservation(e.detail)} on:change={e => changeObservation(e.detail)}/>

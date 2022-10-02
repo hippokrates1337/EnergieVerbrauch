@@ -1,6 +1,7 @@
 import type { RequestHandler, RequestEvent } from "@sveltejs/kit";
 import PrismaClient from "$lib/prisma";
 import { execPath } from "process";
+import { request } from "http";
 
 const db = new PrismaClient();
 
@@ -118,6 +119,17 @@ export const DELETE: RequestHandler = async (event: RequestEvent) => {
             status: 500
         }
     }
+
+    return {
+        status: 200
+    }
+}
+
+export const PATCH: RequestHandler = async (event: RequestEvent) => {
+    console.log("Received PATCH request");
+    const data = await event.request.json();
+
+    console.log(data);
 
     return {
         status: 200
