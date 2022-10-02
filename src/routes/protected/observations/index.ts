@@ -31,7 +31,8 @@ export const GET: RequestHandler = async (event: RequestEvent) => {
 export const POST: RequestHandler = async (event: RequestEvent) => {
     const data = await event.request.formData();
     const obsUnit = data.get("obsunit");
-    const date = new Date(data.get("obsdate") as string);
+    const startDate = new Date(data.get("startdate") as string);
+    const endDate = new Date(data.get("enddate") as string);
     const obsType = data.get("obstype");
     const obsValue = parseFloat(data.get("obsvalue") as string);
 
@@ -44,7 +45,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         }
     }
 
-    if(!date || date.valueOf() > Date.now()) {
+    if(!startDate || startDate.valueOf() > Date.now() || !endDate || endDate.valueOf() > Date.now()) {
         return {
             status: 400,
             body: {
@@ -78,7 +79,8 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
             data: {
                 user: event.locals.user?.uid as string,
                 obsUnit: obsUnit as string,
-                date: date as Date,
+                startDate: startDate as Date,
+                endDate: endDate as Date,
                 type: obsType as string,
                 value: obsValue as number,
                 unit: obsType == "electricity" ? "kWh" : "m3"

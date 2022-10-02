@@ -31,7 +31,8 @@ model Observation {
     uid String @id @default(cuid())
     user String
     obsUnit String
-    date DateTime
+    startDate DateTime
+    endDate DateTime
     type String
     value Float
     unit String
