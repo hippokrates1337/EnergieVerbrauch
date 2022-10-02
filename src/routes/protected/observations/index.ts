@@ -126,10 +126,28 @@ export const DELETE: RequestHandler = async (event: RequestEvent) => {
 }
 
 export const PATCH: RequestHandler = async (event: RequestEvent) => {
-    console.log("Received PATCH request");
     const data = await event.request.json();
-
     console.log(data);
+
+    try {
+        await db.observation.update({
+            where: {
+                uid: data.uid
+            },
+            data: {
+                obsUnit: data.newObsUnit,
+                type: data.newType,
+                startDate: new Date(data.newStartDate),
+                endDate: new Date(data.newEndDate),
+                value: parseFloat(data.newValue),
+                unit: data.newType == "electricity" ? "kWh" : "m3"
+            }
+        });
+    } catch(error) {
+        return {
+            status: 500
+        }
+    }
 
     return {
         status: 200
