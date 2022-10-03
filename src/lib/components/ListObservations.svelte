@@ -33,15 +33,10 @@
 
     export let observations: Observation[];
     export let obsUnits: ObservationUnit[];
+    export let title: string;
     export let changeObservationError: string;
-    let electricity: Observation[] = [], coldWater: Observation[] = [], warmWater: Observation[] = [];
     let showEdit: boolean = false;
     let newObsUnit: string, newType: string, newStartDate: string, newEndDate: string, newValue: number;
-    
-    $: electricity = observations.filter(a => a.type == "electricity");
-    $: coldWater = observations.filter(a => a.type == "coldWater");
-    $: warmWater = observations.filter(a => a.type == "warmWater");
-
 
     const deleteObs = (uid: string) => {
         dispatch("delete", uid);
@@ -67,9 +62,9 @@
     }
 </script>
 
-<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Kaltwasser</p>
+<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">{title}</p>
 <ul>
-    {#each coldWater as obs}
+    {#each observations as obs}
     <li>
         {new Date(obs.startDate).toLocaleDateString()} - {new Date(obs.endDate).toLocaleDateString()}: {obs.value} {obs.unit}
         <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => deleteObs(obs.uid)}><i class="fa fa-trash"></i></button>
@@ -113,26 +108,6 @@
                 <p class="text-danger">{changeObservationError}</p>
             {/if}
         {/if}
-    </li>
-    {/each}
-</ul>
-
-<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Warmwasser</p>
-<ul>
-    {#each warmWater as obs}
-    <li>
-        {new Date(obs.startDate).toLocaleDateString()} - {new Date(obs.endDate).toLocaleDateString()}: {obs.value} {obs.unit}
-        <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => deleteObs(obs.uid)}><i class="fa fa-trash"></i></button>
-    </li>
-    {/each}
-</ul>
-
-<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Strom</p>
-<ul>
-    {#each electricity as obs}
-    <li>
-        {new Date(obs.startDate).toLocaleDateString()} - {new Date(obs.endDate).toLocaleDateString()}: {obs.value} {obs.unit}
-        <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => deleteObs(obs.uid)}><i class="fa fa-trash"></i></button>
     </li>
     {/each}
 </ul>

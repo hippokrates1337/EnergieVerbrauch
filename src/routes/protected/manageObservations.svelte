@@ -106,4 +106,26 @@
 
 <AddObservation {obsUnits} {addObservationError} on:add={e => addObservation(e.detail)}/>
 <hr style="border-top: 3px double #8c8b8b">
-<ListObservations {observations} {obsUnits} {changeObservationError} on:delete={e => deleteObservation(e.detail)} on:change={e => changeObservation(e.detail)}/>
+<ListObservations 
+    title="Kaltwasser" 
+    observations={observations.filter(a => a.type == "coldWater")} 
+    {obsUnits} 
+    {changeObservationError} 
+    on:delete={e => deleteObservation(e.detail)} 
+    on:change={e => changeObservation(e.detail)} />
+
+<ListObservations 
+    title="Warmwasser" 
+    observations={observations.filter(a => a.type == "warmWater")} 
+    {obsUnits} 
+    {changeObservationError} 
+    on:delete={e => deleteObservation(e.detail)} 
+    on:change={e => changeObservation(e.detail)} />
+
+<ListObservations 
+    title="Strom" 
+    observations={observations.filter(a => a.type == "electricity")} 
+    {obsUnits} 
+    {changeObservationError} 
+    on:delete={e => deleteObservation(e.detail)} 
+    on:change={e => changeObservation(e.detail)} />

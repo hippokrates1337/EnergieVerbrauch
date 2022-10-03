@@ -40,7 +40,7 @@
     export let obsUnits: ObservationUnit[];
     export let addObservationError: string = "";
     
-    let obsUnitOfMeasure: string = "electricity";
+    let obsType: string = "electricity";
 
     const addObservation = async(event: SubmitEvent) => {
         const formElement = event.target as HTMLFormElement;
@@ -60,7 +60,7 @@
         </div>
         <i class="fa fa-bolt ms-3 fa-fw"></i><i class="fa fa-tint me-3 fa-fw"></i>
         <div class="form-outline flex-fill mb-0">
-            <select bind:value={obsUnitOfMeasure} class="form-select" name="obstype" id="obstype" aria-label="Art des Verbrauchs" required>
+            <select bind:value={obsType} class="form-select" name="obstype" id="obstype" aria-label="Art des Verbrauchs" required>
                 <option value="electricity">Strom</option>
                 <option value="coldWater">Kaltwasser</option>
                 <option value="warmWater">Warmwasser</option>
@@ -80,7 +80,7 @@
         <div class="form-outline flex-fill mb-0">
             <input class="form-control" type="text" id="obsvalue" name="obsvalue" aria-label="Verbrauchswert" required />
         </div>
-        {obsUnitOfMeasure == "electricity" ? "kWh" : "m3"}
+        {obsType == "electricity" ? "kWh" : "m3"}
     </div>
     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
         <button class="btn btn-primary" type="submit" aria-label="Neuen Verbrauchswert hinzufügen">Hinzufügen</button>
