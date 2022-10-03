@@ -33,6 +33,7 @@
 
     export let observations: Observation[];
     export let obsUnits: ObservationUnit[];
+    export let changeObservationError: string;
     let electricity: Observation[] = [], coldWater: Observation[] = [], warmWater: Observation[] = [];
     let showEdit: boolean = false;
     let newObsUnit: string, newType: string, newStartDate: string, newEndDate: string, newValue: number;
@@ -108,6 +109,9 @@
                 {newType == "electricity" ? "kWh" : "m3"}
                 <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => changeObservation(obs.uid)}><i class="fa fa-floppy-o"></i></button>
             </div>
+            {#if changeObservationError}
+                <p class="text-danger">{changeObservationError}</p>
+            {/if}
         {/if}
     </li>
     {/each}

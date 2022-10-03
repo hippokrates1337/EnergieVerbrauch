@@ -42,6 +42,7 @@
     export let observations: Observation[];
     
     let addObservationError: string = "";
+    let changeObservationError: string = "";
 
     const addObservation = async (formElement: HTMLFormElement) => {
         addObservationError = "";
@@ -83,6 +84,8 @@
         newEndDate: string,
         newValue: number
     }) => {
+        changeObservationError = "";
+
         let response = await fetch("/protected/observations", {
             method: "PATCH",
             body: JSON.stringify(newData)
@@ -93,6 +96,8 @@
             if(response.ok) {
                 observations = (await response.json()).data;
             }
+        } else {
+            changeObservationError = (await response.json()).error;
         }
     }
 </script>
@@ -101,4 +106,4 @@
 
 <AddObservation {obsUnits} {addObservationError} on:add={e => addObservation(e.detail)}/>
 <hr style="border-top: 3px double #8c8b8b">
-<ListObservations {observations} {obsUnits} on:delete={e => deleteObservation(e.detail)} on:change={e => changeObservation(e.detail)}/>
+<ListObservations {observations} {obsUnits} {changeObservationError} on:delete={e => deleteObservation(e.detail)} on:change={e => changeObservation(e.detail)}/>

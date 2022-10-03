@@ -88,5 +88,5 @@
 </form>
 
 {#if addObservationError}
-    <p>{addObservationError}</p>
+    <p class="text-danger">{addObservationError}</p>
 {/if}

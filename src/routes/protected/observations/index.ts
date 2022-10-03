@@ -46,11 +46,11 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         }
     }
 
-    if(!startDate || startDate.valueOf() > Date.now() || !endDate || endDate.valueOf() > Date.now()) {
+    if(!startDate || startDate.valueOf() > Date.now() || !endDate || endDate.valueOf() > Date.now() || startDate > endDate) {
         return {
             status: 400,
             body: {
-                error: "Es muss ein korrektes Datum in der Vergangenheit angegeben werden."
+                error: "Es muss ein korrektes Datum in der Vergangenheit angegeben werden. Das Startdatum muss vor dem Enddatum liegen."
             } 
         }
     }
@@ -127,7 +127,42 @@ export const DELETE: RequestHandler = async (event: RequestEvent) => {
 
 export const PATCH: RequestHandler = async (event: RequestEvent) => {
     const data = await event.request.json();
-    console.log(data);
+
+    if(!data.newObsUnit || typeof data.newObsUnit !== "string") {
+        return {
+            status: 400,
+            body: {
+                error: "Unbekannter Verbraucher für den Verbrauchswert angegeben."
+            } 
+        }
+    }
+
+    if(!data.newStartDate || data.newStartDate.valueOf() > Date.now() || !data.newEndDate || data.newEndDate.valueOf() > Date.now() || data.newStartDate > data.newEndDate) {
+        return {
+            status: 400,
+            body: {
+                error: "Es muss ein korrektes Datum in der Vergangenheit angegeben werden. Das Startdatum muss vor dem Enddatum liegen."
+            } 
+        }
+    }
+
+    if(!data.newType || typeof data.newType !== "string") {
+        return {
+            status: 400,
+            body: {
+                error: "Art des Verbrauchs muss als Text angegeben werden."
+            } 
+        }
+    }
+
+    if(!data.newValue) {
+        return {
+            status: 400,
+            body: {
+                error: "Es muss ein Verbrauchswert als Zahl angegeben werden."
+            } 
+        }
+    }
 
     try {
         await db.observation.update({
