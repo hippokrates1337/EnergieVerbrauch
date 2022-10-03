@@ -125,8 +125,9 @@ export const DELETE: RequestHandler = async (event: RequestEvent) => {
     }
 }
 
+// TO DO: Fix variables to refer to form data and move into endpoint with UID
 export const PATCH: RequestHandler = async (event: RequestEvent) => {
-    const data = await event.request.json();
+    const data = await event.request.formData();
 
     if(!data.newObsUnit || typeof data.newObsUnit !== "string") {
         return {

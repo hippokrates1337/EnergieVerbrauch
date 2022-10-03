@@ -30,12 +30,14 @@
     const dispatch = createEventDispatcher();
 
     import dayjs from "dayjs";
+    import EnterObservation from "$lib/components/EnterObservation.svelte";
 
     export let observations: Observation[];
     export let obsUnits: ObservationUnit[];
     export let title: string;
     export let changeObservationError: string;
     let showEdit: boolean = false;
+    let editedObs: string;
     let newObsUnit: string, newType: string, newStartDate: string, newEndDate: string, newValue: number;
 
     const deleteObs = (uid: string) => {
@@ -44,12 +46,14 @@
 
     const toggleEdit = (obs: Observation) => {
         showEdit = !showEdit;
+        editedObs = obs.uid;
         newType = obs.type;
         newStartDate = dayjs(obs.startDate).format("YYYY-MM-DD");
         newEndDate = dayjs(obs.endDate).format("YYYY-MM-DD");
         newValue = obs.value;
     }
 
+    /*
     const changeObservation = async (uid: string) => {
         dispatch("change", {
             uid: uid,
@@ -60,17 +64,43 @@
             newValue: newValue
         });
     }
+    */
+
+    // TO DO: Parameterize "form.action" for the component and allow form to be sent to uid-specific endooint
+    const changeObservation = async(event: SubmitEvent) => {
+        const formElement = event.target as HTMLFormElement;
+        dispatch("change", formElement);
+    }
 </script>
 
 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">{title}</p>
 <ul>
     {#each observations as obs}
     <li>
-        {new Date(obs.startDate).toLocaleDateString()} - {new Date(obs.endDate).toLocaleDateString()}: {obs.value} {obs.unit}
+        {obs.obsUnit} - {new Date(obs.startDate).toLocaleDateString()} - {new Date(obs.endDate).toLocaleDateString()}: {obs.value} {obs.unit}
         <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => deleteObs(obs.uid)}><i class="fa fa-trash"></i></button>
         <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => toggleEdit(obs)}><i class="fa fa-pencil"></i></button>
-        {#if showEdit}
-            <div class="d-flex flex-row align-items-center mb-4">
+        {#if showEdit && obs.uid == editedObs}
+        <!--
+        <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => changeObservation(obs.uid)}><i class="fa fa-floppy-o"></i></button>
+            <EnterObservation {obsUnits} />
+            {#if changeObservationError}
+                <p class="text-danger">{changeObservationError}</p>
+            {/if}
+        -->
+        <form on:submit|preventDefault={changeObservation} action="/protected/observations" method="post" autocomplete="off">
+            <EnterObservation {obsUnits} />
+            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                <button class="btn btn-primary" type="submit" aria-label="Neuen Verbrauchswert hinzufügen">Hinzufügen</button>
+            </div>
+        </form>
+        {/if}
+    </li>
+    {/each}
+</ul>
+
+<!--
+    <div class="d-flex flex-row align-items-center mb-4">
                 <i class="fa fa-home fa-lg ms-3 fa-fw"></i>
                 <div class="form-outline flex-fill mb-0">
                     <select class="form-select" bind:value={newObsUnit} name="obsunit" id="obsunit" aria-label="Auswahl des Verbrauchers" required>
@@ -102,12 +132,5 @@
                     <input class="form-control" type="text" bind:value={newValue} id="obsvalue" name="obsvalue" aria-label="Verbrauchswert" required />
                 </div>
                 {newType == "electricity" ? "kWh" : "m3"}
-                <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => changeObservation(obs.uid)}><i class="fa fa-floppy-o"></i></button>
             </div>
-            {#if changeObservationError}
-                <p class="text-danger">{changeObservationError}</p>
-            {/if}
-        {/if}
-    </li>
-    {/each}
-</ul>
+-->

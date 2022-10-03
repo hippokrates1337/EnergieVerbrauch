@@ -36,6 +36,8 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
+    
+    import EnterObservation from "$lib/components/EnterObservation.svelte"; 
 
     export let obsUnits: ObservationUnit[];
     export let addObservationError: string = "";
@@ -49,6 +51,17 @@
 </script>
 
 <form on:submit|preventDefault={addObservation} action="/protected/observations" method="post" autocomplete="off">
+    <EnterObservation {obsUnits} />
+    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+        <button class="btn btn-primary" type="submit" aria-label="Neuen Verbrauchswert hinzufügen">Hinzufügen</button>
+    </div>
+</form>
+
+{#if addObservationError}
+    <p class="text-danger">{addObservationError}</p>
+{/if}
+
+<!--
     <div class="d-flex flex-row align-items-center mb-4">
         <i class="fa fa-home fa-lg ms-3 fa-fw"></i>
         <div class="form-outline flex-fill mb-0">
@@ -82,11 +95,4 @@
         </div>
         {obsType == "electricity" ? "kWh" : "m3"}
     </div>
-    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-        <button class="btn btn-primary" type="submit" aria-label="Neuen Verbrauchswert hinzufügen">Hinzufügen</button>
-    </div>
-</form>
-
-{#if addObservationError}
-    <p class="text-danger">{addObservationError}</p>
-{/if}
+-->

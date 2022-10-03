@@ -76,6 +76,7 @@
         }
     }
 
+    /*
     const changeObservation = async (newData: {
         uid: string,
         newObsUnit: string,
@@ -99,6 +100,14 @@
         } else {
             changeObservationError = (await response.json()).error;
         }
+    }
+    */
+
+    // TO DO: Implement PATCH based on form data
+    const changeObservation = async (formElement: HTMLFormElement) => {
+        changeObservationError = "";
+
+        const response = await send(formElement, "PATCH");
     }
 </script>
 
