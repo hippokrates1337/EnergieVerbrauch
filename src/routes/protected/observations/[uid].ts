@@ -3,38 +3,32 @@ import PrismaClient from "$lib/prisma";
 
 const db = new PrismaClient();
 
-export const GET: RequestHandler = async (event: RequestEvent) => {
-    const data = await db.observation.findMany({
-        where: {
-            user: event.locals.user?.uid
-        }
-    });
-
-    if(!data) {
-        return {
-            status: 500,
-            body: {
-                error: "Konnte Verbrauchswerte nicht aus der Datenbank laden."
+export const DELETE: RequestHandler = async (event: RequestEvent) => {
+   try {
+        await db.observation.delete({
+            where: {
+                uid: event.params.uid
             }
-        };
-    }
-    
-    return {
-        status: 200,
-        body: {
-            data: data
+        });
+    } catch(error) {
+        return {
+            status: 500
         }
+    }
+
+    return {
+        status: 200
     }
 }
 
-export const POST: RequestHandler = async (event: RequestEvent) => {
+export const PATCH: RequestHandler = async (event: RequestEvent) => {
     const data = await event.request.formData();
     const obsUnit = data.get("obsunit");
     const startDate = new Date(data.get("startdate") as string);
     const endDate = new Date(data.get("enddate") as string);
     const obsType = data.get("obstype");
     const obsValue = parseFloat(data.get("obsvalue") as string);
-
+    
     if(!obsUnit || typeof obsUnit !== "string") {
         return {
             status: 400,
@@ -71,34 +65,27 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         }
     }
 
-    let newObs;
-
     try {
-        newObs = await db.observation.create({
+        await db.observation.update({
+            where: {
+                uid: event.params.uid
+            },
             data: {
-                user: event.locals.user?.uid as string,
-                obsUnit: obsUnit as string,
-                startDate: startDate as Date,
-                endDate: endDate as Date,
-                type: obsType as string,
-                value: obsValue as number,
+                obsUnit: obsUnit,
+                type: obsType,
+                startDate: new Date(startDate),
+                endDate: new Date(endDate),
+                value: obsValue,
                 unit: obsType == "electricity" ? "kWh" : "m3"
             }
         });
     } catch(error) {
         return {
-            status: 500,
-            body: {
-                error: "Neuer Verbrauchswert konnte nicht in der Datenbank angelegt werden."
-            } 
+            status: 500
         }
     }
-
+    
     return {
-        status: 200,
-        body: {
-            success: "Verbrauchswert erfolgreich angelegt.",
-            data: newObs
-        }
-    };
+        status: 200
+    }
 }

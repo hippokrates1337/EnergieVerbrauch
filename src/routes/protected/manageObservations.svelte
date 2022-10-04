@@ -63,11 +63,17 @@
     }
 
     const deleteObservation = async (uid: String) => {
+        /*
         let response = await fetch("/protected/observations", {
             method: "DELETE",
             body: JSON.stringify({
                 uid: uid
             })
+        });
+        */
+
+        let response = await fetch("/protected/observations/" + uid, {
+            method: "DELETE"
         });
 
         response = await fetch("/protected/observations");

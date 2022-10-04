@@ -88,7 +88,7 @@
                 <p class="text-danger">{changeObservationError}</p>
             {/if}
         -->
-        <form on:submit|preventDefault={changeObservation} action="/protected/observations" method="post" autocomplete="off">
+        <form on:submit|preventDefault={changeObservation} action={"/protected/observations/" + obs.uid} method="post" autocomplete="off">
             <EnterObservation {obsUnits} />
             <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                 <button class="btn btn-primary" type="submit" aria-label="Neuen Verbrauchswert hinzufügen">Hinzufügen</button>
