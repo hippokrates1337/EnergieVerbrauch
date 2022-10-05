@@ -10,9 +10,9 @@
 <div class="d-flex flex-row align-items-center mb-4">
     <i class="fa fa-home fa-lg ms-3 fa-fw"></i>
     <div class="form-outline flex-fill mb-0">
-        <select value={defaultObsUnit ? defaultObsUnit : obsUnits[0].name} class="form-select" name="obsunit" id="obsunit" aria-label="Auswahl des Verbrauchers" required>
+        <select value={defaultObsUnit != "" ? defaultObsUnit : obsUnits[0].uid} class="form-select" name="obsunit" id="obsunit" aria-label="Auswahl des Verbrauchers" required>
             {#each obsUnits as unit}
-                <option>{unit.name}</option>
+                <option value={unit.uid}>{unit.name}</option>
             {/each}
         </select>
     </div>
