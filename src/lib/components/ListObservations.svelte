@@ -64,7 +64,7 @@
 <ul>
     {#each observations as obs}
     <li>
-        {obs.obsUnit} - {new Date(obs.startDate).toLocaleDateString()} - {new Date(obs.endDate).toLocaleDateString()}: {obs.value} {obs.unit}
+        {obsUnits.find((a) => a.uid == obs.obsUnit)?.name} - {new Date(obs.startDate).toLocaleDateString()} - {new Date(obs.endDate).toLocaleDateString()}: {obs.value} {obs.unit}
         <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => deleteObs(obs.uid)}><i class="fa fa-trash"></i></button>
         <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => toggleEdit(obs)}><i class="fa fa-pencil"></i></button>
         {#if showEdit && obs.uid == editedObs}
