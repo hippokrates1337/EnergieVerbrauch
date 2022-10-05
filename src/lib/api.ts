@@ -8,9 +8,9 @@ type Send = Promise<{
     data?: any
 }>
 
-export const send = async (form: HTMLFormElement): Send => {
+export const send = async (form: HTMLFormElement, method?: string): Send => {
     const response = await fetch(form.action, {
-        method: form.method,
+        method: method ? method : form.method,
         body: new FormData(form),
         headers: {
             accept: "application/json"

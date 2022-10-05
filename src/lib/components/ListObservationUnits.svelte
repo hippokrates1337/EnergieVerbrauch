@@ -19,6 +19,7 @@
         newUnitName = "";
     }
 </script>
+
 {#if obsUnits.length > 0}
     <div class="row p-3 mb-3">
         <div class="col-4">

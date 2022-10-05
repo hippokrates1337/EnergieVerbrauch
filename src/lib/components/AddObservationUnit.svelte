@@ -22,5 +22,5 @@
     </form>
 </div>
 {#if addUnitError}
-    <p>{addUnitError}</p>
+    <p class="text-danger">{addUnitError}</p>
 {/if}

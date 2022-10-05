@@ -42,10 +42,12 @@
     export let observations: Observation[];
     
     let addObservationError: string = "";
+    let changeObservationError: string = "";
 
     const addObservation = async (formElement: HTMLFormElement) => {
         addObservationError = "";
 
+        // TO DO: Ensure observation unit is mapped to observation using UID and not observation unit name!
         const response = await send(formElement);
 
         if(response.error) {
@@ -60,16 +62,26 @@
     }
 
     const deleteObservation = async (uid: String) => {
-        let response = await fetch("/protected/observations", {
-            method: "DELETE",
-            body: JSON.stringify({
-                uid: uid
-            })
+        let response = await fetch("/protected/observations/" + uid, {
+            method: "DELETE"
         });
 
         response = await fetch("/protected/observations");
         if(response.ok) {
             observations = (await response.json()).data;
+        }
+    }
+
+    const changeObservation = async (formElement: HTMLFormElement) => {
+        changeObservationError = "";
+
+        const response = await send(formElement, "PATCH");
+
+        if(response.success) {
+            const res = await fetch("/protected/observations");
+            if(res.ok) {
+                observations = (await res.json()).data;
+            }
         }
     }
 </script>
@@ -78,4 +90,26 @@
 
 <AddObservation {obsUnits} {addObservationError} on:add={e => addObservation(e.detail)}/>
 <hr style="border-top: 3px double #8c8b8b">
-<ListObservations {observations} on:delete={e => deleteObservation(e.detail)}/>
+<ListObservations 
+    title="Kaltwasser" 
+    observations={observations.filter(a => a.type == "coldWater")} 
+    {obsUnits} 
+    {changeObservationError} 
+    on:delete={e => deleteObservation(e.detail)} 
+    on:change={e => changeObservation(e.detail)} />
+
+<ListObservations 
+    title="Warmwasser" 
+    observations={observations.filter(a => a.type == "warmWater")} 
+    {obsUnits} 
+    {changeObservationError} 
+    on:delete={e => deleteObservation(e.detail)} 
+    on:change={e => changeObservation(e.detail)} />
+
+<ListObservations 
+    title="Strom" 
+    observations={observations.filter(a => a.type == "electricity")} 
+    {obsUnits} 
+    {changeObservationError} 
+    on:delete={e => deleteObservation(e.detail)} 
+    on:change={e => changeObservation(e.detail)} />
