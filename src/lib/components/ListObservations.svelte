@@ -54,20 +54,6 @@
         newValue = obs.value;
     }
 
-    /*
-    const changeObservation = async (uid: string) => {
-        dispatch("change", {
-            uid: uid,
-            newObsUnit: newObsUnit,
-            newType: newType,
-            newStartDate: newStartDate,
-            newEndDate: newEndDate,
-            newValue: newValue
-        });
-    }
-    */
-
-    // TO DO: Parameterize "form.action" for the component and allow form to be sent to uid-specific endooint
     const changeObservation = async(event: SubmitEvent) => {
         const formElement = event.target as HTMLFormElement;
         dispatch("change", formElement);
@@ -82,13 +68,6 @@
         <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => deleteObs(obs.uid)}><i class="fa fa-trash"></i></button>
         <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => toggleEdit(obs)}><i class="fa fa-pencil"></i></button>
         {#if showEdit && obs.uid == editedObs}
-        <!--
-        <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => changeObservation(obs.uid)}><i class="fa fa-floppy-o"></i></button>
-            <EnterObservation {obsUnits} />
-            {#if changeObservationError}
-                <p class="text-danger">{changeObservationError}</p>
-            {/if}
-        -->
             <form on:submit|preventDefault={changeObservation} action={"/protected/observations/" + obs.uid} method="post" autocomplete="off">
                 <EnterObservation {obsUnits} 
                 defaultObsUnit={newObsUnit} 
@@ -104,39 +83,3 @@
     </li>
     {/each}
 </ul>
-
-<!--
-    <div class="d-flex flex-row align-items-center mb-4">
-                <i class="fa fa-home fa-lg ms-3 fa-fw"></i>
-                <div class="form-outline flex-fill mb-0">
-                    <select class="form-select" bind:value={newObsUnit} name="obsunit" id="obsunit" aria-label="Auswahl des Verbrauchers" required>
-                        {#each obsUnits as unit}
-                            <option>{unit.name}</option>
-                        {/each}
-                    </select>
-                </div>
-                <i class="fa fa-bolt ms-3 fa-fw"></i><i class="fa fa-tint me-3 fa-fw"></i>
-                <div class="form-outline flex-fill mb-0">
-                    <select bind:value={newType} class="form-select" name="obstype" id="obstype" aria-label="Art des Verbrauchs" required>
-                        <option value="electricity">Strom</option>
-                        <option value="coldWater">Kaltwasser</option>
-                        <option value="warmWater">Warmwasser</option>
-                    </select>
-                </div>
-            </div>
-            <div class="d-flex flex-row align-items-center mb-4">
-                <i class="fa fa-play fa-lg ms-3 fa-fw"></i>
-                <div class="form-outline flex-fill mb-0">
-                    <input class="form-control" type="date" bind:value={newStartDate} id="startdate" name="startdate" aria-label="Beginn des Verbrauchs" required/>
-                </div>
-                <i class="fa fa-stop fa-lg ms-3 fa-fw"></i>
-                <div class="form-outline flex-fill mb-0">
-                    <input class="form-control" type="date" bind:value={newEndDate} id="enddate" name="enddate" aria-label="Ende des Verbrauchs" required/>
-                </div> 
-                <i class="fa fa-calculator fa-lg ms-3 fa-fw"></i>
-                <div class="form-outline flex-fill mb-0">
-                    <input class="form-control" type="text" bind:value={newValue} id="obsvalue" name="obsvalue" aria-label="Verbrauchswert" required />
-                </div>
-                {newType == "electricity" ? "kWh" : "m3"}
-            </div>
--->

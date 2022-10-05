@@ -10,14 +10,7 @@
         }
 
         return {
-            status: 200,
-            props: {
-                user: session.user.userName
-            }
+            status: 200
         };
     }
-</script>
-
-<script lang="ts">
-    export let user: string;
 </script>

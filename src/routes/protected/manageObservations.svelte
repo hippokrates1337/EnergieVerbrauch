@@ -48,7 +48,6 @@
         addObservationError = "";
 
         // TO DO: Ensure observation unit is mapped to observation using UID and not observation unit name!
-
         const response = await send(formElement);
 
         if(response.error) {
@@ -63,15 +62,6 @@
     }
 
     const deleteObservation = async (uid: String) => {
-        /*
-        let response = await fetch("/protected/observations", {
-            method: "DELETE",
-            body: JSON.stringify({
-                uid: uid
-            })
-        });
-        */
-
         let response = await fetch("/protected/observations/" + uid, {
             method: "DELETE"
         });
@@ -82,34 +72,6 @@
         }
     }
 
-    /*
-    const changeObservation = async (newData: {
-        uid: string,
-        newObsUnit: string,
-        newType: string,
-        newStartDate: string,
-        newEndDate: string,
-        newValue: number
-    }) => {
-        changeObservationError = "";
-
-        let response = await fetch("/protected/observations", {
-            method: "PATCH",
-            body: JSON.stringify(newData)
-        });
-
-        if(response.ok) {
-            response = await fetch("/protected/observations");
-            if(response.ok) {
-                observations = (await response.json()).data;
-            }
-        } else {
-            changeObservationError = (await response.json()).error;
-        }
-    }
-    */
-
-    // TO DO: Implement PATCH based on form data
     const changeObservation = async (formElement: HTMLFormElement) => {
         changeObservationError = "";
 
