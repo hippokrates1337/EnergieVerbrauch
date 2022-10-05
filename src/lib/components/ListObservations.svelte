@@ -47,6 +47,7 @@
     const toggleEdit = (obs: Observation) => {
         showEdit = !showEdit;
         editedObs = obs.uid;
+        newObsUnit = obs.obsUnit;
         newType = obs.type;
         newStartDate = dayjs(obs.startDate).format("YYYY-MM-DD");
         newEndDate = dayjs(obs.endDate).format("YYYY-MM-DD");
@@ -89,7 +90,12 @@
             {/if}
         -->
             <form on:submit|preventDefault={changeObservation} action={"/protected/observations/" + obs.uid} method="post" autocomplete="off">
-                <EnterObservation {obsUnits} />
+                <EnterObservation {obsUnits} 
+                defaultObsUnit={newObsUnit} 
+                defaultObsType={newType} 
+                defaultStartDate={newStartDate}
+                defaultEndDate={newEndDate} 
+                defaultValue={newValue} />
             </form>
             {#if changeObservationError}
                 <p class="text-danger">{changeObservationError}</p>
