@@ -35,4 +35,5 @@
         <input class="form-control" type="text" id="obsvalue" name="obsvalue" aria-label="Verbrauchswert" required />
     </div>
     {obsType == "electricity" ? "kWh" : "m3"}
+    <button class="btn btn-lg btn-shadow-none" type="submit" aria-label="Änderungen speichern"><i class="fa fa-lg fa-floppy-o"></i></button>
 </div>

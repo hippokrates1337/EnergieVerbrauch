@@ -114,6 +114,13 @@
         changeObservationError = "";
 
         const response = await send(formElement, "PATCH");
+
+        if(response.success) {
+            const res = await fetch("/protected/observations");
+            if(res.ok) {
+                observations = (await res.json()).data;
+            }
+        }
     }
 </script>
 

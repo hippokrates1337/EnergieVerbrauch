@@ -52,9 +52,6 @@
 
 <form on:submit|preventDefault={addObservation} action="/protected/observations" method="post" autocomplete="off">
     <EnterObservation {obsUnits} />
-    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-        <button class="btn btn-primary" type="submit" aria-label="Neuen Verbrauchswert hinzufügen">Hinzufügen</button>
-    </div>
 </form>
 
 {#if addObservationError}

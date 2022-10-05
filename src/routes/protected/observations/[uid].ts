@@ -12,12 +12,18 @@ export const DELETE: RequestHandler = async (event: RequestEvent) => {
         });
     } catch(error) {
         return {
-            status: 500
+            status: 500,
+            body: {
+                error: "Konnte Verbrauchswert nicht aus der Datenbank entfernen."
+            }
         }
     }
 
     return {
-        status: 200
+        status: 200,
+        body: {
+            success: "Verbrauchswert erfolgreich gelöscht."
+        }
     }
 }
 
@@ -81,11 +87,17 @@ export const PATCH: RequestHandler = async (event: RequestEvent) => {
         });
     } catch(error) {
         return {
-            status: 500
+            status: 500,
+            body: {
+                error: "Konnte Verbrauchswert nicht in der Datenbank anpassen."
+            }
         }
     }
     
     return {
-        status: 200
+        status: 200,
+        body: {
+            success: "Verbrauchswert erfolgreich angepasst."
+        }
     }
 }
