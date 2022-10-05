@@ -47,7 +47,6 @@
     const addObservation = async (formElement: HTMLFormElement) => {
         addObservationError = "";
 
-        // TO DO: Ensure observation unit is mapped to observation using UID and not observation unit name!
         const response = await send(formElement);
 
         if(response.error) {

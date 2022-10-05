@@ -56,12 +56,10 @@
         }
     }
 
-    // TO DO: Implement [uid] endpoint
     const changeUnitName = async (change: {uid: string, newName: string}) => {
-        let response = await fetch("/protected/obsunits", {
+        let response = await fetch("/protected/obsunits/" + change.uid, {
             method: "PATCH",
             body: JSON.stringify({
-                uid: change.uid,
                 newName: change.newName
             })
         });
