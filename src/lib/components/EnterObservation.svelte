@@ -1,10 +1,10 @@
 <script lang="ts">
     export let obsUnits: ObservationUnit[];
-    export let defaultObsUnit: string;
-    export let defaultObsType: string;
-    export let defaultStartDate: string;
-    export let defaultEndDate: string;
-    export let defaultValue: number;
+    export let defaultObsUnit: string = "";
+    export let defaultObsType: string = "electricity";
+    export let defaultStartDate: string = "";
+    export let defaultEndDate: string = "";
+    export let defaultValue: number = 0;
 </script>
 
 <div class="d-flex flex-row align-items-center mb-4">
