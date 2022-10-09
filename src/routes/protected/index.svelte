@@ -38,12 +38,19 @@
 
     export let obsUnits: ObservationUnit[];
     export let observations: Observation[];
+    let width: number;
 
     $: coldWater = observations.filter((obs) => (obs.type == "coldWater"));
     $: warmWater = observations.filter((obs) => (obs.type == "warmWater"));
     $: electricity = observations.filter((obs) => (obs.type == "electricity"));
 </script>
 
-<ConsumptionLineChart {obsUnits} observations={coldWater} title="Kaltwasser"/>
-<ConsumptionLineChart {obsUnits} observations={warmWater} title="Warmwasser"/>
-<ConsumptionLineChart {obsUnits} observations={electricity} title="Strom"/>
+<div bind:clientWidth={width}>
+    <div class="mb-5">
+        <ConsumptionLineChart {obsUnits} observations={coldWater} title="Kaltwasser" parentWidth={width} />
+    </div>
+    <div class="mb-5">
+    <ConsumptionLineChart {obsUnits} observations={warmWater} title="Warmwasser" parentWidth={width} />
+    </div>
+    <ConsumptionLineChart {obsUnits} observations={electricity} title="Strom" parentWidth={width} />
+</div>
