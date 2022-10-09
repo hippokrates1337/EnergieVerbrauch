@@ -43,14 +43,16 @@
     $: coldWater = observations.filter((obs) => (obs.type == "coldWater"));
     $: warmWater = observations.filter((obs) => (obs.type == "warmWater"));
     $: electricity = observations.filter((obs) => (obs.type == "electricity"));
+    $: startDate = observations.map(obs => obs.startDate).sort((a, b) => (new Date(a) as any) - (new Date(b) as any))[0];
+    $: endDate = observations.map(obs => obs.endDate).sort((a, b) => (new Date(b) as any) - (new Date(a) as any))[0];
 </script>
 
 <div bind:clientWidth={width}>
     <div class="mb-5">
-        <ConsumptionLineChart {obsUnits} observations={coldWater} title="Kaltwasser" parentWidth={width} />
+        <ConsumptionLineChart {obsUnits} observations={coldWater} title="Kaltwasser" parentWidth={width} {startDate} {endDate} />
     </div>
     <div class="mb-5">
-    <ConsumptionLineChart {obsUnits} observations={warmWater} title="Warmwasser" parentWidth={width} />
+        <ConsumptionLineChart {obsUnits} observations={warmWater} title="Warmwasser" parentWidth={width} {startDate} {endDate} />
     </div>
-    <ConsumptionLineChart {obsUnits} observations={electricity} title="Strom" parentWidth={width} />
+    <ConsumptionLineChart {obsUnits} observations={electricity} title="Strom" parentWidth={width} {startDate} {endDate} />
 </div>
