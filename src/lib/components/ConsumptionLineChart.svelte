@@ -6,11 +6,10 @@
     export let observations: Observation[];
     export let title: string;
     export let parentWidth: number;
+    export let startDate: Date, endDate: Date;
 
-    // Determine first and last date to show
+    // Determine axis parameters
     $: yValues = observations.map(obs => obs.value / ((new Date(obs.endDate).getTime() - new Date(obs.startDate).getTime()) / (24 * 60 * 60 * 1000)))
-    $: startDate = observations.map(obs => obs.startDate).sort((a, b) => (new Date(a) as any) - (new Date(b) as any))[0];
-    $: endDate = observations.map(obs => obs.endDate).sort((a, b) => (new Date(b) as any) - (new Date(a) as any))[0];
     $: minValue = yValues.sort((a, b) => a - b)[0];
     $: maxValue = yValues.sort((a, b) => b - a)[0];
 
