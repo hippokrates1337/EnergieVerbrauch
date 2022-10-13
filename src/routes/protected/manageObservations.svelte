@@ -27,7 +27,8 @@
             status: 200,
             props: {
                 obsUnits: units.data,
-                observations: obs.data
+                observations: obs.data,
+                userid: session.user
             }
         };
     }
@@ -40,6 +41,7 @@
 
     export let obsUnits: ObservationUnit[];
     export let observations: Observation[];
+    export let userid: string;
     
     let addObservationError: string = "";
     let changeObservationError: string = "";
@@ -61,7 +63,7 @@
     }
 
     const deleteObservation = async (uid: String) => {
-        let response = await fetch("/protected/observations/" + uid, {
+        let response = await fetch("/protected/observations/" + userid + "?uid=" + uid, {
             method: "DELETE"
         });
 

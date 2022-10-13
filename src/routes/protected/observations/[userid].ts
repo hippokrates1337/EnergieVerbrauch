@@ -4,10 +4,14 @@ import PrismaClient from "$lib/prisma";
 const db = new PrismaClient();
 
 export const DELETE: RequestHandler = async (event: RequestEvent) => {
-   try {
+    let uid = event.url.searchParams.has("uid") ? event.url.searchParams.get("uid") : "";
+    console.log("Received DELETE request for user ID " + event.params.userid + " and observation ID " + uid);
+
+    try {
         await db.observation.delete({
             where: {
-                uid: event.params.uid
+                user: event.params.userid,
+                uid: uid
             }
         });
     } catch(error) {
