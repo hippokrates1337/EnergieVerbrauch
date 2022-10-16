@@ -1,8 +1,9 @@
 <script lang="ts">
     import * as d3 from "d3";
-    import dayjs from "dayjs";
     import DateXAxis from "./DateXAxis.svelte";
     import ValueYAxis from "./ValueYAxis.svelte";
+    import Legend from "./Legend.svelte";
+	import { map } from "d3";
 
     export let obsUnits: ObservationUnit[];
     export let observations: Observation[];
@@ -37,15 +38,15 @@
             Täglicher Verbrauch an {title} ({observations[0].unit})
         </text>
 
-        <!-- X-axis -->
-        <DateXAxis {innerWidth} {innerHeight} {startDate} {endDate} leftPadding={padding.left} topPadding={padding.top} {tickSize}/>
+        <g transform={`translate(${padding.left}, ${padding.top})`}>
+            <!-- X-axis -->
+            <DateXAxis {xScale} {innerWidth} {innerHeight} {tickSize}/>
 
-        <!-- Y-axis -->
-        <ValueYAxis {minValue} {maxValue} {yAxisMargin} {innerHeight} leftPadding={padding.left} topPadding={padding.top} {tickSize} />
+            <!-- Y-axis -->
+            <ValueYAxis {yScale} {innerHeight} {tickSize} />
 
-        <!-- Data line -->
-        {#each obsUnits as unit, i}
-            <g transform={`translate(${padding.left}, ${padding.top})`}>
+            <!-- Data line -->
+            {#each obsUnits as unit, i}
                 {#each observations as obs}
                     {#if obs.obsUnit == unit.uid}
                         <line x1={xScale(new Date(obs.startDate))} x2={xScale(new Date(obs.endDate))} 
@@ -54,11 +55,12 @@
                             style={"stroke: " + colorScale(i) + "; stroke-width: 3"} />
                     {/if}
                 {/each}
-            </g>
-        {/each}
+            {/each}
+        </g>
 
         <!-- Legend -->
         <g transform={`translate(${width - padding.right - width * 0.2}, ${padding.top * 1.1})`}>
+            <!--
             <rect width={width * 0.2} height={obsUnits.length * height * 0.05}
                 style="fill: lightgray" />
             {#each obsUnits as unit, i}
@@ -70,6 +72,10 @@
                     {unit.name}
                 </text>
             {/each}
+            -->
+
+            <Legend width={width * 0.2} height={obsUnits.length * height * 0.05} 
+                entries={obsUnits.map(e => e.name)} {colorScale} />
         </g>
     </svg>
 {/if}
