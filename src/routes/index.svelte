@@ -20,14 +20,14 @@
 </script>
 
 <script lang="ts">
-    export let observations: Observation[];
+    export let observations: SummaryObservation[];
 </script>
 
 <div class="container">
     <ul class="list-group">
         {#each observations as obs}
             <li class="list-item">
-                {obs.value}
+                {JSON.stringify(obs)}
             </li>
         {/each}
     </ul>

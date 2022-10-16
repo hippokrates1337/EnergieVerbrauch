@@ -3,12 +3,35 @@ import PrismaClient from "$lib/prisma";
 
 const db = new PrismaClient();
 
+export const GET: RequestHandler = async (event: RequestEvent) => {
+    const data = await db.observation.findMany({
+        where: {
+            user: event.params.userid
+        }
+    });
+
+    if(!data) {
+        return {
+            status: 500,
+            body: {
+                error: "Konnte Verbrauchswerte nicht aus der Datenbank laden."
+            }
+        };
+    }
+    
+    return {
+        status: 200,
+        body: {
+            data: data
+        }
+    }
+}
+
 export const DELETE: RequestHandler = async (event: RequestEvent) => {
-    let uid = event.url.searchParams.has("uid") ? event.url.searchParams.get("uid") : "";
-    console.log("Received DELETE request for user ID " + event.params.userid + " and observation ID " + uid);
+    let uid = event.url.searchParams.has("uid") ? event.url.searchParams.get("uid") as string : "";
 
     try {
-        await db.observation.delete({
+        await db.observation.deleteMany({
             where: {
                 user: event.params.userid,
                 uid: uid
@@ -39,6 +62,8 @@ export const PATCH: RequestHandler = async (event: RequestEvent) => {
     const obsType = data.get("obstype");
     const obsValue = parseFloat(data.get("obsvalue") as string);
     
+    let uid = event.url.searchParams.has("uid") ? event.url.searchParams.get("uid") as string : "";
+
     if(!obsUnit || typeof obsUnit !== "string") {
         return {
             status: 400,
@@ -76,9 +101,10 @@ export const PATCH: RequestHandler = async (event: RequestEvent) => {
     }
 
     try {
-        await db.observation.update({
+        await db.observation.updateMany({
             where: {
-                uid: event.params.uid
+                user: event.params.userid,
+                uid: uid
             },
             data: {
                 obsUnit: obsUnit,

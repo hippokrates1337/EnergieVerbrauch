@@ -5,8 +5,11 @@ const db = new PrismaClient();
 
 export const GET: RequestHandler = async (event: RequestEvent) => {
     const data = await db.observation.findMany({
-        where: {
-            user: event.locals.user?.uid
+        select: {
+            startDate: true,
+            endDate: true,
+            type: true,
+            value: true
         }
     });
 

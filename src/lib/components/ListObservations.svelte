@@ -1,30 +1,3 @@
-<script context="module" lang="ts">
-    import type { Load } from "@sveltejs/kit";
-
-    export const load: Load = async ({ session, fetch }) => {
-        if(!session.user) {
-            return {
-                status: 302,
-                redirect: "/auth/login"
-            };
-        }
-
-        // Load user's observations (to be passed into props)
-        const res = await fetch("/protected/observations");
-        let obs;
-        if(res.ok) {
-            obs = await res.json();
-        }
-
-        return {
-            status: 200,
-            props: {
-                observations: obs.data
-            }
-        };
-    }
-</script>
-
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
@@ -36,6 +9,7 @@
     export let obsUnits: ObservationUnit[];
     export let title: string;
     export let changeObservationError: string;
+    export let userid: string;
     let showEdit: boolean = false;
     let editedObs: string;
     let newObsUnit: string, newType: string, newStartDate: string, newEndDate: string, newValue: number;
@@ -68,7 +42,7 @@
         <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => deleteObs(obs.uid)}><i class="fa fa-trash"></i></button>
         <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => toggleEdit(obs)}><i class="fa fa-pencil"></i></button>
         {#if showEdit && obs.uid == editedObs}
-            <form on:submit|preventDefault={changeObservation} action={"/protected/observations/" + obs.uid} method="post" autocomplete="off">
+            <form on:submit|preventDefault={changeObservation} action={"/protected/observations/" + userid + "?uid=" + obs.uid} method="post" autocomplete="off">
                 <EnterObservation {obsUnits} 
                 defaultObsUnit={newObsUnit} 
                 defaultObsType={newType} 

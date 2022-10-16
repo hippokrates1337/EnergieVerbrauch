@@ -17,7 +17,7 @@
         }
 
         // Load user's observations (to be passed into props)
-        res = await fetch("/protected/observations");
+        res = await fetch("/protected/observations/" + session.user.uid);
         let obs;
         if(res.ok) {
             obs = await res.json();

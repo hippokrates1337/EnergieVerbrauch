@@ -17,7 +17,7 @@
         }
 
         // Load user's observations (to be passed into props)
-        res = await fetch("/protected/observations");
+        res = await fetch("/protected/observations/" + session.user.uid);
         let obs;
         if(res.ok) {
             obs = await res.json();
@@ -28,7 +28,7 @@
             props: {
                 obsUnits: units.data,
                 observations: obs.data,
-                userid: session.user
+                userid: session.user.uid
             }
         };
     }
@@ -67,7 +67,7 @@
             method: "DELETE"
         });
 
-        response = await fetch("/protected/observations");
+        response = await fetch("/protected/observations/" + userid);
         if(response.ok) {
             observations = (await response.json()).data;
         }
@@ -79,7 +79,7 @@
         const response = await send(formElement, "PATCH");
 
         if(response.success) {
-            const res = await fetch("/protected/observations");
+            const res = await fetch("/protected/observations/" + userid);
             if(res.ok) {
                 observations = (await res.json()).data;
             }
@@ -95,15 +95,17 @@
     title="Kaltwasser" 
     observations={observations.filter(a => a.type == "coldWater")} 
     {obsUnits} 
-    {changeObservationError} 
+    {changeObservationError}
+    {userid}
     on:delete={e => deleteObservation(e.detail)} 
     on:change={e => changeObservation(e.detail)} />
-
+    
 <ListObservations 
     title="Warmwasser" 
     observations={observations.filter(a => a.type == "warmWater")} 
     {obsUnits} 
     {changeObservationError} 
+    {userid}
     on:delete={e => deleteObservation(e.detail)} 
     on:change={e => changeObservation(e.detail)} />
 
@@ -111,6 +113,7 @@
     title="Strom" 
     observations={observations.filter(a => a.type == "electricity")} 
     {obsUnits} 
-    {changeObservationError} 
+    {changeObservationError}
+    {userid}
     on:delete={e => deleteObservation(e.detail)} 
     on:change={e => changeObservation(e.detail)} />
