@@ -1,6 +1,8 @@
 <script lang="ts">
     import * as d3 from "d3";
     import dayjs from "dayjs";
+    import DateXAxis from "./DateXAxis.svelte";
+    import ValueYAxis from "./ValueYAxis.svelte";
 
     export let obsUnits: ObservationUnit[];
     export let observations: Observation[];
@@ -9,7 +11,7 @@
     export let startDate: Date, endDate: Date;
 
     // Determine axis parameters
-    $: yValues = observations.map(obs => obs.value / ((new Date(obs.endDate).getTime() - new Date(obs.startDate).getTime()) / (24 * 60 * 60 * 1000)))
+    $: yValues = observations.map(obs => obs.value / ((new Date(obs.endDate).getTime() - new Date(obs.startDate).getTime()) / (24 * 60 * 60 * 1000)));
     $: minValue = yValues.sort((a, b) => a - b)[0];
     $: maxValue = yValues.sort((a, b) => b - a)[0];
 
@@ -34,31 +36,12 @@
         <text x={width / 2} y={0.65 * padding.top} text-anchor="middle" class="h3">
             Täglicher Verbrauch an {title} ({observations[0].unit})
         </text>
+
         <!-- X-axis -->
-        <g transform={`translate(${padding.left}, ${padding.top})`}>
-            <line x1="0" x2={innerWidth} y1={innerHeight} y2={innerHeight} style="stroke: black" />
-            {#each xScale.ticks() as tickValue}
-            <g transform={`translate(${xScale(tickValue)}, 0)`}>
-                <line x1="0" x2="0" y1={innerHeight} y2={innerHeight + tickSize} style="stroke: black" />
-                <text text-anchor="middle" dy="1em" y={innerHeight + tickSize} style="font-size: 0.5em">
-                    {dayjs(tickValue).format("DD-MM-YY")}
-                </text>
-            </g>
-            {/each}
-        </g>
+        <DateXAxis {innerWidth} {innerHeight} {startDate} {endDate} leftPadding={padding.left} topPadding={padding.top} {tickSize}/>
 
         <!-- Y-axis -->
-        <g transform={`translate(${padding.left}, ${padding.top})`}>
-            <line x1="0" x2="0" y1="0" y2={innerHeight} style="stroke: black" />
-            {#each yScale.ticks() as tickValue}
-            <g transform={`translate(0, ${yScale(tickValue)})`}>
-                <line x1={-tickSize} x2="0" y1="0" y2="0" style="stroke: black" />
-                <text text-anchor="middle" dx="-1.5em" dy="0.4em" style="font-size: 0.5em">
-                    {tickValue.toFixed(1)}
-                </text>
-            </g>
-            {/each}
-        </g>
+        <ValueYAxis {minValue} {maxValue} {yAxisMargin} {innerHeight} leftPadding={padding.left} topPadding={padding.top} {tickSize} />
 
         <!-- Data line -->
         {#each obsUnits as unit, i}

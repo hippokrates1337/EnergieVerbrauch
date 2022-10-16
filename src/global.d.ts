@@ -35,3 +35,8 @@ type SummaryObservation = {
     type: string,
     value: number
 }
+
+type SummaryData = {
+    obsCount: number,
+    totalValue: number
+}
