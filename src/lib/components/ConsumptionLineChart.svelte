@@ -43,7 +43,7 @@
             <DateXAxis {xScale} {innerWidth} {innerHeight} {tickSize}/>
 
             <!-- Y-axis -->
-            <ValueYAxis {yScale} {innerHeight} {tickSize} />
+            <ValueYAxis {yScale} {innerHeight} {innerWidth} {tickSize} left={true} />
 
             <!-- Data line -->
             {#each obsUnits as unit, i}
@@ -59,21 +59,7 @@
         </g>
 
         <!-- Legend -->
-        <g transform={`translate(${width - padding.right - width * 0.2}, ${padding.top * 1.1})`}>
-            <!--
-            <rect width={width * 0.2} height={obsUnits.length * height * 0.05}
-                style="fill: lightgray" />
-            {#each obsUnits as unit, i}
-                <line x1={width * 0.02} x2={width * 0.04} 
-                    y1={height * 0.025 + i * height * 0.05} y2={height * 0.025  + i * height * 0.05} 
-                    style={"stroke: " + colorScale(i) + "; stroke-width: 3"}/>
-                <text text-anchor="start" x={width * 0.05} y={height * 0.032  + i * height * 0.05}
-                    style="font-size: 0.75em">
-                    {unit.name}
-                </text>
-            {/each}
-            -->
-
+        <g transform={`translate(${width - padding.right - width * 0.25}, ${padding.top * 1.1})`}>
             <Legend width={width * 0.2} height={obsUnits.length * height * 0.05} 
                 entries={obsUnits.map(e => e.name)} {colorScale} />
         </g>
