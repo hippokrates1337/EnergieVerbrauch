@@ -20,16 +20,27 @@
 </script>
 
 <script lang="ts">
+    import SummaryLineChart from "$lib/components/SummaryLineChart.svelte";
+    
     export let observations: SummaryObservation[];
     let summaryData: Map<string, Map<string, object>>;
+    let startDate: Date, endDate: Date;
+    let width: number;
 
     const summarizeData = (observations: SummaryObservation[]) => {
         let data = new Map();
+        startDate = observations[0].startDate;
+        endDate = new Date(0);
 
         for(const obs of observations) {
             let start = new Date(obs.startDate);
             let end = new Date(obs.endDate);
             let avgConsumption = obs.value / ((end.getTime() - start.getTime()) / (24 * 60 * 60 * 1000));
+
+            // Store minimum and maximum data to standardize X-axis across charts
+            if(startDate > start) startDate = start;
+            if(endDate < end) endDate = end;
+            
             
             while(start <= end) {
                 if(data.has(start.toString())) {
@@ -60,12 +71,6 @@
     $: summaryData = summarizeData(observations);
 </script>
 
-<div class="container">
-    <ul class="list-group">
-        {#each observations as obs}
-            <li class="list-item">
-                {JSON.stringify(obs)}
-            </li>
-        {/each}
-    </ul>
+<div class="container" bind:clientWidth={width}>
+    <SummaryLineChart {summaryData} obsType="coldWater" title={"Kaltwasser"} parentWidth={width} {startDate} {endDate}/>
 </div>

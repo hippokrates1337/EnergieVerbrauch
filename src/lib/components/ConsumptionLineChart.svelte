@@ -3,7 +3,6 @@
     import DateXAxis from "./DateXAxis.svelte";
     import ValueYAxis from "./ValueYAxis.svelte";
     import Legend from "./Legend.svelte";
-	import { map } from "d3";
 
     export let obsUnits: ObservationUnit[];
     export let observations: Observation[];
