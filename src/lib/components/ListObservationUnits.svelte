@@ -41,7 +41,7 @@
                         {/if}
                         <br>
                         <b>Hinzugefügt am:</b> {new Date(unit.createdAt).toDateString()}<br>
-                        <b>Hinterlegte Verbrauchswerte:</b> {observations.filter(e => e.obsUnit == unit.name).length}
+                        <b>Hinterlegte Verbrauchswerte:</b> {observations.filter(e => e.obsUnit == unit.uid).length}
                     </div>
                 {/each}
             </div>  

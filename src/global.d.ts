@@ -28,3 +28,15 @@ type Observation = {
     createdAt: Date,
     updatedAt: Date
 }
+
+type SummaryObservation = {
+    startDate: Date,
+    endDate: Date,
+    type: string,
+    value: number
+}
+
+type SummaryData = {
+    obsCount: number,
+    totalValue: number
+}
