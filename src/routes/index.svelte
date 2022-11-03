@@ -28,7 +28,7 @@
     let coldWater: boolean, warmWater: boolean, electricity: boolean;
     let width: number;
 
-    const summarizeData = (observations: SummaryObservation[]) => {        
+    const summarizeData = (observations: SummaryObservation[]) => {
         let data = new Map();
         coldWater = warmWater = electricity = false;
 
@@ -51,7 +51,6 @@
             // Store minimum and maximum data to standardize X-axis across charts
             if(startDate > start) startDate = start;
             if(endDate < end) endDate = end;
-            
             
             while(start <= end) {
                 if(data.has(start.toString())) {

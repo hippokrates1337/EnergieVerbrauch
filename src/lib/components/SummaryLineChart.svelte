@@ -3,6 +3,7 @@
     import DateXAxis from "./DateXAxis.svelte";
     import ValueYAxis from "./ValueYAxis.svelte";
     import Legend from "./Legend.svelte";
+	import { hasContext } from "svelte";
 
     export let summaryData: Map<string, Map<string, object>>;
     export let obsType: string;
@@ -96,22 +97,21 @@
             <ValueYAxis yScale={yScaleLeft} {innerHeight} {innerWidth} {tickSize} left={true} />
             <ValueYAxis yScale={yScaleRight} {innerHeight} {innerWidth} {tickSize} left={false} />
             
-            <!-- Data lines for consumption -->
+            <!-- Data lines -->
             {#each [...summaryData] as [key, value]}
-                <circle 
-                    cx={xScale(new Date(key))}
-                    cy={yScaleLeft(value.get(obsType).totalValue / value.get(obsType).obsCount)}
-                    r="4"
-                    style={"fill: " + colorScale(0) + "; stroke-width: 3"}></circle>
-            {/each}
+                {#if value.has(obsType)}
+                    <circle 
+                        cx={xScale(new Date(key))}
+                        cy={yScaleLeft(value.get(obsType).totalValue / value.get(obsType).obsCount)}
+                        r="4"
+                        style={"fill: " + colorScale(0) + "; stroke-width: 3"}></circle>
 
-            <!-- Data lines for observation count -->
-            {#each [...summaryData] as [key, value]}
-                <circle 
-                    cx={xScale(new Date(key))}
-                    cy={yScaleRight(value.get(obsType).obsCount)}
-                    r="4"
-                    style={"fill: " + colorScale(1) + "; stroke-width: 3"}></circle>
+                        <circle 
+                        cx={xScale(new Date(key))}
+                        cy={yScaleRight(value.get(obsType).obsCount)}
+                        r="4"
+                        style={"fill: " + colorScale(1) + "; stroke-width: 3"}></circle>
+                {/if}
             {/each}
         </g>
 
