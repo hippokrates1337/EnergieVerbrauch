@@ -25,10 +25,17 @@
     export let observations: SummaryObservation[];
     let summaryData: Map<string, Map<string, object>>;
     let startDate: Date, endDate: Date;
+    let coldWater: boolean, warmWater: boolean, electricity: boolean;
     let width: number;
 
-    const summarizeData = (observations: SummaryObservation[]) => {
+    const summarizeData = (observations: SummaryObservation[]) => {        
         let data = new Map();
+        coldWater = warmWater = electricity = false;
+
+        if(observations.length == 0) {
+            return data;
+        }
+
         startDate = observations[0].startDate;
         endDate = new Date(0);
 
@@ -36,6 +43,10 @@
             let start = new Date(obs.startDate);
             let end = new Date(obs.endDate);
             let avgConsumption = obs.value / ((end.getTime() - start.getTime()) / (24 * 60 * 60 * 1000));
+
+            if(obs.type == "coldWater") coldWater = true;
+            if(obs.type == "warmWater") warmWater = true;
+            if(obs.type == "electricity") electricity = true;
 
             // Store minimum and maximum data to standardize X-axis across charts
             if(startDate > start) startDate = start;
@@ -71,6 +82,20 @@
     $: summaryData = summarizeData(observations);
 </script>
 
-<div class="container" bind:clientWidth={width}>
-    <SummaryLineChart {summaryData} obsType="coldWater" title={"Kaltwasser"} parentWidth={width} {startDate} {endDate}/>
-</div>
+{#if coldWater}
+    <div class="container mt-5 mb-5" bind:clientWidth={width}>
+        <SummaryLineChart {summaryData} obsType="coldWater" title={"Kaltwasser"} parentWidth={width} {startDate} {endDate}/>
+    </div>
+{/if}
+
+{#if warmWater}
+    <div class="container mb-5" bind:clientWidth={width}>
+        <SummaryLineChart {summaryData} obsType="warmWater" title={"Warmwasser"} parentWidth={width} {startDate} {endDate}/>
+    </div>
+{/if}
+
+{#if electricity}
+    <div class="container mb-5" bind:clientWidth={width}>
+        <SummaryLineChart {summaryData} obsType="electricity" title={"Strom"} parentWidth={width} {startDate} {endDate}/>
+    </div>
+{/if}
