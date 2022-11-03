@@ -3,7 +3,6 @@
     import DateXAxis from "./DateXAxis.svelte";
     import ValueYAxis from "./ValueYAxis.svelte";
     import Legend from "./Legend.svelte";
-	import { hasContext } from "svelte";
 
     export let summaryData: Map<string, Map<string, object>>;
     export let obsType: string;
