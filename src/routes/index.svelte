@@ -37,7 +37,7 @@
         }
 
         startDate = observations[0].startDate;
-        endDate = new Date(0);
+        endDate = observations[0].startDate;
 
         for(const obs of observations) {
             let start = new Date(obs.startDate);
@@ -49,8 +49,8 @@
             if(obs.type == "electricity") electricity = true;
 
             // Store minimum and maximum data to standardize X-axis across charts
-            if(startDate > start) startDate = start;
-            if(endDate < end) endDate = end;
+            if(startDate.valueOf() > obs.startDate.valueOf()) startDate = obs.startDate;
+            if(endDate.valueOf() < obs.endDate.valueOf()) endDate = obs.endDate;
             
             while(start <= end) {
                 if(data.has(start.toString())) {
