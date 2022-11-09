@@ -3,22 +3,22 @@
 
     export const load: Load = async ({ session, fetch }) => {
         // Load all observations (to be passed into props)
-        const res = await fetch("/protected/observations");
-        let obs;
+        const res = await fetch("/protected/readings");
+        let readings;
         if(res.ok) {
-            obs = await res.json();
+            readings = await res.json();
         }
 
         return {
             status: 200,
             props: {
-                observations: obs.data
+                readings: readings.data
             }
         };
     }
 
 </script>
-
+<!--
 <script lang="ts">
     import SummaryLineChart from "$lib/components/SummaryLineChart.svelte";
     
@@ -81,6 +81,7 @@
     $: summaryData = summarizeData(observations);
 </script>
 
+
 {#if coldWater}
     <div class="container mt-5 mb-5" bind:clientWidth={width}>
         <SummaryLineChart {summaryData} obsType="coldWater" title={"Kaltwasser"} parentWidth={width} {startDate} {endDate}/>
@@ -98,3 +99,4 @@
         <SummaryLineChart {summaryData} obsType="electricity" title={"Strom"} parentWidth={width} {startDate} {endDate}/>
     </div>
 {/if}
+-->

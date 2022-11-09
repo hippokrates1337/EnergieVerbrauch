@@ -4,14 +4,14 @@
     import ValueYAxis from "./ValueYAxis.svelte";
     import Legend from "./Legend.svelte";
 
-    export let obsUnits: ObservationUnit[];
-    export let observations: Observation[];
+    export let consumers: Consumer[];
+    export let readings: Reading[];
     export let title: string;
     export let parentWidth: number;
     export let startDate: Date, endDate: Date;
 
     // Determine axis parameters
-    $: yValues = observations.map(obs => obs.value / ((new Date(obs.endDate).getTime() - new Date(obs.startDate).getTime()) / (24 * 60 * 60 * 1000)));
+    $: yValues = readings.map(reading => reading.value / ((new Date(reading.endDate).getTime() - new Date(obs.startDate).getTime()) / (24 * 60 * 60 * 1000)));
     $: minValue = yValues.sort((a, b) => a - b)[0];
     $: maxValue = yValues.sort((a, b) => b - a)[0];
 

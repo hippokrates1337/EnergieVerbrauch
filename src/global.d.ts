@@ -8,7 +8,7 @@ type User = {
     userAuthToken: string
 }
 
-type ObservationUnit = {
+type Consumer = {
     uid: string,
     name: string,
     user: string,
@@ -16,15 +16,13 @@ type ObservationUnit = {
     updatedAt: Date
 }
 
-type Observation = {
+type Reading = {
     uid: string,
     user: string,
-    obsUnit: string,
-    startDate: Date,
-    endDate: Date,
+    consumer: string,
+    date: Date,
     type: string,
     value: number,
-    unit: string,
     createdAt: Date,
     updatedAt: Date
 }

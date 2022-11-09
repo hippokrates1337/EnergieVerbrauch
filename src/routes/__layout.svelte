@@ -21,8 +21,8 @@
                 <a class="nav-link dropdown-toggle" href={null} id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Meine Daten</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/protected">Übersicht</a>
-                    <a class="dropdown-item" href="/protected/manageObsUnits">Verbraucher verwalten</a>
-                    <a class="dropdown-item" href="/protected/manageObservations">Verbrauchswerte verwalten</a>
+                    <a class="dropdown-item" href="/protected/manageConsumers">Verbraucher verwalten</a>
+                    <a class="dropdown-item" href="/protected/manageReadings">Zählerstände verwalten</a>
                 </div>
             </li>
         </ul>

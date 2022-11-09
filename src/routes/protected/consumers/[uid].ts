@@ -8,7 +8,7 @@ export const PATCH: RequestHandler = async (event: RequestEvent) => {
 
     let updatedUnit;
     try {
-        updatedUnit = await db.observationUnit.update({
+        updatedUnit = await db.consumer.update({
             where: {
                 uid: event.params.uid
             },
