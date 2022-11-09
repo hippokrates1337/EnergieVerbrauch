@@ -27,14 +27,11 @@ type Reading = {
     updatedAt: Date
 }
 
-type SummaryObservation = {
+type ChartData = {
     startDate: Date,
     endDate: Date,
-    type: string,
-    value: number
-}
-
-type SummaryData = {
-    obsCount: number,
-    totalValue: number
+    data: {
+        consumer: string,
+        values: number[]
+    }[]
 }
