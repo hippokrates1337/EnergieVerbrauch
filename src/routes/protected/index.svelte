@@ -33,6 +33,14 @@
     }
 </script>
 
+<script lang="ts">
+    import {generateDailyData} from "$lib/api"
+
+    export let readings: Reading[];
+
+    generateDailyData(readings, "consumer");
+</script>
+
 <!--
 <script lang="ts">
     import ConsumptionLineChart from "$lib/components/ConsumptionLineChart.svelte";

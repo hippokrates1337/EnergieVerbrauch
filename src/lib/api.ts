@@ -10,13 +10,15 @@ export const send = async (form: HTMLFormElement, method?: string): Send => {
     return await response.json();
 }
 
-export const generateDailyData: ChartData = (readings: Reading[], by: string) => {
+export const generateDailyData = (readings: Reading[], by: string): ChartData => {
     let data: ChartData = {
         startDate: readings.map(reading => reading.date).sort((a, b) => (new Date(a) as any) - (new Date(b) as any))[0],
         endDate: readings.map(reading => reading.date).sort((a, b) => (new Date(b) as any) - (new Date(a) as any))[0],
-        days: Math.floor((new Date(data.endDate).getTime() - new Date(data.startDate).getTime()) / (24 * 60 * 60 * 1000)),
+        days: 0,
         data: []
     };
+
+    data.days = Math.floor((new Date(data.endDate).getTime() - new Date(data.startDate).getTime()) / (24 * 60 * 60 * 1000));
 
     // Ensure there are valid dates in the data
     if(!data.startDate || !data.endDate || (data.endDate.getTime() < data.startDate.getTime())) {
@@ -29,6 +31,9 @@ export const generateDailyData: ChartData = (readings: Reading[], by: string) =>
         if(!types.includes(r.type)) types.push(r.type);
     }
 
+    console.log(types);
+    console.log(data);
+
     for(const type of types) {
         if(by == "consumer") {
             // Discover all consumers in the data
@@ -36,6 +41,8 @@ export const generateDailyData: ChartData = (readings: Reading[], by: string) =>
             for(const r of readings) {
                 if(!consumers.includes(r.consumer)) consumers.push(r.consumer);
             }
+
+            console.log(consumers);
     
             // Calculate daily averages by consumer and type
             for(const consumer of consumers) {
@@ -64,4 +71,6 @@ export const generateDailyData: ChartData = (readings: Reading[], by: string) =>
             }
         }
     }
+
+    return data;
 }
