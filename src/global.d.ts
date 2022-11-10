@@ -1,3 +1,13 @@
+type Send = Promise<{
+    error?: string,
+    success?: string,
+    user?: {
+        userName: string,
+        uid: string
+    },
+    data?: any
+}>
+
 type User = {
     uid: string,
     name: string,
@@ -31,7 +41,9 @@ type ChartData = {
     startDate: Date,
     endDate: Date,
     data: {
+        type: string,
         consumer: string,
         values: number[]
+        observations: number[]
     }[]
 }
