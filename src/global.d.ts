@@ -40,6 +40,7 @@ type Reading = {
 type ChartData = {
     startDate: Date,
     endDate: Date,
+    days: number,
     data: {
         type: string,
         consumer: string,

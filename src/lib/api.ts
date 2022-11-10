@@ -14,6 +14,7 @@ export const generateDailyData: ChartData = (readings: Reading[], by: string) =>
     let data: ChartData = {
         startDate: readings.map(reading => reading.date).sort((a, b) => (new Date(a) as any) - (new Date(b) as any))[0],
         endDate: readings.map(reading => reading.date).sort((a, b) => (new Date(b) as any) - (new Date(a) as any))[0],
+        days: Math.floor((new Date(data.endDate).getTime() - new Date(data.startDate).getTime()) / (24 * 60 * 60 * 1000)),
         data: []
     };
 
@@ -22,35 +23,44 @@ export const generateDailyData: ChartData = (readings: Reading[], by: string) =>
         return {}
     }
 
-    let days = Math.floor((new Date(data.endDate).getTime() - new Date(data.startDate).getTime()) / (24 * 60 * 60 * 1000));
-
     // Discover types of observations in the data
     let types: string[] = [];
     for(const r of readings) {
         if(!types.includes(r.type)) types.push(r.type);
     }
 
-    if(by == "consumer") {
-        // Discover all consumers in the data
-        let consumers: string[] = [];
-        for(const r of readings) {
-            if(!consumers.includes(r.consumer)) consumers.push(r.consumer);
-        }
-
-        // Calculate daily averages by consumer and type
-        for(const consumer of consumers) {
-            data.data.push({
-                consumer: consumer.name,
-                values: new Array(days).fill(0)
-            });
-    
-            let sortedData = readings.filter(r => r.consumer == consumer.uid).sort((a, b) => (new Date(a) as any) - (new Date(b) as any));
-            if(sortedData.length < 2) {
-                continue;
+    for(const type of types) {
+        if(by == "consumer") {
+            // Discover all consumers in the data
+            let consumers: string[] = [];
+            for(const r of readings) {
+                if(!consumers.includes(r.consumer)) consumers.push(r.consumer);
             }
     
-            for(let i = 1; i < sortedData.length; i++) {
-    
+            // Calculate daily averages by consumer and type
+            for(const consumer of consumers) {
+                data.data.push({
+                    type: type,
+                    consumer: consumer,
+                    values: new Array(data.days).fill(0),
+                    observations: []
+                });
+        
+                let sortedData = readings.filter((r) => {
+                        return (r.consumer == consumer) && (r.type == type)
+                    }).sort((a, b) => (new Date(a.date) as any) - (new Date(b.date) as any));
+
+                // There need to be at least 2 observations to calculate any consumption
+                if(sortedData.length < 2) {
+                    continue;
+                }
+        
+                console.log(sortedData);
+                /*
+                for(let i = 1; i < sortedData.length; i++) {
+                    
+                }
+                */
             }
         }
     }

@@ -33,6 +33,7 @@
     }
 </script>
 
+<!--
 <script lang="ts">
     import ConsumptionLineChart from "$lib/components/ConsumptionLineChart.svelte";
 
@@ -56,3 +57,4 @@
     </div>
     <ConsumptionLineChart {consumers} readings={electricity} title="Strom" parentWidth={width} {startDate} {endDate} />
 </div>
+-->
