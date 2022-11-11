@@ -34,11 +34,14 @@
 </script>
 
 <script lang="ts">
-    import {generateDailyData} from "$lib/api"
+    import { generateDailyData } from "$lib/api";
+    import ConsumptionLineChart from "$lib/components/ConsumptionLineChart.svelte";
 
+    export let consumers: Consumer[];
     export let readings: Reading[];
+    let width: number;
 
-    generateDailyData(readings, "consumer");
+    $: chartData = generateDailyData(readings, "consumer");
 </script>
 
 <!--
@@ -55,14 +58,18 @@
     $: startDate = readings.map(reading => reading.date).sort((a, b) => (new Date(a) as any) - (new Date(b) as any))[0];
     $: endDate = readings.map(reading => reading.date).sort((a, b) => (new Date(b) as any) - (new Date(a) as any))[0];
 </script>
+-->
 
 <div bind:clientWidth={width}>
     <div class="mb-5">
-        <ConsumptionLineChart {consumers} readings={coldWater} title="Kaltwasser" parentWidth={width} {startDate} {endDate} />
+        <ConsumptionLineChart {chartData} type="electricity" title="Strom" parentWidth={width} />
     </div>
+    <!--
     <div class="mb-5">
         <ConsumptionLineChart {consumers} readings={warmWater} title="Warmwasser" parentWidth={width} {startDate} {endDate} />
     </div>
-    <ConsumptionLineChart {consumers} readings={electricity} title="Strom" parentWidth={width} {startDate} {endDate} />
+    <div class="">
+        <ConsumptionLineChart {consumers} readings={electricity} title="Strom" parentWidth={width} {startDate} {endDate} />
+    </div>
+    -->
 </div>
--->
