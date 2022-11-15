@@ -46,15 +46,14 @@
     $: xScale = d3.scaleTime().domain([new Date(chartData.startDate), new Date(chartData.endDate)]).range([0, innerWidth]).nice(d3.timeDay);
     $: yScale = d3.scaleLinear().domain([minValue * (1 - yAxisMargin), maxValue * (1 + yAxisMargin)]).range([innerHeight, 0]).nice();
     $: colorScale = d3.scaleSequential().domain([0, chartData.data.filter(d => d.type == type).length]).interpolator(d3.interpolateViridis);
+    $: lineData = chartData.data.map((dataset) => {
+            return dataset.values.map((d, i) => [new Date(chartData.startDate.getTime() + i * 24 * 60 * 60 * 1000), d]);
+        });
 
-    for(const c of chartData.data.filter(d => d.type == type)) {
-        let i = 0;
-        for(const d of c.values) {
-            console.log(new Date(chartData.startDate.getTime() + i * 24 * 60 * 60 * 1000));
-            console.log(d);
-            i++;
-        }
-    } 
+    let lineFunc = d3.line()
+                .x((d) => xScale(d[0]))
+                .y((d) => yScale(d[1]))
+                .curve(d3.curveStep);
 </script>
 
 {#if chartData.days > 0}
@@ -72,21 +71,8 @@
             <ValueYAxis {yScale} {innerHeight} {innerWidth} {tickSize} left={true} />
 
             <!-- Data line -->
-            {#each chartData.data.filter(d => d.type == type) as dataset, i}
-                {#each dataset.values as datapoint, j}
-                <circle 
-                        cx={xScale(new Date(chartData.startDate.getTime() + j * 24 * 60 * 60 * 1000))}
-                        cy={yScale(datapoint)}
-                        r="4"
-                        style={"fill: " + colorScale(i) + "; stroke-width: 3"}></circle>
-                
-                <!--        
-                <line x1={xScale(new Date(obs.startDate))} x2={xScale(new Date(obs.endDate))} 
-                            y1={yScale(obs.value / ((new Date(obs.endDate).getTime() - new Date(obs.startDate).getTime()) / (24 * 60 * 60 * 1000)))} 
-                            y2={yScale(obs.value / ((new Date(obs.endDate).getTime() - new Date(obs.startDate).getTime()) / (24 * 60 * 60 * 1000)))} 
-                            style={"stroke: " + colorScale(i) + "; stroke-width: 3"} />
-                            -->
-                {/each}
+            {#each lineData as data, i}
+                <path d="{lineFunc(data)}" fill="none" stroke="{colorScale(i)}" />
             {/each}
         </g>
 
