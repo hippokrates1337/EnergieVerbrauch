@@ -10,49 +10,48 @@
         }
 
         // Load user's observation units (to be passed into props)
-        let res = await fetch("/protected/obsunits");
-        let units;
+        let res = await fetch("/protected/consumers");
+        let consumers;
         if(res.ok) {
-            units = await res.json();
+            consumers = await res.json();
         }
 
         // Load user's observations (to be passed into props)
-        res = await fetch("/protected/observations/" + session.user.uid);
-        let obs;
+        res = await fetch("/protected/readings/" + session.user.uid);
+        let readings;
         if(res.ok) {
-            obs = await res.json();
+            readings = await res.json();
         }
 
         return {
             status: 200,
             props: {
-                obsUnits: units.data,
-                observations: obs.data
+                consumers: consumers.data,
+                readings: readings.data
             }
         };
     }
 </script>
 
 <script lang="ts">
+    import { generateDailyData } from "$lib/api";
     import ConsumptionLineChart from "$lib/components/ConsumptionLineChart.svelte";
 
-    export let obsUnits: ObservationUnit[];
-    export let observations: Observation[];
+    export let consumers: Consumer[];
+    export let readings: Reading[];
     let width: number;
 
-    $: coldWater = observations.filter((obs) => (obs.type == "coldWater"));
-    $: warmWater = observations.filter((obs) => (obs.type == "warmWater"));
-    $: electricity = observations.filter((obs) => (obs.type == "electricity"));
-    $: startDate = observations.map(obs => obs.startDate).sort((a, b) => (new Date(a) as any) - (new Date(b) as any))[0];
-    $: endDate = observations.map(obs => obs.endDate).sort((a, b) => (new Date(b) as any) - (new Date(a) as any))[0];
+    $: chartData = generateDailyData(readings, "consumer");
 </script>
 
 <div bind:clientWidth={width}>
-    <div class="mb-5">
-        <ConsumptionLineChart {obsUnits} observations={coldWater} title="Kaltwasser" parentWidth={width} {startDate} {endDate} />
+    <div class="mt-5">
+        <ConsumptionLineChart {chartData} {consumers} type="electricity" title="Täglicher Verbrauch an Strom (kWh)" parentWidth={width} />
     </div>
-    <div class="mb-5">
-        <ConsumptionLineChart {obsUnits} observations={warmWater} title="Warmwasser" parentWidth={width} {startDate} {endDate} />
+    <div class="mt-5">
+        <ConsumptionLineChart {chartData} {consumers} type="coldWater" title="Täglicher Verbrauch an Kaltwasser (m3)" parentWidth={width} />
     </div>
-    <ConsumptionLineChart {obsUnits} observations={electricity} title="Strom" parentWidth={width} {startDate} {endDate} />
+    <div class="mt-5">
+        <ConsumptionLineChart {chartData} {consumers} type="warmWater" title="Täglicher Verbrauch an Warmwasser (m3)" parentWidth={width} />
+    </div>
 </div>

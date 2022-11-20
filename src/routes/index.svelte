@@ -3,22 +3,47 @@
 
     export const load: Load = async ({ session, fetch }) => {
         // Load all observations (to be passed into props)
-        const res = await fetch("/protected/observations");
-        let obs;
+        const res = await fetch("/protected/readings");
+        let readings;
         if(res.ok) {
-            obs = await res.json();
+            readings = await res.json();
         }
 
         return {
             status: 200,
             props: {
-                observations: obs.data
+                readings: readings.data
             }
         };
     }
 
 </script>
 
+<script lang="ts">
+    import { generateDailyData } from "$lib/api";
+    import ConsumptionLineChart from "$lib/components/ConsumptionLineChart.svelte";
+
+    export let readings: Reading[];
+    export let width: number;
+
+    $: chartData = generateDailyData(readings, "population");
+
+    $: console.log(chartData);
+</script>
+
+<div bind:clientWidth={width}>
+    <div class="mt-5">
+        <ConsumptionLineChart {chartData} type="electricity" title="Gesamtverbrauch an Strom (kWh) / Anzahl Beobachtungen" parentWidth={width} showObservations={true} />
+    </div>
+    <div class="mt-5">
+        <ConsumptionLineChart {chartData} type="coldWater" title="Gesamtverbrauch an Kaltwasser (m3) / Anzahl Beobachtungen" parentWidth={width} showObservations={true} />
+    </div>
+    <div class="mt-5">
+        <ConsumptionLineChart {chartData} type="warmWater" title="Gesamtverbrauch an Warmassser (m3) / Anzahl Beobachtungen" parentWidth={width} showObservations={true} />
+    </div>
+</div>
+
+<!--
 <script lang="ts">
     import SummaryLineChart from "$lib/components/SummaryLineChart.svelte";
     
@@ -81,6 +106,7 @@
     $: summaryData = summarizeData(observations);
 </script>
 
+
 {#if coldWater}
     <div class="container mt-5 mb-5" bind:clientWidth={width}>
         <SummaryLineChart {summaryData} obsType="coldWater" title={"Kaltwasser"} parentWidth={width} {startDate} {endDate}/>
@@ -98,3 +124,4 @@
         <SummaryLineChart {summaryData} obsType="electricity" title={"Strom"} parentWidth={width} {startDate} {endDate}/>
     </div>
 {/if}
+-->

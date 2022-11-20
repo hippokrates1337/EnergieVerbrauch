@@ -105,7 +105,7 @@
                         r="4"
                         style={"fill: " + colorScale(0) + "; stroke-width: 3"}></circle>
 
-                        <circle 
+                    <circle 
                         cx={xScale(new Date(key))}
                         cy={yScaleRight(value.get(obsType).obsCount)}
                         r="4"

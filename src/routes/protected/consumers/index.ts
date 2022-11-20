@@ -4,7 +4,7 @@ import PrismaClient from "$lib/prisma";
 const db = new PrismaClient();
 
 export const GET: RequestHandler = async (event: RequestEvent) => {
-    const data = await db.observationUnit.findMany({
+    const data = await db.consumer.findMany({
         where: {
             user: event.locals.user?.uid
         }
@@ -29,9 +29,9 @@ export const GET: RequestHandler = async (event: RequestEvent) => {
 
 export const POST: RequestHandler = async (event: RequestEvent) => {
     const data = await event.request.formData();
-    const unitName = data.get("unitName");
+    const consumerName = data.get("consumerName");
 
-    if(typeof unitName !== "string") {
+    if(typeof consumerName !== "string") {
         return {
             status: 400,
             body: {
@@ -40,12 +40,12 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         }
     }
   
-    let newUnit;
+    let newConsumer;
     try {
-        newUnit = await db.observationUnit.create({
+        newConsumer = await db.consumer.create({
             data: {
                 user: event.locals.user?.uid as string,
-                name: unitName as string
+                name: consumerName as string
             }
         });
     } catch (error) {
@@ -61,7 +61,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         status: 200,
         body: {
             success: "Verbraucher erfolgreich angelegt.",
-            data: newUnit
+            data: newConsumer
         }
     };
 }

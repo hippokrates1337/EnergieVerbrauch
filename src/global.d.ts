@@ -1,3 +1,13 @@
+type Send = Promise<{
+    error?: string,
+    success?: string,
+    user?: {
+        userName: string,
+        uid: string
+    },
+    data?: any
+}>
+
 type User = {
     uid: string,
     name: string,
@@ -8,7 +18,7 @@ type User = {
     userAuthToken: string
 }
 
-type ObservationUnit = {
+type Consumer = {
     uid: string,
     name: string,
     user: string,
@@ -16,27 +26,27 @@ type ObservationUnit = {
     updatedAt: Date
 }
 
-type Observation = {
+type Reading = {
     uid: string,
     user: string,
-    obsUnit: string,
-    startDate: Date,
-    endDate: Date,
+    consumer: string,
+    date: Date,
     type: string,
     value: number,
-    unit: string,
     createdAt: Date,
     updatedAt: Date
 }
 
-type SummaryObservation = {
+type ChartData = {
     startDate: Date,
     endDate: Date,
-    type: string,
-    value: number
+    days: number,
+    data: ValueSet[]
 }
 
-type SummaryData = {
-    obsCount: number,
-    totalValue: number
-}
+type ValueSet = {
+    type: string,
+    consumer: string,
+    values: number[]
+    observations: number[]
+};

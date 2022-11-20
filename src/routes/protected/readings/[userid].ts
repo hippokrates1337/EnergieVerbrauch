@@ -4,7 +4,7 @@ import PrismaClient from "$lib/prisma";
 const db = new PrismaClient();
 
 export const GET: RequestHandler = async (event: RequestEvent) => {
-    const data = await db.observation.findMany({
+    const data = await db.reading.findMany({
         where: {
             user: event.params.userid
         }
@@ -31,7 +31,7 @@ export const DELETE: RequestHandler = async (event: RequestEvent) => {
     let uid = event.url.searchParams.has("uid") ? event.url.searchParams.get("uid") as string : "";
 
     try {
-        await db.observation.deleteMany({
+        await db.reading.deleteMany({
             where: {
                 user: event.params.userid,
                 uid: uid
@@ -56,15 +56,14 @@ export const DELETE: RequestHandler = async (event: RequestEvent) => {
 
 export const PATCH: RequestHandler = async (event: RequestEvent) => {
     const data = await event.request.formData();
-    const obsUnit = data.get("obsunit");
-    const startDate = new Date(data.get("startdate") as string);
-    const endDate = new Date(data.get("enddate") as string);
-    const obsType = data.get("obstype");
-    const obsValue = parseFloat(data.get("obsvalue") as string);
+    const consumer = data.get("consumer");
+    const date = new Date(data.get("date") as string);
+    const type = data.get("type");
+    const value = parseFloat(data.get("value") as string);
     
     let uid = event.url.searchParams.has("uid") ? event.url.searchParams.get("uid") as string : "";
 
-    if(!obsUnit || typeof obsUnit !== "string") {
+    if(!consumer || typeof consumer !== "string") {
         return {
             status: 400,
             body: {
@@ -73,16 +72,16 @@ export const PATCH: RequestHandler = async (event: RequestEvent) => {
         }
     }
 
-    if(!startDate || startDate.valueOf() > Date.now() || !endDate || endDate.valueOf() > Date.now() || startDate > endDate) {
+    if(!date || date.valueOf() > Date.now()) {
         return {
             status: 400,
             body: {
-                error: "Es muss ein korrektes Datum in der Vergangenheit angegeben werden. Das Startdatum muss vor dem Enddatum liegen."
+                error: "Es muss ein korrektes Datum in der Vergangenheit angegeben werden."
             } 
         }
     }
 
-    if(!obsType || typeof obsType !== "string") {
+    if(!type || typeof type !== "string") {
         return {
             status: 400,
             body: {
@@ -91,7 +90,7 @@ export const PATCH: RequestHandler = async (event: RequestEvent) => {
         }
     }
 
-    if(!obsValue) {
+    if(!value) {
         return {
             status: 400,
             body: {
@@ -101,18 +100,16 @@ export const PATCH: RequestHandler = async (event: RequestEvent) => {
     }
 
     try {
-        await db.observation.updateMany({
+        await db.reading.updateMany({
             where: {
                 user: event.params.userid,
                 uid: uid
             },
             data: {
-                obsUnit: obsUnit,
-                type: obsType,
-                startDate: new Date(startDate),
-                endDate: new Date(endDate),
-                value: obsValue,
-                unit: obsType == "electricity" ? "kWh" : "m3"
+                consumer: consumer,
+                type: type,
+                date: new Date(date),
+                value: value
             }
         });
     } catch(error) {

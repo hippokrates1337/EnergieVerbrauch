@@ -19,7 +19,7 @@ model User {
     userAuthToken String @unique @default(cuid())
 }
 
-model ObservationUnit {
+model Consumer {
     uid String @id @default(cuid())
     user String
     name String
@@ -27,15 +27,13 @@ model ObservationUnit {
     updatedAt DateTime @updatedAt
 }
 
-model Observation {
+model Reading {
     uid String @id @default(cuid())
     user String
-    obsUnit String
-    startDate DateTime
-    endDate DateTime
+    consumer String
+    date DateTime
     type String
     value Float
-    unit String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }

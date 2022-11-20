@@ -4,11 +4,11 @@ import PrismaClient from "$lib/prisma";
 const db = new PrismaClient();
 
 export const GET: RequestHandler = async (event: RequestEvent) => {
-    const data = await db.observation.findMany({
+    const data = await db.reading.findMany({
         select: {
-            startDate: true,
-            endDate: true,
+            date: true,
             type: true,
+            consumer: true,
             value: true
         }
     });
@@ -32,13 +32,12 @@ export const GET: RequestHandler = async (event: RequestEvent) => {
 
 export const POST: RequestHandler = async (event: RequestEvent) => {
     const data = await event.request.formData();
-    const obsUnit = data.get("obsunit");
-    const startDate = new Date(data.get("startdate") as string);
-    const endDate = new Date(data.get("enddate") as string);
-    const obsType = data.get("obstype");
-    const obsValue = parseFloat(data.get("obsvalue") as string);
+    const consumer = data.get("consumer");
+    const date = new Date(data.get("date") as string);
+    const type = data.get("type");
+    const value = parseFloat(data.get("value") as string);
 
-    if(!obsUnit || typeof obsUnit !== "string") {
+    if(!consumer || typeof consumer !== "string") {
         return {
             status: 400,
             body: {
@@ -47,16 +46,16 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         }
     }
 
-    if(!startDate || startDate.valueOf() > Date.now() || !endDate || endDate.valueOf() > Date.now() || startDate > endDate) {
+    if(!date || date.valueOf() > Date.now()) {
         return {
             status: 400,
             body: {
-                error: "Es muss ein korrektes Datum in der Vergangenheit angegeben werden. Das Startdatum muss vor dem Enddatum liegen."
+                error: "Es muss ein korrektes Datum in der Vergangenheit angegeben werden."
             } 
         }
     }
 
-    if(!obsType || typeof obsType !== "string") {
+    if(!type || typeof type !== "string") {
         return {
             status: 400,
             body: {
@@ -65,7 +64,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         }
     }
 
-    if(!obsValue) {
+    if(!value) {
         return {
             status: 400,
             body: {
@@ -74,18 +73,16 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         }
     }
 
-    let newObs;
+    let newReading;
 
     try {
-        newObs = await db.observation.create({
+        newReading = await db.reading.create({
             data: {
                 user: event.locals.user?.uid as string,
-                obsUnit: obsUnit as string,
-                startDate: startDate as Date,
-                endDate: endDate as Date,
-                type: obsType as string,
-                value: obsValue as number,
-                unit: obsType == "electricity" ? "kWh" : "m3"
+                consumer: consumer as string,
+                date: date as Date,
+                type: type as string,
+                value: value as number
             }
         });
     } catch(error) {
@@ -101,7 +98,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         status: 200,
         body: {
             success: "Verbrauchswert erfolgreich angelegt.",
-            data: newObs
+            data: newReading
         }
     };
 }
