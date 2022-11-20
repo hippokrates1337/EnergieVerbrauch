@@ -5,6 +5,7 @@
     import Legend from "./Legend.svelte";
 
     export let chartData: ChartData;
+    export let consumers: Consumer[];
     export let type: string;
     export let title: string;
     export let parentWidth: number;
@@ -46,9 +47,15 @@
     $: xScale = d3.scaleTime().domain([new Date(chartData.startDate), new Date(chartData.endDate)]).range([0, innerWidth]).nice(d3.timeDay);
     $: yScale = d3.scaleLinear().domain([minValue * (1 - yAxisMargin), maxValue * (1 + yAxisMargin)]).range([innerHeight, 0]).nice();
     $: colorScale = d3.scaleSequential().domain([0, chartData.data.filter(d => d.type == type).length]).interpolator(d3.interpolateViridis);
+    
+    // Filter the chart data set on the type of consumption to be shown in the chart and keep only date and
+    // consumption values; the filter at the end avoids ending up with an array that has several "undefined"
+    // child-arrays in it for the types of consumption not shown in the chart
     $: lineData = chartData.data.map((dataset) => {
-            return dataset.values.map((d, i) => [new Date(chartData.startDate.getTime() + i * 24 * 60 * 60 * 1000), d]);
-        });
+            if(dataset.type == type) {
+                return dataset.values.map((d, i) => [new Date(chartData.startDate.getTime() + i * 24 * 60 * 60 * 1000), d]);
+            }
+        }).filter((d) => d);
 
     let lineFunc = d3.line()
                 .x((d) => xScale(d[0]))
@@ -56,7 +63,7 @@
                 .curve(d3.curveStep);
 </script>
 
-{#if chartData.days > 0}
+{#if chartData && chartData.days > 0 && width}
     <svg {width} {height}>
         <!-- Title -->
         <text x={width / 2} y={0.65 * padding.top} text-anchor="middle" class="h3">
@@ -76,11 +83,11 @@
             {/each}
         </g>
 
-        <!-- Legend 
+        <!-- Legend -->
         <g transform={`translate(${width - padding.right - width * 0.25}, ${padding.top * 1.1})`}>
-            <Legend width={width * 0.2} height={obsUnits.length * height * 0.05} 
-                entries={obsUnits.map(e => e.name)} {colorScale} />
+            <Legend width={width * 0.2} height={consumers.length * height * 0.05} 
+                entries={consumers.map(e => e.name)} {colorScale} />
         </g>
-        -->
+        
     </svg>
 {/if}

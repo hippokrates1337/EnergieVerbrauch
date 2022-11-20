@@ -44,32 +44,14 @@
     $: chartData = generateDailyData(readings, "consumer");
 </script>
 
-<!--
-<script lang="ts">
-    import ConsumptionLineChart from "$lib/components/ConsumptionLineChart.svelte";
-
-    export let consumers: Consumer[];
-    export let readings: Reading[];
-    let width: number;
-
-    $: coldWater = readings.filter((reading) => (reading.type == "coldWater"));
-    $: warmWater = readings.filter((reading) => (reading.type == "warmWater"));
-    $: electricity = readings.filter((reading) => (reading.type == "electricity"));
-    $: startDate = readings.map(reading => reading.date).sort((a, b) => (new Date(a) as any) - (new Date(b) as any))[0];
-    $: endDate = readings.map(reading => reading.date).sort((a, b) => (new Date(b) as any) - (new Date(a) as any))[0];
-</script>
--->
-
 <div bind:clientWidth={width}>
     <div class="mb-5">
-        <ConsumptionLineChart {chartData} type="electricity" title="Strom" parentWidth={width} />
+        <ConsumptionLineChart {chartData} {consumers} type="electricity" title="Strom" parentWidth={width} />
     </div>
-    <!--
     <div class="mb-5">
-        <ConsumptionLineChart {consumers} readings={warmWater} title="Warmwasser" parentWidth={width} {startDate} {endDate} />
+        <ConsumptionLineChart {chartData} {consumers} type="coldWater" title="Kaltwasser" parentWidth={width} />
     </div>
-    <div class="">
-        <ConsumptionLineChart {consumers} readings={electricity} title="Strom" parentWidth={width} {startDate} {endDate} />
+    <div class="mb-5">
+        <ConsumptionLineChart {chartData} {consumers} type="warmWater" title="Warmwasser" parentWidth={width} />
     </div>
-    -->
 </div>
