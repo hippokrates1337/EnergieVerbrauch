@@ -10,7 +10,7 @@
         }
 
         // Load user's observation units (to be passed into props)
-        let res = await fetch("/protected/consumers");
+        let res = await fetch("/protected/consumers/" + session.user.uid);
         let consumers;
         if(res.ok) {
             consumers = await res.json();

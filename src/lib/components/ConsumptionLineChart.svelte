@@ -97,12 +97,10 @@
 </script>
 
 {#if chartData && chartData.days > 0 && width}
+    <div class="container text-center h4">
+        {title}
+    </div>
     <svg {width} {height}>
-        <!-- Title -->
-        <text x={width / 2} y={0.65 * padding.top} text-anchor="middle" class="h3">
-            {title}
-        </text>
-
         <g transform={`translate(${padding.left}, ${padding.top})`}>
             <!-- X-axis -->
             <DateXAxis {xScale} {innerWidth} {innerHeight} {tickSize}/>
