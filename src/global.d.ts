@@ -41,10 +41,12 @@ type ChartData = {
     startDate: Date,
     endDate: Date,
     days: number,
-    data: {
-        type: string,
-        consumer: string,
-        values: number[]
-        observations: number[]
-    }[]
+    data: ValueSet[]
 }
+
+type ValueSet = {
+    type: string,
+    consumer: string,
+    values: number[]
+    observations: number[]
+};

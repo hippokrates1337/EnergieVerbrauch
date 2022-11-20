@@ -8,6 +8,7 @@ export const GET: RequestHandler = async (event: RequestEvent) => {
         select: {
             date: true,
             type: true,
+            consumer: true,
             value: true
         }
     });

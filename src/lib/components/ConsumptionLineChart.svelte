@@ -5,34 +5,54 @@
     import Legend from "./Legend.svelte";
 
     export let chartData: ChartData;
-    export let consumers: Consumer[];
+    export let consumers: Consumer[] = [];
     export let type: string;
     export let title: string;
     export let parentWidth: number;
+    export let legend: boolean = true;
+    export let showObservations: boolean = false;
 
-    const getMinValue = (data) => {
-        let minValue = 9999;
+    const getMinValue = (data: ValueSet[]) : {minValue: number, minObs: number} => {
+        let minValue = 0;
+        let minObs = 0;
+
         for(const consumer of data) {
-            let temp = consumer.values.sort((a, b) => a - b)[0];
+            let temp = Math.min(...consumer.values);
             if(temp < minValue) minValue = temp;
+
+            temp = Math.min(...consumer.observations);
+            if(temp < minObs) minObs = temp;
         }
 
-        return minValue;
+        return {
+            minValue: minValue,
+            minObs: minObs
+        };
     }
 
-    const getMaxValue = (data) => {
-        let maxValue = -9999;
+    const getMaxValue = (data: ValueSet[]) : {maxValue: number, maxObs: number} => {
+        let maxValue = 0;
+        let maxObs = 0;
+
         for(const consumer of data) {
-            let temp = consumer.values.sort((a, b) => b - a)[0];
+            let temp = Math.max(...consumer.values);
             if(temp > maxValue) maxValue = temp;
+
+            temp = Math.max(...consumer.observations);
+            if(temp > maxObs) maxObs = temp;
         }
 
-        return maxValue;
+        return {
+            maxValue: maxValue,
+            maxObs: maxObs
+        };
     }
 
     // Determine axis parameters
-    $: minValue = getMinValue(chartData.data.filter(d => d.type == type));
-    $: maxValue = getMaxValue(chartData.data.filter(d => d.type == type));
+    $: minValue = (getMinValue(chartData.data.filter(d => d.type == type))).minValue;
+    $: maxValue = (getMaxValue(chartData.data.filter(d => d.type == type))).maxValue;
+    $: minObs = (getMinValue(chartData.data.filter(d => d.type == type))).minObs;
+    $: maxObs = (getMaxValue(chartData.data.filter(d => d.type == type))).maxObs;
 
     // Define SVG dimensions
     $: width = parentWidth;
@@ -46,6 +66,7 @@
     // Set up axes
     $: xScale = d3.scaleTime().domain([new Date(chartData.startDate), new Date(chartData.endDate)]).range([0, innerWidth]).nice(d3.timeDay);
     $: yScale = d3.scaleLinear().domain([minValue * (1 - yAxisMargin), maxValue * (1 + yAxisMargin)]).range([innerHeight, 0]).nice();
+    $: yScaleRight = d3.scaleLinear().domain([minObs * (1 - yAxisMargin), maxObs * (1 + yAxisMargin)]).range([innerHeight, 0]).nice();
     $: colorScale = d3.scaleSequential().domain([0, chartData.data.filter(d => d.type == type).length]).interpolator(d3.interpolateViridis);
     
     // Filter the chart data set on the type of consumption to be shown in the chart and keep only date and
@@ -61,13 +82,25 @@
                 .x((d) => xScale(d[0]))
                 .y((d) => yScale(d[1]))
                 .curve(d3.curveStep);
+
+    // Set up data line for observations
+    $: obsLineDate = chartData.data.map((dataset) => {
+            if(dataset.type == type) {
+                return dataset.observations.map((d, i) => [new Date(chartData.startDate.getTime() + i * 24 * 60 * 60 * 1000), d]);
+            }
+        }).filter((d) => d);
+
+    let obsLineFunc = d3.line()
+                .x((d) => xScale(d[0]))
+                .y((d) => yScaleRight(d[1]))
+                .curve(d3.curveStep);
 </script>
 
 {#if chartData && chartData.days > 0 && width}
     <svg {width} {height}>
         <!-- Title -->
         <text x={width / 2} y={0.65 * padding.top} text-anchor="middle" class="h3">
-            Täglicher Verbrauch an {title} ({type == "electricity" ? "kWh" : "m3"})
+            {title}
         </text>
 
         <g transform={`translate(${padding.left}, ${padding.top})`}>
@@ -81,13 +114,23 @@
             {#each lineData as data, i}
                 <path d="{lineFunc(data)}" fill="none" stroke="{colorScale(i)}" />
             {/each}
+
+            <!--Optional: Observations-->
+            {#if showObservations}
+                <ValueYAxis yScale={yScaleRight} {innerHeight} {innerWidth} {tickSize} left={false} />
+
+                {#each obsLineDate as data, i}
+                    <path d="{obsLineFunc(data)}" fill="none" stroke="black" />
+                {/each}
+            {/if}
         </g>
 
         <!-- Legend -->
-        <g transform={`translate(${width - padding.right - width * 0.25}, ${padding.top * 1.1})`}>
-            <Legend width={width * 0.2} height={consumers.length * height * 0.05} 
-                entries={consumers.map(e => e.name)} {colorScale} />
-        </g>
-        
+        {#if legend}
+            <g transform={`translate(${width - padding.right - width * 0.25}, ${padding.top * 1.1})`}>
+                <Legend width={width * 0.2} height={consumers.length * height * 0.05} 
+                    entries={consumers.map(e => e.name)} {colorScale} />
+            </g>
+        {/if}
     </svg>
 {/if}

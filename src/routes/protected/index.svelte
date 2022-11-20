@@ -45,13 +45,13 @@
 </script>
 
 <div bind:clientWidth={width}>
-    <div class="mb-5">
-        <ConsumptionLineChart {chartData} {consumers} type="electricity" title="Strom" parentWidth={width} />
+    <div class="mt-5">
+        <ConsumptionLineChart {chartData} {consumers} type="electricity" title="Täglicher Verbrauch an Strom (kWh)" parentWidth={width} />
     </div>
-    <div class="mb-5">
-        <ConsumptionLineChart {chartData} {consumers} type="coldWater" title="Kaltwasser" parentWidth={width} />
+    <div class="mt-5">
+        <ConsumptionLineChart {chartData} {consumers} type="coldWater" title="Täglicher Verbrauch an Kaltwasser (m3)" parentWidth={width} />
     </div>
-    <div class="mb-5">
-        <ConsumptionLineChart {chartData} {consumers} type="warmWater" title="Warmwasser" parentWidth={width} />
+    <div class="mt-5">
+        <ConsumptionLineChart {chartData} {consumers} type="warmWater" title="Täglicher Verbrauch an Warmwasser (m3)" parentWidth={width} />
     </div>
 </div>
