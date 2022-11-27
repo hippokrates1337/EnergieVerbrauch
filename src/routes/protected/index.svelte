@@ -45,7 +45,7 @@
 </script>
 
 <div bind:clientWidth={width}>
-    <div class="mt-5">
+    <div class="">
         <ConsumptionLineChart {chartData} {consumers} type="electricity" title="Täglicher Verbrauch an Strom (kWh)" parentWidth={width} />
     </div>
     <div class="mt-5">
