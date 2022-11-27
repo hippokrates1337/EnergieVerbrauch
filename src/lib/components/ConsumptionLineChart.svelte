@@ -5,6 +5,7 @@
     import Legend from "./Legend.svelte";
 
     export let chartData: ChartData;
+    export let benchmarkData: ChartData | undefined = undefined;
     export let consumers: Consumer[] = [];
     export let type: string;
     export let title: string;
@@ -80,6 +81,12 @@
             }
         }).filter((d) => d);
 
+    $: benchmarkLineData = benchmarkData ? benchmarkData.data.map((dataset) => {
+            if(dataset.type == type) {
+                return dataset.values.map((d, i) => [new Date(chartData.startDate.getTime() + i * 24 * 60 * 60 * 1000), d]);
+            }
+        }).filter((d) => d) : undefined;
+
     let lineFunc = d3.line()
                 .x((d) => xScale(d[0]))
                 .y((d) => yScale(d[1]))
@@ -121,6 +128,13 @@
 
                 {#each obsLineDate as data, i}
                     <path d="{obsLineFunc(data)}" fill="none" stroke="{colorScale(consumers.length - 1)}" stroke-width="2"/>
+                {/each}
+            {/if}
+
+            <!--Optional: Benchmark-->
+            {#if benchmarkLineData}
+                {#each benchmarkLineData as data, i}
+                    <path d="{obsLineFunc(data)}" fill="none" stroke="red" stroke-width="2"/>
                 {/each}
             {/if}
         </g>
