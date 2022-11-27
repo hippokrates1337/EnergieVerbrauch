@@ -11,6 +11,8 @@
     export let parentWidth: number;
     export let legend: boolean = true;
     export let showObservations: boolean = false;
+    export let leftAxisTitle: string = "";
+    export let rightAxisTitle: string = "";
 
     const getMinValue = (data: ValueSet[]) : {minValue: number, minObs: number} => {
         let minValue = 0;
@@ -57,17 +59,17 @@
     // Define SVG dimensions
     $: width = parentWidth;
     const height = 480;
-    const padding = {top: 35, bottom: 20, left: 25, right: 25};
+    const padding = {top: 35, bottom: 20, left: 35, right: 25};
     const innerHeight = height - padding.top - padding.bottom;
     $: innerWidth = width - padding.left - padding.right;
-    const tickSize = 5;
+    const tickSize = 7;
     const yAxisMargin = 0.2;
 
     // Set up axes
     $: xScale = d3.scaleTime().domain([new Date(chartData.startDate), new Date(chartData.endDate)]).range([0, innerWidth]).nice(d3.timeDay);
     $: yScale = d3.scaleLinear().domain([minValue * (1 - yAxisMargin), maxValue * (1 + yAxisMargin)]).range([innerHeight, 0]).nice();
     $: yScaleRight = d3.scaleLinear().domain([minObs * (1 - yAxisMargin), maxObs * (1 + yAxisMargin)]).range([innerHeight, 0]).nice();
-    $: colorScale = d3.scaleSequential().domain([0, chartData.data.filter(d => d.type == type).length]).interpolator(d3.interpolateViridis);
+    $: colorScale = d3.scaleSequential().domain([0, chartData.data.filter(d => d.type == type).length]).interpolator(d3.interpolateRgb('blue', 'green'));
     
     // Filter the chart data set on the type of consumption to be shown in the chart and keep only date and
     // consumption values; the filter at the end avoids ending up with an array that has several "undefined"
@@ -106,19 +108,19 @@
             <DateXAxis {xScale} {innerWidth} {innerHeight} {tickSize}/>
 
             <!-- Y-axis -->
-            <ValueYAxis {yScale} {innerHeight} {innerWidth} {tickSize} left={true} />
+            <ValueYAxis {yScale} {innerHeight} {innerWidth} {tickSize} left={true} axisTitle={leftAxisTitle} />
 
             <!-- Data line -->
             {#each lineData as data, i}
-                <path d="{lineFunc(data)}" fill="none" stroke="{colorScale(i)}" />
+                <path d="{lineFunc(data)}" fill="none" stroke="{colorScale(i)}" stroke-width="2" />
             {/each}
 
             <!--Optional: Observations-->
             {#if showObservations}
-                <ValueYAxis yScale={yScaleRight} {innerHeight} {innerWidth} {tickSize} left={false} />
+                <ValueYAxis yScale={yScaleRight} {innerHeight} {innerWidth} {tickSize} left={false} axisTitle={rightAxisTitle} />
 
                 {#each obsLineDate as data, i}
-                    <path d="{obsLineFunc(data)}" fill="none" stroke="black" />
+                    <path d="{obsLineFunc(data)}" fill="none" stroke="{colorScale(consumers.length - 1)}" stroke-width="2"/>
                 {/each}
             {/if}
         </g>

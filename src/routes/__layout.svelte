@@ -6,7 +6,7 @@
     <title>Energieverbrauch vergleichen</title>
 </svelte:head>
 
-<nav class="navbar navbar-expand-lg navbar-dark p-1" style="background-color:darkgreen;">
+<nav class="navbar navbar-expand-lg navbar-dark p-1 bg-dark">
     <span class="navbar-brand">PLACEHOLDER</span>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navharSupportedContent" aria-expanded="false" aria-label="Navigation ein- oder ausklappen">
         <span class="navbar-toggler-icon"></span>
@@ -44,18 +44,10 @@
     </div>
 </nav>
 
-<section class="vh-100">
-    <div class="container h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-md-12 col-lg-10 col-xl-8">
-                <div class="card text-black" style="border-radius: 5px; background-color: #FAF9F6">
-                    <div class="card-body p-md-5">
-                        <div class="row justify-content-center">
-                            <slot />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="row mt-3 p-3">
+    <div class="col"></div>
+    <div class="col-md-12 col-lg-10 col-xl-8">
+        <slot />
     </div>
-</section>
+    <div class="col"></div>
+</div>

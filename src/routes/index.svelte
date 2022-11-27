@@ -32,13 +32,23 @@
 </script>
 
 <div bind:clientWidth={width}>
-    <div class="mt-5">
-        <ConsumptionLineChart {chartData} type="electricity" title="Gesamtverbrauch an Strom (kWh) / Anzahl Beobachtungen" parentWidth={width} showObservations={true} />
+    <div class="">
+        <ConsumptionLineChart {chartData} type="electricity"
+        consumers={[{name: "Alle Nutzer"}, {name: "Beobachtungen"}]}
+        title="Strom" 
+        parentWidth={width} showObservations={true} legend={true} 
+        leftAxisTitle="kWh / Tag" rightAxisTitle="#" />
     </div>
     <div class="mt-5">
-        <ConsumptionLineChart {chartData} type="coldWater" title="Gesamtverbrauch an Kaltwasser (m3) / Anzahl Beobachtungen" parentWidth={width} showObservations={true} />
+        <ConsumptionLineChart {chartData} type="coldWater"
+        consumers={[{name: "Alle Nutzer"}, {name: "Beobachtungen"}]}
+        title="Kaltwasser" 
+        parentWidth={width} showObservations={true} legend={true} />
     </div>
     <div class="mt-5">
-        <ConsumptionLineChart {chartData} type="warmWater" title="Gesamtverbrauch an Warmassser (m3) / Anzahl Beobachtungen" parentWidth={width} showObservations={true} />
+        <ConsumptionLineChart {chartData} type="warmWater"
+        consumers={[{name: "Alle Nutzer"}, {name: "Beobachtungen"}]}
+        title="Warmwasser" 
+        parentWidth={width} showObservations={true} legend={true} />
     </div>
 </div>

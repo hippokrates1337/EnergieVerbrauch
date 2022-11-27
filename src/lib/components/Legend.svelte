@@ -7,7 +7,7 @@
 </script>
 
 <rect width={width} height={height}
-    style="fill: lightgray" />
+    style="stroke: none; fill: none" />
 
 {#each entries as entry, i}
     <line x1={width * 0.025} x2={width * 0.1} 
