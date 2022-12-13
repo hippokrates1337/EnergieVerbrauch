@@ -61,7 +61,8 @@
             createdAt: new Date(),
             updatedAt: new Date()}]}
         title="Kaltwasser" 
-        parentWidth={width} showObservations={true} legend={true} />
+        parentWidth={width} showObservations={true} legend={true} 
+        leftAxisTitle="m3 / Tag" rightAxisTitle="#" />
     </div>
     <div class="mt-5">
         <ConsumptionLineChart {chartData} type="warmWater"
@@ -77,6 +78,7 @@
             createdAt: new Date(),
             updatedAt: new Date()}]}
         title="Warmwasser" 
-        parentWidth={width} showObservations={true} legend={true} />
+        parentWidth={width} showObservations={true} legend={true} 
+        leftAxisTitle="m3 / Tag" rightAxisTitle="#" />
     </div>
 </div>

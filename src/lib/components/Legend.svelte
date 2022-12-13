@@ -2,8 +2,10 @@
     export let width: number, height: number;
     export let entries: string[];
     export let colorScale: d3.ScaleSequential<unknown, unknown>;
+    export let showBenchmark: boolean = false;
 
-    let entryHeight = height / entries.length;
+    // Add one extra entry for the benchmark line
+    let entryHeight = height / (entries.length + 1);
 </script>
 
 <rect width={width} height={height}
@@ -18,3 +20,13 @@
         {entry}
     </text>
 {/each}
+
+{#if showBenchmark}
+    <line x1={width * 0.025} x2={width * 0.1} 
+        y1={entryHeight / 2 + entries.length * entryHeight} y2={entryHeight / 2 + entries.length * entryHeight} 
+        style={"stroke: red; stroke-width: 3"}/>
+    <text text-anchor="start" x={width * 0.125} y={entryHeight / 2 + entries.length * entryHeight + 0.15 * entryHeight}
+        style="font-size: 0.75em">
+        Benchmark
+    </text>
+{/if}

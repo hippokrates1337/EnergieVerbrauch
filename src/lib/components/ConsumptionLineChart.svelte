@@ -105,7 +105,7 @@
                 .curve(d3.curveStep);
 </script>
 
-{#if chartData && chartData.days > 0 && width}
+{#if chartData && lineData.length > 0 && width}
     <div class="container text-center h4">
         {title}
     </div>
@@ -134,7 +134,7 @@
             <!--Optional: Benchmark-->
             {#if benchmarkLineData}
                 {#each benchmarkLineData as data, i}
-                    <path d="{obsLineFunc(data)}" fill="none" stroke="red" stroke-width="2"/>
+                    <path d="{lineFunc(data)}" fill="none" stroke="red" stroke-width="2"/>
                 {/each}
             {/if}
         </g>
@@ -143,7 +143,7 @@
         {#if legend}
             <g transform={`translate(${width - padding.right - width * 0.25}, ${padding.top * 1.1})`}>
                 <Legend width={width * 0.2} height={consumers.length * height * 0.05} 
-                    entries={consumers.map(e => e.name)} {colorScale} />
+                    entries={consumers.map(e => e.name)} {colorScale} showBenchmark={benchmarkLineData?.length > 0} />
             </g>
         {/if}
     </svg>
