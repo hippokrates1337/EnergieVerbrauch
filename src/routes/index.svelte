@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
     import type { Load } from "@sveltejs/kit";
 
-    export const load: Load = async ({ session, fetch }) => {
+    export const load: Load = async ({ fetch }) => {
         // Load all observations (to be passed into props)
         const res = await fetch("/protected/readings");
         let readings;

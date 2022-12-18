@@ -85,7 +85,11 @@
     const yAxisMargin = 0.2;
 
     // Set up axes
-    $: xScale = d3.scaleTime().domain([new Date(chartData.startDate), new Date(chartData.endDate)]).range([0, innerWidth]).nice(d3.timeDay);
+    $: xScale = d3.scaleTime().domain([new Date(Math.min(chartData.startDate.valueOf(), 
+                benchmarkData ? benchmarkData.startDate.valueOf() : (new Date()).valueOf())), 
+                new Date(Math.max(chartData.endDate.valueOf(), 
+                benchmarkData ? benchmarkData.endDate.valueOf() : (new Date()).valueOf()))])
+                .range([0, innerWidth]).nice(d3.timeDay);
     $: yScale = d3.scaleLinear().domain([minValue * (1 - yAxisMargin), maxValue * (1 + yAxisMargin)]).range([innerHeight, 0]).nice();
     $: yScaleRight = d3.scaleLinear().domain([minObs * (1 - yAxisMargin), maxObs * (1 + yAxisMargin)]).range([innerHeight, 0]).nice();
     $: colorScale = d3.scaleSequential().domain([0, chartData.data.filter(d => d.type == type).length]).interpolator(d3.interpolateRgb('blue', 'green'));
@@ -101,7 +105,7 @@
 
     $: benchmarkLineData = benchmarkData ? benchmarkData.data.map((dataset) => {
             if(dataset.type == type) {
-                return dataset.values.map((d, i) => [new Date(chartData.startDate.getTime() + i * 24 * 60 * 60 * 1000), d]);
+                return dataset.values.map((d, i) => [new Date(benchmarkData.startDate.getTime() + i * 24 * 60 * 60 * 1000), d]);
             }
         }).filter((d) => d) : undefined;
 
