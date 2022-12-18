@@ -27,6 +27,15 @@
             if(temp < minObs) minObs = temp;
         }
 
+        // If benchmark data exists, need to check its range as well
+        if(benchmarkData) {
+            let temp = benchmarkData.data.filter((d) => d.type == type);
+            if(temp[0]) {
+                let temp2 = Math.min(...(temp[0].values));
+                if(temp2 < minValue) minValue = temp2;
+            }
+        }
+
         return {
             minValue: minValue,
             minObs: minObs
@@ -43,6 +52,15 @@
 
             temp = Math.max(...consumer.observations);
             if(temp > maxObs) maxObs = temp;
+        }
+
+        // If benchmark data exists, need to check its range as well
+        if(benchmarkData) {
+            let temp = benchmarkData.data.filter((d) => d.type == type);
+            if(temp[0]) {
+                let temp2 = Math.max(...(temp[0].values));
+                if(temp2 > maxValue) maxValue = temp2;
+            }
         }
 
         return {
