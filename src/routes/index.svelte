@@ -27,28 +27,58 @@
     export let width: number;
 
     $: chartData = generateDailyData(readings, "population");
-
-    $: console.log(chartData);
 </script>
 
 <div bind:clientWidth={width}>
     <div class="">
         <ConsumptionLineChart {chartData} type="electricity"
-        consumers={[{name: "Alle Nutzer"}, {name: "Beobachtungen"}]}
+        consumers={[{
+            uid: "",
+            name: "Alle Nutzer",
+            user: "",
+            createdAt: new Date(),
+            updatedAt: new Date()}, 
+            {uid: "",
+            name: "Beobachtungen",
+            user: "",
+            createdAt: new Date(),
+            updatedAt: new Date()}]}
         title="Strom" 
         parentWidth={width} showObservations={true} legend={true} 
         leftAxisTitle="kWh / Tag" rightAxisTitle="#" />
     </div>
     <div class="mt-5">
         <ConsumptionLineChart {chartData} type="coldWater"
-        consumers={[{name: "Alle Nutzer"}, {name: "Beobachtungen"}]}
+        consumers={[{
+            uid: "",
+            name: "Alle Nutzer",
+            user: "",
+            createdAt: new Date(),
+            updatedAt: new Date()}, 
+            {uid: "",
+            name: "Beobachtungen",
+            user: "",
+            createdAt: new Date(),
+            updatedAt: new Date()}]}
         title="Kaltwasser" 
-        parentWidth={width} showObservations={true} legend={true} />
+        parentWidth={width} showObservations={true} legend={true} 
+        leftAxisTitle="m3 / Tag" rightAxisTitle="#" />
     </div>
     <div class="mt-5">
         <ConsumptionLineChart {chartData} type="warmWater"
-        consumers={[{name: "Alle Nutzer"}, {name: "Beobachtungen"}]}
+        consumers={[{
+            uid: "",
+            name: "Alle Nutzer",
+            user: "",
+            createdAt: new Date(),
+            updatedAt: new Date()}, 
+            {uid: "",
+            name: "Beobachtungen",
+            user: "",
+            createdAt: new Date(),
+            updatedAt: new Date()}]}
         title="Warmwasser" 
-        parentWidth={width} showObservations={true} legend={true} />
+        parentWidth={width} showObservations={true} legend={true} 
+        leftAxisTitle="m3 / Tag" rightAxisTitle="#" />
     </div>
 </div>

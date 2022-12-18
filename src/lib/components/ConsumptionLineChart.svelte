@@ -5,6 +5,7 @@
     import Legend from "./Legend.svelte";
 
     export let chartData: ChartData;
+    export let benchmarkData: ChartData | undefined = undefined;
     export let consumers: Consumer[] = [];
     export let type: string;
     export let title: string;
@@ -26,6 +27,15 @@
             if(temp < minObs) minObs = temp;
         }
 
+        // If benchmark data exists, need to check its range as well
+        if(benchmarkData) {
+            let temp = benchmarkData.data.filter((d) => d.type == type);
+            if(temp[0]) {
+                let temp2 = Math.min(...(temp[0].values));
+                if(temp2 < minValue) minValue = temp2;
+            }
+        }
+
         return {
             minValue: minValue,
             minObs: minObs
@@ -42,6 +52,15 @@
 
             temp = Math.max(...consumer.observations);
             if(temp > maxObs) maxObs = temp;
+        }
+
+        // If benchmark data exists, need to check its range as well
+        if(benchmarkData) {
+            let temp = benchmarkData.data.filter((d) => d.type == type);
+            if(temp[0]) {
+                let temp2 = Math.max(...(temp[0].values));
+                if(temp2 > maxValue) maxValue = temp2;
+            }
         }
 
         return {
@@ -80,6 +99,12 @@
             }
         }).filter((d) => d);
 
+    $: benchmarkLineData = benchmarkData ? benchmarkData.data.map((dataset) => {
+            if(dataset.type == type) {
+                return dataset.values.map((d, i) => [new Date(chartData.startDate.getTime() + i * 24 * 60 * 60 * 1000), d]);
+            }
+        }).filter((d) => d) : undefined;
+
     let lineFunc = d3.line()
                 .x((d) => xScale(d[0]))
                 .y((d) => yScale(d[1]))
@@ -98,7 +123,7 @@
                 .curve(d3.curveStep);
 </script>
 
-{#if chartData && chartData.days > 0 && width}
+{#if chartData && lineData.length > 0 && width}
     <div class="container text-center h4">
         {title}
     </div>
@@ -123,13 +148,20 @@
                     <path d="{obsLineFunc(data)}" fill="none" stroke="{colorScale(consumers.length - 1)}" stroke-width="2"/>
                 {/each}
             {/if}
+
+            <!--Optional: Benchmark-->
+            {#if benchmarkLineData}
+                {#each benchmarkLineData as data, i}
+                    <path d="{lineFunc(data)}" fill="none" stroke="red" stroke-width="2"/>
+                {/each}
+            {/if}
         </g>
 
         <!-- Legend -->
         {#if legend}
             <g transform={`translate(${width - padding.right - width * 0.25}, ${padding.top * 1.1})`}>
                 <Legend width={width * 0.2} height={consumers.length * height * 0.05} 
-                    entries={consumers.map(e => e.name)} {colorScale} />
+                    entries={consumers.map(e => e.name)} {colorScale} showBenchmark={benchmarkLineData?.length > 0} />
             </g>
         {/if}
     </svg>

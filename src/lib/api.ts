@@ -84,7 +84,7 @@ export const generateDailyData = (readings: Reading[], by: string): ChartData =>
                 }
             }
         }
-
+        
         data.data = tempData;
     }
 
