@@ -64,7 +64,7 @@
             })
         });
 
-        // Update list of observation units
+        // Update list of consumers
         response = await fetch("/protected/consumers");
         if(response.ok) {
             consumers = (await response.json()).data;

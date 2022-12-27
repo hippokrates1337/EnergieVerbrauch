@@ -12,13 +12,29 @@
 
 <div class="row">
     <form on:submit|preventDefault={addConsumer} action="/protected/consumers" method="post" autocomplete="off">
-            <div class="d-flex flex-row align-items-center mb-4">
-                <i class="fa fa-home fa-lg me-3 fa-fw"></i>
-                <div class="form-outline flex-fill mb-0">
-                    <input class="form-control" type="text" id="consumerName" name="consumerName" required aria-label="Name des Verbrauchers"/>
-                </div>
-                <button class="btn btn-primary" type="submit" aria-label="Neuen Verbraucher hinzufügen">Hinzufügen</button>
+        <div class="d-flex flex-row align-items-center mb-4">
+            <i class="fa fa-home fa-lg me-3 fa-fw"></i>
+            <div class="form-outline flex-fill mb-0">
+                <input class="form-control" type="text" placeholder="Name des Verbrauchers" id="consumerName" name="consumerName" required aria-label="Name des Verbrauchers"/>
             </div>
+            <i class="fa fa-square-o fa-lg me-3 fa-fw"></i>
+            <div class="form-outline flex-fill mb-0">
+                <input class="form-control" type="number" placeholder ="Fläche (m2)" id="consumerArea" name="consumerArea" required aria-label="Fläche des Verbrauchers"/>
+            </div>
+        </div>
+        <div class="d-flex flex-row align-items-center mb-4">
+            <i class="fa fa-male fa-lg me-3 fa-fw"></i>
+            <div class="form-outline flex-fill mb-0">
+                <input class="form-control" type="number" placeholder="Erwachsene" id="consumerAdults" name="consumerAdults" required aria-label="Anzahl Erwachsene"/>
+            </div>
+            <i class="fa fa-child fa-lg me-3 fa-fw"></i>
+            <div class="form-outline flex-fill mb-0">
+                <input class="form-control" type="number" placeholder="Kinder" id="consumerChildren" name="consumerChildren" required aria-label="Anzahl Kinder"/>
+            </div>
+        </div>
+        <div class="row ps-4 pe-4">
+            <button class="btn btn-primary btn-block" type="submit" aria-label="Neuen Verbraucher hinzufügen">Hinzufügen</button>
+        </div>
     </form>
 </div>
 {#if addConsumerError}
