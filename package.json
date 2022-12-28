@@ -16,7 +16,7 @@
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.22.2",
-		"@prisma/client": "^4.4.0",
+		"@prisma/client": "^4.8.0",
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
 		"@types/bcrypt": "^5.0.0",

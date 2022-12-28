@@ -22,6 +22,9 @@ type Consumer = {
     uid: string,
     name: string,
     user: string,
+    area: number,
+    adults: number,
+    children: number,
     createdAt: Date,
     updatedAt: Date
 }

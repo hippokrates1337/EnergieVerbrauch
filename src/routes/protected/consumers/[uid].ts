@@ -30,6 +30,9 @@ export const GET: RequestHandler = async (event: RequestEvent) => {
 export const PATCH: RequestHandler = async (event: RequestEvent) => {
     const data = await event.request.json();
 
+    console.log("Received PATCH request");
+    console.log(data);
+
     let updatedUnit;
     try {
         updatedUnit = await db.consumer.update({

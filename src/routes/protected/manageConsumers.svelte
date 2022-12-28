@@ -40,20 +40,31 @@
 
     export let consumers: Consumer[];
     export let readings: Reading[];
-    let addConsumerError = "";
+    let addConsumerError: string = "";
+    let editMode: boolean = false;
+    let currentValues: Consumer;
 
-    const addConsumer = async (formElement: HTMLFormElement) => {
-        const response = await send(formElement);
+    const addOrUpdateConsumer = async (form: HTMLFormElement) => {
+        if(!editMode) {
+            const response = await send(form);
         
-        if(response.error) {
-            addConsumerError = response.error;
-        }
+            if(response.error) {
+                addConsumerError = response.error;
+            }
 
-        if(response.success) {
-            const newConsumer = response.data;
-            consumers = [...consumers, newConsumer];
-            formElement.reset();
-        }
+            if(response.success) {
+                const newConsumer = response.data;
+                consumers = [...consumers, newConsumer];
+                form.reset();
+            }
+        } else {
+            let response = await fetch("/protected/consumers/" + currentValues.uid, {
+            method: "PATCH",
+            body: JSON.stringify({
+                newName: ""
+            })
+        });
+        }        
     }
 
     const changeConsumerName = async (change: {uid: string, newName: string}) => {
@@ -73,14 +84,19 @@
             });
         }
     }
+
+    const editConsumer = async (reference: {uid: string}) => {
+        editMode = !editMode;
+        currentValues = consumers.filter(c => c.uid == reference.uid)[0];
+    }
 </script>
 
 
 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Verbraucher verwalten</p>
 
-<ListConsumers {consumers} {readings} on:changeName={e => changeConsumerName(e.detail)}/>
+<ListConsumers {consumers} {readings} on:editConsumer={e => editConsumer(e.detail)}/>
 <hr style="border-top: 3px double #8c8b8b">
-<AddConsumer on:add={e => addConsumer(e.detail)} {addConsumerError}/>
+<AddConsumer {editMode} {currentValues} on:addOrUpdate={e => addOrUpdateConsumer(e.detail)} {addConsumerError}/>
 
 
 
