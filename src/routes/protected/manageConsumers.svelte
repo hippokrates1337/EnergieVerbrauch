@@ -59,30 +59,28 @@
             }
         } else {
             let response = await fetch("/protected/consumers/" + currentValues.uid, {
-            method: "PATCH",
-            body: JSON.stringify({
-                newName: ""
-            })
-        });
+                method: "PATCH",
+                body: JSON.stringify({
+                    newName: form.elements["consumerName"].value,
+                    newArea: form.elements["consumerArea"].value,
+                    newAdults: form.elements["consumerAdults"].value,
+                    newChildren: form.elements["consumerChildren"].value
+                    })
+                });
+
+            if(!response.ok) {
+                addConsumerError = (await response.json()).error;
+            }
+
+            // Update list of consumers
+            response = await fetch("/protected/consumers/" + currentValues.user);
+            if(response.ok) {
+                consumers = (await response.json()).data;
+                consumers.sort((a, b) => {
+                    return a.createdAt > b.createdAt ? 1 : -1;
+                });
+            }
         }        
-    }
-
-    const changeConsumerName = async (change: {uid: string, newName: string}) => {
-        let response = await fetch("/protected/consumers/" + change.uid, {
-            method: "PATCH",
-            body: JSON.stringify({
-                newName: change.newName
-            })
-        });
-
-        // Update list of consumers
-        response = await fetch("/protected/consumers");
-        if(response.ok) {
-            consumers = (await response.json()).data;
-            consumers.sort((a, b) => {
-                return a.createdAt > b.createdAt ? 1 : -1;
-            });
-        }
     }
 
     const editConsumer = async (reference: {uid: string}) => {
