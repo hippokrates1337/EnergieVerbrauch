@@ -90,7 +90,16 @@
 </script>
 
 
-<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Verbraucher verwalten</p>
+<p class="text-start h1 fw-bold mx-1 mx-md-4 mt-4">Verbraucher verwalten</p>
+<p class="text-start fw-light mx-1 mx-md-4">
+    Ein "Verbraucher" ist eine Einheit für die der Energieverbrauch gemessen werden soll. 
+    Zum Beispiel eine Eigentumswohnung oder eine Ferienwohnung. Zur besseren Vergleichbarkeit
+    können pro Verbraucher auch die (Wohn)Fläche und die Anzahl der nutzenden Personen hinterlegt werden.
+</p>
+<p class="text-start fw-light mx-1 mx-md-4 mb-5">
+    Auf dieser Seite kannst Du alle von Dir angelegten Verbraucher sehen und ihre Daten überprüfen/aktualisieren. 
+    Klicke hierzu auf den Stift neben dem Namen des Verbrauchers und gib unten die neuen Werte ein.
+</p>
 
 <ListConsumers {consumers} {readings} on:editConsumer={e => editConsumer(e.detail)}/>
 <hr style="border-top: 3px double #8c8b8b">

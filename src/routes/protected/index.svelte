@@ -49,6 +49,7 @@
     export let readings: Reading[];
     export let populationReadings: Reading[];
     let width: number;
+    let explanationText: string = "Dieser Graph zeigt Deinen täglichen Ressourcenverbrauch je 'Verbraucher' im Vergleich zu allen anderen Nutzern der Webseite, für die genügend Zählerstände hinterlegt wurden (rote Linie 'Benchmark'). Aktuell kann die Vergleichsgruppe noch nicht individuell festgelegt werden, dies ist für die Zukunft geplant.";
 
     $: chartData = generateDailyData(readings, "consumer");
     $: benchmarkData = generateDailyData(populationReadings, "population");
@@ -57,17 +58,17 @@
 <div bind:clientWidth={width}>
     <div class="">
         <ConsumptionLineChart {chartData} {consumers} {benchmarkData}
-        type="electricity" title="Strom" parentWidth={width} 
+        type="electricity" title="Strom" {explanationText} parentWidth={width} 
         leftAxisTitle="kWh / Tag" />
     </div>
     <div class="mt-5">
         <ConsumptionLineChart {chartData} {consumers} {benchmarkData}
-        type="coldWater" title="Kaltwasser" parentWidth={width} 
+        type="coldWater" title="Kaltwasser" {explanationText} parentWidth={width} 
         leftAxisTitle="m3 / Tag" />
     </div>
     <div class="mt-5">
         <ConsumptionLineChart {chartData} {consumers} {benchmarkData}
-        type="warmWater" title="Warmwasser" parentWidth={width} 
+        type="warmWater" title="Warmwasser" {explanationText} parentWidth={width} 
         leftAxisTitle="m3 / Tag" />
     </div>
 </div>

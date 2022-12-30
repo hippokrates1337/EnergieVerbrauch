@@ -9,6 +9,7 @@
     export let consumers: Consumer[] = [];
     export let type: string;
     export let title: string;
+    export let explanationText: string;
     export let parentWidth: number;
     export let legend: boolean = true;
     export let showObservations: boolean = false;
@@ -78,7 +79,7 @@
     // Define SVG dimensions
     $: width = parentWidth;
     const height = 480;
-    const padding = {top: 35, bottom: 20, left: 35, right: 25};
+    const padding = {top: 35, bottom: 20, left: 35, right: 35};
     const innerHeight = height - padding.top - padding.bottom;
     $: innerWidth = width - padding.left - padding.right;
     const tickSize = 7;
@@ -128,45 +129,50 @@
 </script>
 
 {#if chartData && lineData.length > 0 && width}
-    <div class="container text-center h4">
-        {title}
-    </div>
-    <svg {width} {height}>
-        <g transform={`translate(${padding.left}, ${padding.top})`}>
-            <!-- X-axis -->
-            <DateXAxis {xScale} {innerWidth} {innerHeight} {tickSize}/>
+    <div class="card p-2">
+        <div class="card-header">
+            <h5 class="card-title">{title}</h5>
+            <p class="fw-light">
+                {explanationText} 
+            </p>
+        </div>
+        <svg {width} {height}>
+            <g transform={`translate(${padding.left}, ${padding.top})`}>
+                <!-- X-axis -->
+                <DateXAxis {xScale} {innerWidth} {innerHeight} {tickSize}/>
 
-            <!-- Y-axis -->
-            <ValueYAxis {yScale} {innerHeight} {innerWidth} {tickSize} left={true} axisTitle={leftAxisTitle} />
+                <!-- Y-axis -->
+                <ValueYAxis {yScale} {innerHeight} {innerWidth} {tickSize} left={true} axisTitle={leftAxisTitle} />
 
-            <!-- Data line -->
-            {#each lineData as data, i}
-                <path d="{lineFunc(data)}" fill="none" stroke="{colorScale(i)}" stroke-width="2" />
-            {/each}
-
-            <!--Optional: Observations-->
-            {#if showObservations}
-                <ValueYAxis yScale={yScaleRight} {innerHeight} {innerWidth} {tickSize} left={false} axisTitle={rightAxisTitle} />
-
-                {#each obsLineDate as data, i}
-                    <path d="{obsLineFunc(data)}" fill="none" stroke="{colorScale(consumers.length - 1)}" stroke-width="2"/>
+                <!-- Data line -->
+                {#each lineData as data, i}
+                    <path d="{lineFunc(data)}" fill="none" stroke="{colorScale(i)}" stroke-width="2" />
                 {/each}
-            {/if}
 
-            <!--Optional: Benchmark-->
-            {#if benchmarkLineData}
-                {#each benchmarkLineData as data, i}
-                    <path d="{lineFunc(data)}" fill="none" stroke="red" stroke-width="2"/>
-                {/each}
-            {/if}
-        </g>
+                <!--Optional: Observations-->
+                {#if showObservations}
+                    <ValueYAxis yScale={yScaleRight} {innerHeight} {innerWidth} {tickSize} left={false} axisTitle={rightAxisTitle} />
 
-        <!-- Legend -->
-        {#if legend}
-            <g transform={`translate(${width - padding.right - width * 0.25}, ${padding.top * 1.1})`}>
-                <Legend width={width * 0.2} height={consumers.length * height * 0.05} 
-                    entries={consumers.map(e => e.name)} {colorScale} showBenchmark={benchmarkLineData?.length > 0} />
+                    {#each obsLineDate as data, i}
+                        <path d="{obsLineFunc(data)}" fill="none" stroke="{colorScale(consumers.length - 1)}" stroke-width="2"/>
+                    {/each}
+                {/if}
+
+                <!--Optional: Benchmark-->
+                {#if benchmarkLineData}
+                    {#each benchmarkLineData as data, i}
+                        <path d="{lineFunc(data)}" fill="none" stroke="red" stroke-width="2"/>
+                    {/each}
+                {/if}
             </g>
-        {/if}
-    </svg>
+
+            <!-- Legend -->
+            {#if legend}
+                <g transform={`translate(${width - padding.right - width * 0.25}, ${padding.top * 1.1})`}>
+                    <Legend width={width * 0.2} height={consumers.length * height * 0.05} 
+                        entries={consumers.map(e => e.name)} {colorScale} showBenchmark={benchmarkLineData?.length > 0} />
+                </g>
+            {/if}
+        </svg>
+    </div>
 {/if}
