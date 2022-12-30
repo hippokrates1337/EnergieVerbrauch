@@ -25,6 +25,7 @@
 
     export let readings: Reading[];
     export let width: number;
+    let explanationText: string = "Dieser Graph zeigt den täglichen Ressourcenverbrauch aller Nutzer dieser Webseite an. Die Linie 'alle Nutzer' zeigt die täglichen Verbrauchswerte und bezieht sich auf die linke Achse. Die Linie 'Beobachtungen' zeigt, auf wie vielen Werten (also von Nutzern eingegebenen Verbräuchen) der Durchschnitt basiert und bezieht sich auf die rechte Achse.";
 
     $: chartData = generateDailyData(readings, "population");
 </script>
@@ -43,7 +44,7 @@
             user: "",
             createdAt: new Date(),
             updatedAt: new Date()}]}
-        title="Strom" 
+        title="Strom" {explanationText}
         parentWidth={width} showObservations={true} legend={true} 
         leftAxisTitle="kWh / Tag" rightAxisTitle="#" />
     </div>
@@ -60,7 +61,7 @@
             user: "",
             createdAt: new Date(),
             updatedAt: new Date()}]}
-        title="Kaltwasser" 
+        title="Kaltwasser" {explanationText}
         parentWidth={width} showObservations={true} legend={true} 
         leftAxisTitle="m3 / Tag" rightAxisTitle="#" />
     </div>
@@ -77,7 +78,7 @@
             user: "",
             createdAt: new Date(),
             updatedAt: new Date()}]}
-        title="Warmwasser" 
+        title="Warmwasser" {explanationText}
         parentWidth={width} showObservations={true} legend={true} 
         leftAxisTitle="m3 / Tag" rightAxisTitle="#" />
     </div>

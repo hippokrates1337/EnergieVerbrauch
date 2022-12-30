@@ -89,7 +89,16 @@
     }
 </script>
 
-<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Verbrauchswerte verwalten</p>
+<p class="text-start h1 fw-bold mx-1 mx-md-4 mt-4">Zählerstände verwalten</p>
+<p class="text-start fw-light mx-1 mx-md-4">
+    Auf dieser Seite kannst Du für Deine einzelnen "Verbraucher" die Zählerstände für Strom, Kaltwasser und Warmwasser
+    hinterlegen. Diese werden automatisch in tägliche Verbrauchswerte umgerechnet, sobald mehr als zwei Zählerstände 
+    vorhanden sind.
+</p>
+<p class="text-start fw-light mx-1 mx-md-4 mb-5">
+    Bereits hinterlegte Zählerstände kannst Du anpassen, indem Du auf den Stift links des jeweiligen Wertes klickst. 
+    Durch einen Klick auf den Mülleimer löschst Du den jeweiligen Wert.
+</p>
 
 <AddReading {consumers} {addReadingError} on:add={e => addReading(e.detail)}/>
 <hr style="border-top: 3px double #8c8b8b">

@@ -34,8 +34,8 @@
     }
 </script>
 
-<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">{title}</p>
-<ul>
+<p class="text-start h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">{title}</p>
+<ul class="mx-1 mx-md-4 mt-4">
     {#each readings as reading}
     <li>
         {consumers.find((a) => a.uid == reading.consumer)?.name} - {new Date(reading.date).toLocaleDateString()}: {reading.value} {reading.type == "electricity" ? "kWh" : "m3"}

@@ -7,7 +7,7 @@
 </svelte:head>
 
 <nav class="navbar navbar-expand-lg navbar-dark p-1 bg-dark">
-    <span class="navbar-brand">PLACEHOLDER</span>
+    <span class="navbar-brand"><img src="./VV_Logo.png" style="width: 35%; height: 35%" alt="VerbrauchsVergleich Logo"></span>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navharSupportedContent" aria-expanded="false" aria-label="Navigation ein- oder ausklappen">
         <span class="navbar-toggler-icon"></span>
     </button>
