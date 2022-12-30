@@ -29,6 +29,19 @@ export const GET: RequestHandler = async (event: RequestEvent) => {
 
 export const PATCH: RequestHandler = async (event: RequestEvent) => {
     const data = await event.request.json();
+    let newName = data.newName;
+    let newArea = parseFloat(data.newArea);
+    let newAdults = parseInt(data.newAdults);
+    let newChildren = parseInt(data.newChildren);
+
+    if(typeof newName !== "string" || !newArea || !newAdults || !newChildren) {
+        return {
+            status: 400,
+            body: {
+                error: "Eigenschaften des Verbrauchers müssen vollständig angegeben werden."
+            } 
+        };
+    }
 
     let updatedUnit;
     try {
@@ -37,7 +50,10 @@ export const PATCH: RequestHandler = async (event: RequestEvent) => {
                 uid: event.params.uid
             },
             data: {
-                name: data.newName
+                name: newName,
+                area: newArea,
+                adults: newAdults,
+                children: newChildren
             }
         });
     } catch(error) {
@@ -49,7 +65,6 @@ export const PATCH: RequestHandler = async (event: RequestEvent) => {
         }
     }
     
-
     return {
         status: 200,
         body: {
