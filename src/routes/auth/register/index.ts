@@ -1,6 +1,7 @@
 import type { RequestEvent, RequestHandler } from "@sveltejs/kit";
 import PrismaClient from "$lib/prisma";
 import * as bcrypt from "bcrypt";
+import sgMail from "@sendgrid/mail";
 
 const db = new PrismaClient();
 const saltRounds = 10;
@@ -11,6 +12,25 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
     const email = data.get("email");
     const password = data.get("password");
     const passwordRepeat = data.get("passwordRepeat");
+
+    
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const msg = {
+        to: 'j.weber_2003@web.de', // Change to your recipient
+        from: 'j.weber_2003@web.de', // Change to your verified sender
+        subject: 'Sending with SendGrid is Fun',
+        text: 'and easy to do anywhere, even with Node.js',
+        html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+      }
+      sgMail
+        .send(msg)
+        .then((response) => {
+            console.log(response[0].statusCode)
+            console.log(response[0].headers)
+        })
+        .catch((error) => {
+          console.error(error)
+        });
 
     if(typeof userName !== "string" || typeof email !== "string" ||
         typeof password !== "string" || typeof passwordRepeat !== "string") {
