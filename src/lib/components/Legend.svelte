@@ -5,11 +5,11 @@
     export let showBenchmark: boolean = false;
 
     // Add one extra entry for the benchmark line
-    let entryHeight = height / (entries.length + 1);
+    let entryHeight = height / (entries.length + (showBenchmark ? 1 : 0));
 </script>
 
 <rect width={width} height={height}
-    style="stroke: none; fill: none" />
+    style="stroke: dimgray; fill: white" />
 
 {#each entries as entry, i}
     <line x1={width * 0.025} x2={width * 0.1} 
@@ -19,6 +19,7 @@
         style="font-size: 0.75em">
         {entry}
     </text>
+    {console.log(height)}
 {/each}
 
 {#if showBenchmark}

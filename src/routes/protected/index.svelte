@@ -49,7 +49,7 @@
     export let readings: Reading[];
     export let populationReadings: Reading[];
     let width: number;
-    let explanationText: string = "Dieser Graph zeigt Deinen täglichen Ressourcenverbrauch je 'Verbraucher' im Vergleich zu allen anderen Nutzern der Webseite, für die genügend Zählerstände hinterlegt wurden (rote Linie 'Benchmark'). Aktuell kann die Vergleichsgruppe noch nicht individuell festgelegt werden, dies ist für die Zukunft geplant.";
+    let explanationText: string = "Dieser Graph zeigt Deinen täglichen Ressourcenverbrauch je 'Verbraucher' im Vergleich zu allen anderen Nutzern der Webseite, für die genügend Zählerstände hinterlegt wurden (rote Linie 'Benchmark'). Die vertikalen farbigen Linien zeigen die Tage an, für die Du Zählerstände hinterlegt hast. Aktuell kann die Vergleichsgruppe noch nicht individuell festgelegt werden, dies ist für die Zukunft geplant.";
 
     $: chartData = generateDailyData(readings, "consumer");
     $: benchmarkData = generateDailyData(populationReadings, "population");

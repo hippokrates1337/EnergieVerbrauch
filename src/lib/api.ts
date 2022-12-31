@@ -18,7 +18,10 @@ export const generateDailyData = (readings: Reading[], by: string): ChartData =>
         data: []
     };
 
-    data.days = Math.floor((data.endDate.getTime() - data.startDate.getTime()) / (24 * 60 * 60 * 1000));
+    // Increment start date by one day as meter readings are assumed to be end of day
+    data.startDate.setDate(data.startDate.getDate() + 1);
+
+    data.days = Math.floor((data.endDate.getTime() - data.startDate.getTime()) / (24 * 60 * 60 * 1000)) + 1;
 
     // Ensure there are valid dates in the data
     if(!data.startDate || !data.endDate || (data.endDate.getTime() < data.startDate.getTime())) {
@@ -44,7 +47,10 @@ export const generateDailyData = (readings: Reading[], by: string): ChartData =>
                 type: type,
                 consumer: consumer,
                 values: new Array(data.days).fill(0),
-                observations: new Array(data.days).fill(0)
+                observations: new Array(data.days).fill(0),
+                readingsDates: readings.filter((r) => {
+                                    return (r.consumer == consumer) && (r.type == type)
+                                }).map((r) => new Date(r.date))
             });
     
             let sortedData = readings.filter((r) => {
@@ -54,7 +60,7 @@ export const generateDailyData = (readings: Reading[], by: string): ChartData =>
             // Calculate daily consumption based on individual meter readings and insert it into the arrays at the right places
             for(let i = 1; i < sortedData.length; i++) {
                 let period = Math.floor((new Date(sortedData[i].date).getTime() - new Date(sortedData[i - 1].date).getTime()) / (24 * 60 * 60 * 1000));
-                let startIndex = Math.floor((new Date(sortedData[i - 1].date).getTime() - data.startDate.getTime()) / (24 * 60 * 60 * 1000));
+                let startIndex = Math.floor((new Date(sortedData[i - 1].date).getTime() - data.startDate.getTime()) / (24 * 60 * 60 * 1000)) + 1;
 
                 for(let j = 0; j < period; j++) {
                     data.data[data.data.length - 1].values[startIndex + j] = (sortedData[i].value - sortedData[i - 1].value) / period;
@@ -72,7 +78,8 @@ export const generateDailyData = (readings: Reading[], by: string): ChartData =>
                 type: type,
                 consumer: "",
                 values: new Array(data.days).fill(0),
-                observations: new Array(data.days).fill(0)
+                observations: new Array(data.days).fill(0),
+                readingsDates: []
             });
 
             for(let i = 0; i < data.days; i++) {
