@@ -113,7 +113,7 @@
     let lineFunc = d3.line()
                 .x((d) => xScale(d[0]))
                 .y((d) => yScale(d[1]))
-                .curve(d3.curveStep);
+                .curve(d3.curveBasis);
 
     // Set up data line for observations
     $: obsLineDate = chartData.data.map((dataset) => {
@@ -125,7 +125,14 @@
     let obsLineFunc = d3.line()
                 .x((d) => xScale(d[0]))
                 .y((d) => yScaleRight(d[1]))
-                .curve(d3.curveStep);
+                .curve(d3.curveBasis);
+
+    // Generate a list of dates on which meter readings where entered so these can be marked in the graph
+    $: readingsDates = chartData.data.map((dataset) => {
+            if(dataset.type == type) {
+                return dataset.readingsDates;
+            }
+        }).filter((d) => d);
 </script>
 
 {#if chartData && lineData.length > 0 && width}
@@ -149,6 +156,13 @@
                     <path d="{lineFunc(data)}" fill="none" stroke="{colorScale(i)}" stroke-width="2" />
                 {/each}
 
+                <!-- Markers for dates with meter readings -->
+                {#each readingsDates as data, i}
+                    {#each data as point, j}
+                        <line x1="{xScale(point)}" y1="0" x2="{xScale(point)}" y2="{innerHeight}" stroke="{colorScale(i)}"/>
+                    {/each}
+                {/each}
+
                 <!--Optional: Observations-->
                 {#if showObservations}
                     <ValueYAxis yScale={yScaleRight} {innerHeight} {innerWidth} {tickSize} left={false} axisTitle={rightAxisTitle} />
@@ -169,8 +183,8 @@
             <!-- Legend -->
             {#if legend}
                 <g transform={`translate(${width - padding.right - width * 0.25}, ${padding.top * 1.1})`}>
-                    <Legend width={width * 0.2} height={consumers.length * height * 0.05} 
-                        entries={consumers.map(e => e.name)} {colorScale} showBenchmark={benchmarkLineData?.length > 0} />
+                    <Legend width={width * 0.2} height={(consumers.length + (benchmarkLineData ? 1 : 0)) * height * 0.05} 
+                        entries={consumers.map(e => e.name)} {colorScale} showBenchmark={benchmarkLineData ? true : false} />
                 </g>
             {/if}
         </svg>

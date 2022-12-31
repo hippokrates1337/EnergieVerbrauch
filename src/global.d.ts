@@ -51,5 +51,6 @@ type ValueSet = {
     type: string,
     consumer: string,
     values: number[]
-    observations: number[]
+    observations: number[],
+    readingsDates: Date[]
 };

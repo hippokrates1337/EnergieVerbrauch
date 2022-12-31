@@ -9,7 +9,8 @@
 <div class="d-flex flex-row align-items-center mb-4">
     <i class="fa fa-home fa-lg ms-3 fa-fw"></i>
     <div class="form-outline flex-fill mb-0">
-        <select value={defaultConsumer != "" ? defaultConsumer : (consumers.length > 0 ? consumers[0].uid : "")} class="form-select" name="consumer" id="consumer" aria-label="Auswahl des Verbrauchers" required>
+        <select value={defaultConsumer != "" ? defaultConsumer : (consumers.length > 0 ? consumers[0].uid : "")} 
+            class="form-select" name="consumer" id="consumer" aria-label="Auswahl des Verbrauchers" required>
             {#each consumers as consumer}
                 <option value={consumer.uid}>{consumer.name}</option>
             {/each}
