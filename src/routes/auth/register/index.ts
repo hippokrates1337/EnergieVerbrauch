@@ -49,6 +49,8 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         };
     }
 
+    // Send email confirmation
+
     try {
         await db.user.create({
             data: {
