@@ -91,6 +91,9 @@
 
 {#if success}
 <div>
-    <p class="text-success">Erfolgreich als neuer Benutzer registriert. Du kannst Dich nun <a href="/auth/login">einloggen</a>.</p>
+    <p class="text-success">
+        Erfolgreich als neuer Benutzer registriert. 
+        Eine Bestätigungs-E-Mail mit Deinem Passwort wurde Dir zugesandt.
+        Du kannst Dich nun <a href="/auth/login">einloggen</a>.</p>
 </div>
 {/if}
