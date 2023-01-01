@@ -23,6 +23,8 @@
         const formElement = event.target as HTMLFormElement;
         const response = await send(formElement);
 
+        error = "";
+
         if(response.error) {
             error = response.error;
         }
@@ -58,3 +60,7 @@
 {#if error}
     <p class="text-danger">{error}</p>
 {/if}
+
+<p>
+    Passwort vergessen? Klicke <a href="/auth/pwdreset">hier</a>.
+</p>
