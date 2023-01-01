@@ -1,6 +1,7 @@
 import type { RequestEvent, RequestHandler } from "@sveltejs/kit";
 import PrismaClient from "$lib/prisma";
 import * as bcrypt from "bcrypt";
+import sgMail from "@sendgrid/mail";
 
 const db = new PrismaClient();
 const saltRounds = 10;
@@ -58,18 +59,28 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
             }
         });
 
+        sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
+
+        const msg = {
+            to: email,
+            from: 'j.weber_2003@web.de',
+            subject: 'VerbrauchsVergleich - Registrierungsbestätigung',
+            html: 'Willkommen ' + userName + ', <br> <br> Du hast Dich erfolgreich bei VerbrauchsVergleich registriert. Dein hinterlegtes Passwort ist: <br> <br>' + password + '<br> <br> Viel Spaß auf der Plattform!',
+        }
+
+        await sgMail.send(msg);
+
         return {
             status: 200,
             body: {
-                success: "Erfolgreich registriert."
+                success: "Nutzer erfolgreich registriert."
             }
-        };
-
+        }
     } catch(error) {
         return {
             status: 400,
             body: {
-                error: "Benutzername oder E-Mail-Adresse bereits in der Datenbank vorhanden."
+                error: "Fehler bei der Registrierung. Fehlermeldung: " + error
             }
         };
     }
