@@ -7,7 +7,7 @@ tasks:
       npm run dev
     env:
       DATABASE_URL: postgres://gitpod@localhost/energieverbrauch?connect_timeout=300
-      SENDGRID_API_KEY: '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'
+      SENDGRID_API_KEY: ''
   - command: npx prisma studio
     env:
       DATABASE_URL: postgres://gitpod@localhost/energieverbrauch?connect_timeout=300
