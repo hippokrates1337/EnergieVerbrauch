@@ -6,7 +6,7 @@
     <title>Energieverbrauch vergleichen</title>
 </svelte:head>
 
-<nav class="navbar navbar-expand-lg navbar-dark p-1 bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark p-1 bg-dark fixed-top">
     <span class="navbar-brand"><img src="./VV_Logo.png" style="width: 35%; height: 35%" alt="VerbrauchsVergleich Logo"></span>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navharSupportedContent" aria-expanded="false" aria-label="Navigation ein- oder ausklappen">
         <span class="navbar-toggler-icon"></span>
@@ -47,6 +47,7 @@
     </div>
 </nav>
 
+
 <div class="row mt-3 p-3">
     <div class="col"></div>
     <div class="col-md-12 col-lg-10 col-xl-8">
@@ -54,3 +55,11 @@
     </div>
     <div class="col"></div>
 </div>
+
+<footer class="bg-light fixed-bottom">
+    <div class="container">
+        <a href="/termsofuse">Nutzungsbedingungen</a>
+        <a href="/dataprotection">Datenschutzerklärung</a>
+        <a href="/imprint">Impressum</a>
+    </div>
+</footer>
