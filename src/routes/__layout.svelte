@@ -37,6 +37,9 @@
             {/if}
             {#if $session.user}
             <li class="nav-item">
+                <a class="nav-link" href="/protected/account">Mein Konto</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="/auth/logout">Abmelden</a>
             </li>
             {/if}
