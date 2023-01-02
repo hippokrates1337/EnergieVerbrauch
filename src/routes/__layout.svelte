@@ -56,8 +56,8 @@
     <div class="col"></div>
 </div>
 
-<footer class="bg-light fixed-bottom">
-    <div class="container">
+<footer class="bg-light fixed-bottom ps-3 pe-3">
+    <div class="d-flex justify-content-between">
         <a href="/termsofuse">Nutzungsbedingungen</a>
         <a href="/dataprotection">Datenschutzerklärung</a>
         <a href="/imprint">Impressum</a>

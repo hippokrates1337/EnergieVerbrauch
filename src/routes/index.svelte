@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
     import type { Load } from "@sveltejs/kit";
+    import bootstrapCookieConsentSettings  from "bootstrap-cookie-consent-settings";
 
     export const load: Load = async ({ fetch }) => {
         // Load all observations (to be passed into props)
@@ -16,7 +17,6 @@
             }
         };
     }
-
 </script>
 
 <script lang="ts">
