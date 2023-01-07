@@ -41,6 +41,12 @@
                 value={editMode ? currentValues.children : ""}
                 id="consumerChildren" name="consumerChildren" required aria-label="Anzahl Kinder"/>
             </div>
+            <i class="fa fa-pencil-square-o fa-lg me-3 fa-fw"></i>
+            <div class="form-outline flex-fill mb-0">
+                <input class="form-control" type="number" placeholder="Kinder"
+                value={editMode ? currentValues.children : ""}
+                id="consumerChildren" name="consumerChildren" required aria-label="Anzahl Kinder"/>
+            </div>
         </div>
         <div class="row ps-4 pe-4">
             <button class="btn btn-primary btn-block" type="submit" aria-label="Neuen Verbraucher hinzufügen">
