@@ -9,6 +9,8 @@
             };
         }
 
+        console.log(session.user.cookie_consent_level);
+
         // Load user's observation units (to be passed into props)
         let res = await fetch("/protected/consumers/" + session.user.uid);
         let consumers;

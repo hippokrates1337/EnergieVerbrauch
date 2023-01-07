@@ -1,6 +1,5 @@
 <script context="module" lang="ts">
     import type { Load } from "@sveltejs/kit";
-    import bootstrapCookieConsentSettings  from "bootstrap-cookie-consent-settings";
 
     export const load: Load = async ({ fetch }) => {
         // Load all observations (to be passed into props)
@@ -37,11 +36,17 @@
             uid: "",
             name: "Alle Nutzer",
             user: "",
+            area: 0,
+            adults: 0,
+            children: 0,
             createdAt: new Date(),
             updatedAt: new Date()}, 
             {uid: "",
             name: "Beobachtungen",
             user: "",
+            area: 0,
+            adults: 0,
+            children: 0,
             createdAt: new Date(),
             updatedAt: new Date()}]}
         title="Strom" {explanationText}
@@ -54,11 +59,17 @@
             uid: "",
             name: "Alle Nutzer",
             user: "",
+            area: 0,
+            adults: 0,
+            children: 0,
             createdAt: new Date(),
             updatedAt: new Date()}, 
             {uid: "",
             name: "Beobachtungen",
             user: "",
+            area: 0,
+            adults: 0,
+            children: 0,
             createdAt: new Date(),
             updatedAt: new Date()}]}
         title="Kaltwasser" {explanationText}
@@ -71,11 +82,17 @@
             uid: "",
             name: "Alle Nutzer",
             user: "",
+            area: 0,
+            adults: 0,
+            children: 0,
             createdAt: new Date(),
             updatedAt: new Date()}, 
             {uid: "",
             name: "Beobachtungen",
             user: "",
+            area: 0,
+            adults: 0,
+            children: 0,
             createdAt: new Date(),
             updatedAt: new Date()}]}
         title="Warmwasser" {explanationText}
