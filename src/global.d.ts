@@ -3,7 +3,8 @@ type Send = Promise<{
     success?: string,
     user?: {
         userName: string,
-        uid: string
+        uid: string,
+        cookie_consent_level: any
     },
     data?: any
 }>

@@ -22,7 +22,8 @@ export const handle: Handle = async ({ event, resolve }) => {
     if(session) {
         event.locals.user = {
             uid: session.uid,
-            userName: session.name
+            userName: session.name,
+            cookie_consent_level: cookies.cookie_consent_level
         };
     }
 
@@ -37,7 +38,8 @@ export const getSession: GetSession = ({ locals }) => {
     return {
         user: {
             uid: locals.user.uid,
-            userName: locals.user.userName
+            userName: locals.user.userName,
+            cookie_consent_level: locals.user?.cookie_consent_level
         }
     };
 }

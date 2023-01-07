@@ -5,7 +5,8 @@ declare namespace App {
 	interface Locals {
 		user?: {
 			uid: string,
-			userName: string
+			userName: string,
+			cookie_consent_level: any
 		}
 	}
 	// interface Platform {}
@@ -14,7 +15,8 @@ declare namespace App {
 	interface Session {
 		user?: {
 			uid: string,
-			userName: string
+			userName: string,
+			cookie_consent_level: any
 		}
 	}
 	// interface Stuff {}

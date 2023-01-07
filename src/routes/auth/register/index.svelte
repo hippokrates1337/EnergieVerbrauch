@@ -76,7 +76,8 @@
     <div class="form-check d-flex justify-content-center mb-5">
         <input class="form-check-input me-2" type="checkbox" required value="consent" id="consent" />
         <label class="form-check-label" for="consent">
-            Ich stimme zu, dass alle meine Angaben für Zwecke dieser Webseite genutzt werden können.
+           Mit meiner Registrierung nehme ich die <a href="/termsofuse">Nutzungsbedingungen</a> und <a href="/dataprotection">Datenschutzerklärung</a> zur Kenntnis und
+           stimme ihnen zu.
         </label>
     </div>
 

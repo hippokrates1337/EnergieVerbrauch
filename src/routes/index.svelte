@@ -16,7 +16,6 @@
             }
         };
     }
-
 </script>
 
 <script lang="ts">
@@ -37,11 +36,17 @@
             uid: "",
             name: "Alle Nutzer",
             user: "",
+            area: 0,
+            adults: 0,
+            children: 0,
             createdAt: new Date(),
             updatedAt: new Date()}, 
             {uid: "",
             name: "Beobachtungen",
             user: "",
+            area: 0,
+            adults: 0,
+            children: 0,
             createdAt: new Date(),
             updatedAt: new Date()}]}
         title="Strom" {explanationText}
@@ -54,11 +59,17 @@
             uid: "",
             name: "Alle Nutzer",
             user: "",
+            area: 0,
+            adults: 0,
+            children: 0,
             createdAt: new Date(),
             updatedAt: new Date()}, 
             {uid: "",
             name: "Beobachtungen",
             user: "",
+            area: 0,
+            adults: 0,
+            children: 0,
             createdAt: new Date(),
             updatedAt: new Date()}]}
         title="Kaltwasser" {explanationText}
@@ -71,11 +82,17 @@
             uid: "",
             name: "Alle Nutzer",
             user: "",
+            area: 0,
+            adults: 0,
+            children: 0,
             createdAt: new Date(),
             updatedAt: new Date()}, 
             {uid: "",
             name: "Beobachtungen",
             user: "",
+            area: 0,
+            adults: 0,
+            children: 0,
             createdAt: new Date(),
             updatedAt: new Date()}]}
         title="Warmwasser" {explanationText}
