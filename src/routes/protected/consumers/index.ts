@@ -6,15 +6,17 @@ const db = new PrismaClient();
 export const POST: RequestHandler = async (event: RequestEvent) => {
     const data = await event.request.formData();
     const consumerName = data.get("consumerName");
+    const consumerType = data.get("consumerType");
     const consumerArea = parseFloat(data.get("consumerArea") as string);
     const consumerAdults = parseInt(data.get("consumerAdults") as string);
     const consumerChildren = parseInt(data.get("consumerChildren") as string);
 
-    if(typeof consumerName !== "string") {
+    if(typeof consumerName !== "string" || typeof consumerType !== "string") {
+        console.log(consumerType);
         return {
             status: 400,
             body: {
-                error: "Verbrauchername muss als Text angegeben werden."
+                error: "Verbrauchername und -typ müssen als Text angegeben werden."
             }
         }
     }
@@ -34,6 +36,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
             data: {
                 user: event.locals.user?.uid as string,
                 name: consumerName as string,
+                type: consumerType as string,
                 area: consumerArea as number,
                 adults: consumerAdults as number,
                 children: consumerChildren as number

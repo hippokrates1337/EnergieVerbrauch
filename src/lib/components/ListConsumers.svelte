@@ -50,6 +50,15 @@
                         <b>Hinzugefügt am:</b> {new Date(consumer.createdAt).toDateString()}<br>
                         <b>Hinterlegte Verbrauchswerte:</b> {readings.filter(e => e.consumer == consumer.uid).length} <br>
                         <b>Wohnfläche:</b> {consumer.area} <br>
+                        <b>Art: </b> {
+                            consumer.type == "house" ? "Freistehendes Haus" :
+                            consumer.type == "townhouse" ? "Reihenhaus" : 
+                            consumer.type == "semidetached" ? "Doppelhaushälfte" :
+                            consumer.type == "appartment" ? "Wohnung" :
+                            consumer.type == "holidayhome" ? "Ferienhaus" : 
+                            consumer.type == "holidayflat" ? "Ferienwohnung" :
+                            consumer.type == "other" ? "Andere" : ""
+                        }<br>
                         <b>Anzahl Erwachsener:</b> {consumer.adults} <br>
                         <b>Anzahl Kinder:</b> {consumer.children} <br>
                     </div>

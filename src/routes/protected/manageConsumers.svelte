@@ -63,6 +63,7 @@
                 body: JSON.stringify({
                     newName: form.elements["consumerName"].value,
                     newArea: form.elements["consumerArea"].value,
+                    newType: form.elements["consumerType"].value,
                     newAdults: form.elements["consumerAdults"].value,
                     newChildren: form.elements["consumerChildren"].value
                     })
