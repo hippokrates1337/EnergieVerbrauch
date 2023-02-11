@@ -30,11 +30,12 @@ export const GET: RequestHandler = async (event: RequestEvent) => {
 export const PATCH: RequestHandler = async (event: RequestEvent) => {
     const data = await event.request.json();
     let newName = data.newName;
+    let newType = data.newType;
     let newArea = parseFloat(data.newArea);
     let newAdults = parseInt(data.newAdults);
     let newChildren = parseInt(data.newChildren);
 
-    if(typeof newName !== "string" || !newArea || !newAdults || !newChildren) {
+    if(typeof newName !== "string" || typeof newType !== "string" || !newArea || !newAdults || !newChildren) {
         return {
             status: 400,
             body: {
@@ -51,6 +52,7 @@ export const PATCH: RequestHandler = async (event: RequestEvent) => {
             },
             data: {
                 name: newName,
+                type: newType,
                 area: newArea,
                 adults: newAdults,
                 children: newChildren

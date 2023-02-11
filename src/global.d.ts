@@ -26,6 +26,7 @@ type Consumer = {
     area: number,
     adults: number,
     children: number,
+    type: string,
     createdAt: Date,
     updatedAt: Date
 }

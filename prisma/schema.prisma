@@ -26,6 +26,7 @@ model Consumer {
     area Float
     adults Int
     children Int
+    type String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }

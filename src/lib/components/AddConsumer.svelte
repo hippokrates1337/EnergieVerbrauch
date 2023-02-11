@@ -16,16 +16,30 @@
     <form on:submit|preventDefault={addOrUpdateConsumer} action="/protected/consumers" method="post" autocomplete="off">
         <div class="d-flex flex-row align-items-center mb-4">
             <i class="fa fa-home fa-lg me-3 fa-fw"></i>
-            <div class="form-outline flex-fill mb-0">
+            <div class="form-outline flex-fill mb-0 me-2">
                 <input class="form-control" type="text" placeholder="Name des Verbrauchers"
                 value={editMode ? currentValues.name : ""}
                 id="consumerName" name="consumerName" required aria-label="Name des Verbrauchers"/>
             </div>
             <i class="fa fa-square-o fa-lg me-3 fa-fw"></i>
-            <div class="form-outline flex-fill mb-0">
+            <div class="form-outline flex-fill mb-0 me-2">
                 <input class="form-control" type="number" placeholder ="Fläche (m2)"
                 value={editMode ? currentValues.area : ""}
                 id="consumerArea" name="consumerArea" required aria-label="Fläche des Verbrauchers"/>
+            </div>
+            <i class="fa fa-cubes fa-lg me-3 fa-fw"></i>
+            <div class="form-outline flex-fill mb-0">
+                <select class="form-select"
+                    value={editMode ? currentValues.type : ""}
+                    name="consumerType" id="consumerType" aria-label="Art des Verbrauchers" required>
+                    <option value="house">Freistehendes Haus</option>
+                    <option value="townhouse">Reihenhaus</option>
+                    <option value="semidetached">Doppelhaushälfte</option>
+                    <option value="appartment">Wohnung</option>
+                    <option value="holidayhome">Ferienhaus</option>
+                    <option value="holidayflat">Ferienwohnung</option>
+                    <option value="other">Andere</option>
+                </select>
             </div>
         </div>
         <div class="d-flex flex-row align-items-center mb-4">
