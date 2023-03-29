@@ -1,21 +1,17 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
+    import { Confirm } from "svelte-confirm";
     const dispatch = createEventDispatcher();
 
     export let consumers: Consumer[];
     export let readings: Reading[];
-    let newConsumerName: string;
 
     const toggleEdit = (uid: string) => {
         dispatch("editConsumer", {uid: uid});
     }
 
-    const changeConsumerName = (uid: string, newName: string) => {
-        dispatch("changeName", {
-            uid: uid,
-            newName: newName
-        });
-        newConsumerName = "";
+    const deleteConsumer = (uid: string) => {
+        dispatch("deleteConsumer", {uid: uid});
     }
 </script>
 
@@ -28,8 +24,20 @@
                     id="list{i}Link" data-bs-toggle="list" href="#list{i}" role="tab" aria-controls="list{i}">
                     {consumer.name}
                     <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => toggleEdit(consumer.uid)}>
-                        <i class="fa fa-pencil" />
+                        <i class="fa fa-pencil" style="color:yellow"/>
                     </button>
+                    <Confirm confirmTitle="Löschen" cancelTitle="Abbrechen" let:confirm="{confirmThis}">
+                        <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => confirmThis(deleteConsumer, consumer.uid)}>
+                            <i class="fa fa-trash" style="color:red" />
+                        </button>
+                        <span slot="title">
+                            Den Verbraucher wirklich löschen?
+                        </span>
+                        <span slot="description">
+                            Dieser Schritt löscht alle mit diesem Verbraucher verbundenen 
+                            Verbrauchswerte und kann nicht rückgängig gemacht werden.
+                        </span>
+                    </Confirm>
                     </a>
                 {/each}
             </div>
@@ -39,13 +47,6 @@
                 {#each consumers as consumer, i}
                     <div class="tab-pane fade {i == 0 ? 'active show' : ''} border-0" id="list{i}" role="tabpanel" aria-labelledby="list{i}">
                         <b>Name:</b> {consumer.name}
-                        
-                        <!--
-                        {#if showEdit}
-                            <input type="text" bind:value={newConsumerName}/>
-                            <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => changeConsumerName(consumer.uid, newConsumerName)}><i class="fa fa-floppy-o"></i></button>
-                        {/if}
-                        -->
                         <br>
                         <b>Hinzugefügt am:</b> {new Date(consumer.createdAt).toDateString()}<br>
                         <b>Hinterlegte Verbrauchswerte:</b> {readings.filter(e => e.consumer == consumer.uid).length} <br>
