@@ -11,8 +11,7 @@
     }
 
     const deleteConsumer = (uid: string) => {
-        console.log("Deleting now...")
-        // TO DO: Implement
+        dispatch("deleteConsumer", {uid: uid});
     }
 </script>
 

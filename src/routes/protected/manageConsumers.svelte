@@ -88,6 +88,18 @@
         editMode = !editMode;
         currentValues = consumers.filter(c => c.uid == reference.uid)[0];
     }
+
+    const deleteConsumer = async (reference: {uid: string}) => {
+        let response = await fetch("/protected/consumers/" + reference.uid, {
+                method: "DELETE"
+                });
+
+        if(!response.ok) {
+            console.log((await response.json()).error);
+        }
+
+        consumers = consumers.filter(c => c.uid != reference.uid);
+    }
 </script>
 
 
@@ -102,7 +114,7 @@
     Klicke hierzu auf den Stift neben dem Namen des Verbrauchers und gib unten die neuen Werte ein.
 </p>
 
-<ListConsumers {consumers} {readings} on:editConsumer={e => editConsumer(e.detail)}/>
+<ListConsumers {consumers} {readings} on:editConsumer={e => editConsumer(e.detail)} on:deleteConsumer={e => deleteConsumer(e.detail)}/>
 <hr style="border-top: 3px double #8c8b8b">
 <AddConsumer {editMode} {currentValues} on:addOrUpdate={e => addOrUpdateConsumer(e.detail)} {addConsumerError}/>
 

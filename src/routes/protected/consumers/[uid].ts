@@ -75,3 +75,33 @@ export const PATCH: RequestHandler = async (event: RequestEvent) => {
         }
     }
 }
+
+export const DELETE: RequestHandler = async (event: RequestEvent) => {
+    try {
+        await db.consumer.deleteMany({
+            where: {
+                uid: event.params.uid
+            }
+        });
+
+        await db.reading.deleteMany({
+            where: {
+                consumer: event.params.uid
+            }
+        });
+    } catch(error) {
+        return {
+            status: 500,
+            body: {
+                error: "Konnte Verbraucher nicht aus der Datenbank entfernen."
+            }
+        }
+    }
+    
+    return {
+        status: 200,
+        body: {
+            success: "Verbraucher erfolgreich gelöscht."
+        }
+    }
+}
