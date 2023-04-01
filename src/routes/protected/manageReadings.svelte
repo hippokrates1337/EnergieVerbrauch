@@ -2,7 +2,7 @@
     import type { Load } from "@sveltejs/kit";
 
     export const load: Load = async ({ session, fetch }) => {
-        if(!session.user) {
+        if(!session.user?.uid || session.user.cookie_consent_level["strictly-necessary"] == undefined || session.user.cookie_consent_level["strictly-necessary"] == false) {
             return {
                 status: 302,
                 redirect: "/auth/login"
