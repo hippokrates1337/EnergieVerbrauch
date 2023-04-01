@@ -2,7 +2,7 @@
     import type { Load } from "@sveltejs/kit";
 
     export const load: Load = ({ session, props }) => {
-        if(session.user) {
+        if(session.user?.uid != "") {
             return {
                 status: 302,
                 redirect: "/"
