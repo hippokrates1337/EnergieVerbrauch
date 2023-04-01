@@ -31,6 +31,8 @@
     $: chartData = generateDailyData(readings, "population");
 </script>
 
+{JSON.stringify(cookieConsent)}
+
 {#if cookieConsent["strictly-necessary"] == undefined || cookieConsent["strictly-necessary"] == false}
     <div class="error">
         Um diese Seite zu nutzen, müssen Sie mindestens der Verwendung funktional notwendiger Cookies zustimmen.
