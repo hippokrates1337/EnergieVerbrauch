@@ -13,7 +13,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         event.locals.user = {
             uid: "",
             userName: "",
-            cookie_consent_level: JSON.parse(cookies.cookie_consent_level)
+            cookie_consent_level: cookies.cookie_consent_level ? JSON.parse(cookies.cookie_consent_level) : ""
         }
 
         return await resolve(event);
