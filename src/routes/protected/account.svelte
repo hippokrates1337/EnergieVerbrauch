@@ -43,8 +43,10 @@
     export let consumers: Consumer[];
     export let readings: Reading[];
 
-    const deleteUser = (uid: string) => {
-        //TO DO: Implement
+    const deleteUser = async (uid: string) => {
+        let response = await fetch("/auth/delete/" + userID, {
+            method: "DELETE"
+        });
     }
 </script>
 
