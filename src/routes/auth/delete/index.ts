@@ -52,29 +52,44 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         };
     }
 
-    return {
-        status: 200,
-        body: {
-            user: {userName},
-            success: "Erfolgreich eingeloggt."
-        },
-        headers: {
-            "Set-Cookie": cookie.serialize(
-                "session",
-                user.userAuthToken,
-                {
-                    // Send cookie for every page
-                    path: "/",
-                    // Server-side only cookie
-                    httpOnly: true,
-                    // Only requests from same site can send cookies
-                    sameSite: "strict",
-                    // Only send over https
-                    secure: process.env.NODE_ENV === "production",
-                    // Set cookie to expire after a month
-                    maxAge: 60 * 60 * 24 * 30
-                }
-            ) 
+    // Delete the account and all associated data
+    try {
+        db.consumer.deleteMany({
+            where: {
+                user: user.uid
+            }
+        });
+
+        db.reading.deleteMany({
+            where: {
+                user: user.uid
+            }
+        });
+
+        db.user.deleteMany({
+            where: {
+                uid: user.uid
+            }
+        });
+    } catch(error) {
+        return {
+            status: 500,
+            body: {
+                error: "Konnte Benutzerkonto und hinterlegte Daten nicht aus der Datenbank entfernen."
+            }
         }
-    };
+    }
+
+    // Return the user logged out to the start page
+    return {
+        status: 303,
+        headers: {
+            "Set-Cookie": cookie.serialize("session", "", {
+                path: "/",
+                // Set the earliest possible date (0 in system time) to have cookie expire immediately
+                expires: new Date(0)
+            }),
+            location: "/"
+        }
+    };  
 }

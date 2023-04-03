@@ -1,6 +1,5 @@
 <script lang="ts">
     import { session } from "$app/stores";
-
 </script>
 <svelte:head>
     <title>Energieverbrauch vergleichen</title>
@@ -27,7 +26,7 @@
             </li>
         </ul>
         <ul class="navbar-nav ms-auto">
-            {#if session.user?.uid == ""}
+            {#if $session.user?.uid == undefined || $session.user?.uid == ""}
             <li class="nav-item">
                 <a class="nav-link" href="/auth/register">Registrieren</a>
             </li>
@@ -35,7 +34,7 @@
                 <a class="nav-link" href="/auth/login">Anmelden</a>
             </li>
             {/if}
-            {#if session.user?.uid != ""}
+            {#if $session.user?.uid != undefined && $session.user?.uid != ""}
             <li class="nav-item">
                 <a class="nav-link" href="/protected/account">Mein Konto</a>
             </li>

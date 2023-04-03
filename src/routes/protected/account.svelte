@@ -2,7 +2,7 @@
     import type { Load } from "@sveltejs/kit";
 
     export const load: Load = async ({ session, fetch }) => {
-        if(session.user.uid == "" || session.user?.cookie_consent_level["strictly-necessary"] == undefined || session.user?.cookie_consent_level["strictly-necessary"] == false) {
+        if(session.user?.uid == "" || session.user?.cookie_consent_level["strictly-necessary"] == undefined || session.user?.cookie_consent_level["strictly-necessary"] == false) {
             return {
                 status: 302,
                 redirect: "/auth/login"
@@ -36,18 +36,10 @@
 </script>
 
 <script lang="ts">
-    import { Confirm } from "svelte-confirm";
-
     export let userName: string;
     export let userID: string;
     export let consumers: Consumer[];
     export let readings: Reading[];
-
-    const deleteUser = async (uid: string) => {
-        let response = await fetch("/auth/delete/" + userID, {
-            method: "DELETE"
-        });
-    }
 </script>
 
 <section class="vh-100">
@@ -62,20 +54,8 @@
                             Hinterlegte Zählerstände: {readings.length}<br>
                         </div>
                         <div class="row mt-3">
-                            <a href="/auth/pwdchange">Passwort ändern</a>
-                        </div>
-                        <div class="row mt-3">
-                            <Confirm confirmTitle="Löschen" cancelTitle="Abbrechen" let:confirm="{confirmThis}">
-                                <button type="button" class="btn btn-danger" on:click={() => confirmThis(deleteUser, userID)}>
-                                    Account löschen
-                                </button>
-                                <span slot="title">
-                                    Den Account wirklich unwiderruflich löschen?
-                                </span>
-                                <span slot="description">
-                                    Dieser Schritt löscht alle Deine Daten und kann nicht rückgängig gemacht werden.
-                                </span>
-                            </Confirm>
+                            <a href="/auth/pwdchange" class="link-primary">Passwort ändern</a>
+                            <a href="/auth/delete" class="link-danger">Benutzerkonto löschen</a>
                         </div>
                     </div>
                 </div>
