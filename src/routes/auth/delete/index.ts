@@ -54,19 +54,19 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
 
     // Delete the account and all associated data
     try {
-        db.consumer.deleteMany({
+        await db.consumer.deleteMany({
             where: {
                 user: user.uid
             }
         });
 
-        db.reading.deleteMany({
+        await db.reading.deleteMany({
             where: {
                 user: user.uid
             }
         });
 
-        db.user.deleteMany({
+        await db.user.deleteMany({
             where: {
                 uid: user.uid
             }
