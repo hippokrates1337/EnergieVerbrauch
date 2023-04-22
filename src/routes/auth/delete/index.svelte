@@ -14,21 +14,31 @@
 </script>
 
 <script lang="ts">
-    import { send } from "$lib/api";
-    
-    export let error: string;
+    import { goto } from "$app/navigation";
+	import { session } from "$app/stores";
+
+    export let error: string = "";
 
     const deleteUser = async (event: SubmitEvent) => {
         const formElement = event.target as HTMLFormElement;
-        const response = await send(formElement);
+        let response = await fetch("/auth/delete", {
+            method: "DELETE",
+            body: JSON.stringify({
+                userName: formElement.elements["userName"].value,
+                password: formElement.elements["password"].value
+            })
+        });
 
         error = "";
 
-        if(response.error) {
-            error = response.error;
+        if(!response.ok) {
+            error = (await response.json()).error;
+            formElement.reset();
+        } else {
+            $session.user.uid = "";
+            $session.user.userName = "";
+            goto("/");
         }
-
-        formElement.reset();
     }
 </script>
 

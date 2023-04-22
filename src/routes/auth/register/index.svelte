@@ -17,8 +17,8 @@
 <script lang="ts">
     import { send } from "$lib/api";
 
-    export let error: string;
-    export let success: string;
+    export let error: string = "";
+    export let success: string = "";
 
     const register = async (event: SubmitEvent) => {
         error = "";

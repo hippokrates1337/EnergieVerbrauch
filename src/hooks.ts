@@ -13,7 +13,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         event.locals.user = {
             uid: "",
             userName: "",
-            cookie_consent_level: cookies.cookie_consent_level ? JSON.parse(cookies.cookie_consent_level) : ""
+            cookie_consent_level: cookies.cookie_consent_level ? JSON.parse(cookies.cookie_consent_level) : []
         }
 
         return await resolve(event);
@@ -29,13 +29,13 @@ export const handle: Handle = async ({ event, resolve }) => {
         event.locals.user = {
             uid: session.uid,
             userName: session.name,
-            cookie_consent_level: JSON.parse(cookies.cookie_consent_level)
+            cookie_consent_level: cookies.cookie_consent_level ? JSON.parse(cookies.cookie_consent_level) : []
         };
     } else {
         event.locals.user = {
             uid: "",
             userName: "",
-            cookie_consent_level: JSON.parse(cookies.cookie_consent_level)
+            cookie_consent_level: cookies.cookie_consent_level ? JSON.parse(cookies.cookie_consent_level) : []
         }
     }
 
@@ -51,7 +51,7 @@ export const getSession: GetSession = ({ locals }) => {
         user: {
             uid: locals.user.uid,
             userName: locals.user.userName,
-            cookie_consent_level: locals.user?.cookie_consent_level
+            cookie_consent_level: locals.user.cookie_consent_level
         }
     };
 }

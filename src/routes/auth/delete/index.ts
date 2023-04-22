@@ -5,10 +5,10 @@ import PrismaClient from "$lib/prisma";
 
 const db = new PrismaClient();
 
-export const POST: RequestHandler = async (event: RequestEvent) => {
-    const data = await event.request.formData();
-    const userName = data.get("userName");
-    const password = data.get("password");
+export const DELETE: RequestHandler = async (event: RequestEvent) => {
+    const data = await event.request.json();
+    const userName = data.userName;
+    const password = data.password;
 
     if(typeof userName !== "string" || typeof password !== "string") {
         return {
@@ -80,7 +80,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         }
     }
 
-    // Return the user logged out to the start page
+    // Log the user out
     return {
         status: 303,
         headers: {

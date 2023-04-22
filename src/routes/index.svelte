@@ -12,7 +12,7 @@
         return {
             status: 200,
             props: {
-                cookieConsent: session.user?.cookie_consent_level,
+                cookieConsent: session.user?.cookie_consent_level, 
                 readings: readings.data
             }
         };
@@ -23,7 +23,7 @@
     import { generateDailyData } from "$lib/api";
     import ConsumptionLineChart from "$lib/components/ConsumptionLineChart.svelte";
 
-    export let cookieConsent;
+    export let cookieConsent: CookieConsent;
     export let readings: Reading[];
     export let width: number;
     let explanationText: string = "Dieser Graph zeigt den täglichen Ressourcenverbrauch aller Nutzer dieser Webseite an. Die Linie 'alle Nutzer' zeigt die täglichen Verbrauchswerte und bezieht sich auf die linke Achse. Die Linie 'Beobachtungen' zeigt, auf wie vielen Werten (also von Nutzern eingegebenen Verbräuchen) der Durchschnitt basiert und bezieht sich auf die rechte Achse.";
@@ -31,7 +31,7 @@
     $: chartData = generateDailyData(readings, "population");
 </script>
 
-{#if cookieConsent["strictly-necessary"] == false}
+{#if cookieConsent == undefined || cookieConsent["strictly-necessary"] == false}
     <div class="error">
         Um diese Seite zu nutzen, müssen Sie mindestens der Verwendung funktional notwendiger Cookies zustimmen.
     </div>

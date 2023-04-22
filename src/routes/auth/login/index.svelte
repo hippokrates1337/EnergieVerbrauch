@@ -17,7 +17,7 @@
     import { session } from "$app/stores";
     import { send } from "$lib/api";
     
-    export let error: string;
+    export let error: string = "";
 
     const login = async (event: SubmitEvent) => {
         const formElement = event.target as HTMLFormElement;
@@ -29,7 +29,8 @@
             error = response.error;
         }
 
-        $session.user = response.user;
+        $session.user.uid = response.user?.uid;
+        $session.user.userName = response.user?.userName;
 
         formElement.reset();
     }

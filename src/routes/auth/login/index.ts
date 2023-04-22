@@ -55,7 +55,10 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
     return {
         status: 200,
         body: {
-            user: {userName},
+            user: {
+                uid: user.uid,
+                userName: user.name
+            },
             success: "Erfolgreich eingeloggt."
         },
         headers: {
@@ -74,7 +77,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
                     // Set cookie to expire after a month
                     maxAge: 60 * 60 * 24 * 30
                 }
-            ) 
+            )
         }
     };
 }
