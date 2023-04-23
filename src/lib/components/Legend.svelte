@@ -19,7 +19,6 @@
         style="font-size: 0.75em">
         {entry}
     </text>
-    {console.log(height)}
 {/each}
 
 {#if showBenchmark}

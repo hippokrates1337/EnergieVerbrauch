@@ -56,3 +56,10 @@ type ValueSet = {
     observations: number[],
     readingsDates: Date[]
 };
+
+type CookieConsent = {
+    "functionality": boolean,
+    "strictly-necessary": boolean,
+    "targeting": true,
+    "tracking": true
+};

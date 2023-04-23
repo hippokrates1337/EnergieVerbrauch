@@ -2,7 +2,7 @@
     import type { Load } from "@sveltejs/kit";
 
     export const load: Load = async ({ session, fetch }) => {
-        if(!session.user.uid || session.user.cookie_consent_level["strictly-necessary"] == undefined || session.user.cookie_consent_level["strictly-necessary"] == false) {
+        if(session.user?.uid == "" || session.user?.cookie_consent_level["strictly-necessary"] == undefined || session.user?.cookie_consent_level["strictly-necessary"] == false) {
             return {
                 status: 302,
                 redirect: "/auth/login"
@@ -27,6 +27,7 @@
             status: 200,
             props: {
                 userName: session.user.userName,
+                userID: session.user.uid,
                 consumers: consumers.data,
                 readings: readings.data
             }
@@ -36,6 +37,7 @@
 
 <script lang="ts">
     export let userName: string;
+    export let userID: string;
     export let consumers: Consumer[];
     export let readings: Reading[];
 </script>
@@ -52,7 +54,8 @@
                             Hinterlegte Zählerstände: {readings.length}<br>
                         </div>
                         <div class="row mt-3">
-                            <a href="/auth/pwdchange">Passwort ändern</a>
+                            <a href="/auth/pwdchange" class="link-primary">Passwort ändern</a>
+                            <a href="/auth/delete" class="link-danger">Benutzerkonto löschen</a>
                         </div>
                     </div>
                 </div>

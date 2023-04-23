@@ -95,7 +95,7 @@ export const DELETE: RequestHandler = async (event: RequestEvent) => {
             body: {
                 error: "Konnte Verbraucher nicht aus der Datenbank entfernen."
             }
-        }
+        };
     }
     
     return {
