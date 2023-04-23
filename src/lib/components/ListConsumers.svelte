@@ -1,6 +1,5 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
-    import { Confirm } from "svelte-confirm";
     const dispatch = createEventDispatcher();
 
     export let consumers: Consumer[];
@@ -26,18 +25,9 @@
                     <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => toggleEdit(consumer.uid)}>
                         <i class="fa fa-pencil" style="color:yellow"/>
                     </button>
-                    <Confirm confirmTitle="Löschen" cancelTitle="Abbrechen" let:confirm="{confirmThis}">
-                        <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => confirmThis(deleteConsumer, consumer.uid)}>
-                            <i class="fa fa-trash" style="color:red" />
-                        </button>
-                        <span slot="title">
-                            Den Verbraucher wirklich löschen?
-                        </span>
-                        <span slot="description">
-                            Dieser Schritt löscht alle mit diesem Verbraucher verbundenen 
-                            Verbrauchswerte und kann nicht rückgängig gemacht werden.
-                        </span>
-                    </Confirm>
+                    <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => deleteConsumer(consumer.uid)}>
+                        <i class="fa fa-trash" style="color:red" />
+                    </button>
                     </a>
                 {/each}
             </div>

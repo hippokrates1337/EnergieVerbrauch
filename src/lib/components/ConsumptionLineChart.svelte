@@ -20,6 +20,13 @@
         let minValue = 0;
         let minObs = 0;
 
+        if(data.length == 0) {
+            return {
+                minValue: 0,
+                minObs: 0
+            };
+        }
+
         for(const consumer of data) {
             let temp = Math.min(...consumer.values);
             if(temp < minValue) minValue = temp;
@@ -47,6 +54,13 @@
         let maxValue = 0;
         let maxObs = 0;
 
+        if(data.length == 0) {
+            return {
+                maxValue: 0,
+                maxObs: 0
+            };
+        }
+
         for(const consumer of data) {
             let temp = Math.max(...consumer.values);
             if(temp > maxValue) maxValue = temp;
@@ -71,10 +85,11 @@
     }
 
     // Determine axis parameters
-    $: minValue = (getMinValue(chartData.data.filter(d => d.type == type))).minValue;
-    $: maxValue = (getMaxValue(chartData.data.filter(d => d.type == type))).maxValue;
-    $: minObs = (getMinValue(chartData.data.filter(d => d.type == type))).minObs;
-    $: maxObs = (getMaxValue(chartData.data.filter(d => d.type == type))).maxObs;
+    $: minValue = (getMinValue(chartData.data ? chartData.data.filter(d => d.type == type) : [])).minValue;
+    $: maxValue = (getMaxValue(chartData.data ? chartData.data.filter(d => d.type == type) : [])).maxValue;
+    $: minObs = (getMinValue(chartData.data ? chartData.data.filter(d => d.type == type) : [])).minObs;
+    $: maxObs = (getMaxValue(chartData.data ? chartData.data.filter(d => d.type == type) : [])).maxObs;
+    
 
     // Define SVG dimensions
     $: width = parentWidth;
@@ -86,23 +101,23 @@
     const yAxisMargin = 0.2;
 
     // Set up axes
-    $: xScale = d3.scaleTime().domain([new Date(Math.min(chartData.startDate.valueOf(), 
+    $: xScale = d3.scaleTime().domain([new Date(Math.min(chartData.startDate ? chartData.startDate.valueOf()  : (new Date()).valueOf(), 
                 benchmarkData ? benchmarkData.startDate.valueOf() : (new Date()).valueOf())), 
-                new Date(Math.max(chartData.endDate.valueOf(), 
+                new Date(Math.max(chartData.endDate ? chartData.endDate.valueOf() : (new Date()).valueOf(), 
                 benchmarkData ? benchmarkData.endDate.valueOf() : (new Date()).valueOf()))])
                 .range([0, innerWidth]).nice(d3.timeDay);
     $: yScale = d3.scaleLinear().domain([minValue * (1 - yAxisMargin), maxValue * (1 + yAxisMargin)]).range([innerHeight, 0]).nice();
     $: yScaleRight = d3.scaleLinear().domain([minObs * (1 - yAxisMargin), maxObs * (1 + yAxisMargin)]).range([innerHeight, 0]).nice();
-    $: colorScale = d3.scaleSequential().domain([0, chartData.data.filter(d => d.type == type).length]).interpolator(d3.interpolateRgb('blue', 'green'));
+    $: colorScale = d3.scaleSequential().domain([0, chartData.data ? chartData.data.filter(d => d.type == type).length : 0]).interpolator(d3.interpolateRgb('blue', 'green'));
     
     // Filter the chart data set on the type of consumption to be shown in the chart and keep only date and
     // consumption values; the filter at the end avoids ending up with an array that has several "undefined"
     // child-arrays in it for the types of consumption not shown in the chart
-    $: lineData = chartData.data.map((dataset) => {
+    $: lineData = chartData.data ? chartData.data.map((dataset) => {
             if(dataset.type == type) {
                 return dataset.values.map((d, i) => [new Date(chartData.startDate.getTime() + i * 24 * 60 * 60 * 1000), d]);
             }
-        }).filter((d) => d);
+        }).filter((d) => d) : [];
 
     $: benchmarkLineData = benchmarkData ? benchmarkData.data.map((dataset) => {
             if(dataset.type == type) {
@@ -116,11 +131,11 @@
                 .curve(d3.curveBasis);
 
     // Set up data line for observations
-    $: obsLineDate = chartData.data.map((dataset) => {
+    $: obsLineDate = chartData.data ? chartData.data.map((dataset) => {
             if(dataset.type == type) {
                 return dataset.observations.map((d, i) => [new Date(chartData.startDate.getTime() + i * 24 * 60 * 60 * 1000), d]);
             }
-        }).filter((d) => d);
+        }).filter((d) => d) : [];
 
     let obsLineFunc = d3.line()
                 .x((d) => xScale(d[0]))
@@ -128,11 +143,11 @@
                 .curve(d3.curveBasis);
 
     // Generate a list of dates on which meter readings where entered so these can be marked in the graph
-    $: readingsDates = chartData.data.map((dataset) => {
+    $: readingsDates = chartData.data ? chartData.data.map((dataset) => {
             if(dataset.type == type) {
                 return dataset.readingsDates;
             }
-        }).filter((d) => d);
+        }).filter((d) => d) : [];
 </script>
 
 {#if chartData && lineData.length > 0 && width}
