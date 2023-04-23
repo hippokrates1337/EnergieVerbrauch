@@ -1,4 +1,3 @@
-
 <script lang="ts">
     export let innerHeight: number, innerWidth: number;
     export let tickSize: number;

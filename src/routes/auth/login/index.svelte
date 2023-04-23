@@ -27,12 +27,11 @@
 
         if(response.error) {
             error = response.error;
+            formElement.reset();
+        } else {
+            $session.user.uid = response.user?.uid;
+            $session.user.userName = response.user?.userName;
         }
-
-        $session.user.uid = response.user?.uid;
-        $session.user.userName = response.user?.userName;
-
-        formElement.reset();
     }
 </script>
 
