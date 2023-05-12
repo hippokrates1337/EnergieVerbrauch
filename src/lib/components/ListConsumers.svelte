@@ -52,6 +52,7 @@
                         }<br>
                         <b>Anzahl Erwachsener:</b> {consumer.adults} <br>
                         <b>Anzahl Kinder:</b> {consumer.children} <br>
+                        <b>Wasserzähler: </b> {consumer.coldWaterOnly ? "Nur Kaltwasserzähler" : "Kalt- und Warmwasserzähler"}
                     </div>
                 {/each}
             </div>  

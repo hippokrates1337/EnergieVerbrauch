@@ -27,6 +27,7 @@ model Consumer {
     adults Int
     children Int
     type String
+    coldWaterOnly Boolean?
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }

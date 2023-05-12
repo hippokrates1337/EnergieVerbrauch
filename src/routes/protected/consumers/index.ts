@@ -10,6 +10,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
     const consumerArea = parseFloat(data.get("consumerArea") as string);
     const consumerAdults = parseInt(data.get("consumerAdults") as string);
     const consumerChildren = parseInt(data.get("consumerChildren") as string);
+    const coldWaterOnly = data.get("coldWaterOnly") == "true" ? true : false;
 
     if(typeof consumerName !== "string" || typeof consumerType !== "string") {
         console.log(consumerType);
@@ -39,7 +40,8 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
                 type: consumerType as string,
                 area: consumerArea as number,
                 adults: consumerAdults as number,
-                children: consumerChildren as number
+                children: consumerChildren as number,
+                coldWaterOnly: coldWaterOnly as boolean
             }
         });
     } catch (error) {

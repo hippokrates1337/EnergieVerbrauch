@@ -65,7 +65,8 @@
                     newArea: form.elements["consumerArea"].value,
                     newType: form.elements["consumerType"].value,
                     newAdults: form.elements["consumerAdults"].value,
-                    newChildren: form.elements["consumerChildren"].value
+                    newChildren: form.elements["consumerChildren"].value,
+                    newColdWaterOnly: form.elements["coldWaterOnly"].value
                     })
                 });
 
