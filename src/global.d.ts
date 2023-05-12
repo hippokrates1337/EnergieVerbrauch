@@ -27,6 +27,7 @@ type Consumer = {
     adults: number,
     children: number,
     type: string,
+    coldWaterOnly: boolean,
     createdAt: Date,
     updatedAt: Date
 }

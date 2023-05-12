@@ -34,6 +34,7 @@ export const PATCH: RequestHandler = async (event: RequestEvent) => {
     let newArea = parseFloat(data.newArea);
     let newAdults = parseInt(data.newAdults);
     let newChildren = parseInt(data.newChildren);
+    let newColdWaterOnly = data.newColdWaterOnly == "true" ? true : false;
 
     if(typeof newName !== "string" || typeof newType !== "string" || !newArea || !newAdults || !newChildren) {
         return {
@@ -55,7 +56,8 @@ export const PATCH: RequestHandler = async (event: RequestEvent) => {
                 type: newType,
                 area: newArea,
                 adults: newAdults,
-                children: newChildren
+                children: newChildren,
+                coldWaterOnly: newColdWaterOnly
             }
         });
     } catch(error) {

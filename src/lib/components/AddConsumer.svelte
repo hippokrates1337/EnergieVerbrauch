@@ -55,6 +55,15 @@
                 value={editMode ? currentValues.children : ""}
                 id="consumerChildren" name="consumerChildren" required aria-label="Anzahl Kinder"/>
             </div>
+            <i class="fa fa-thermometer-quarter fa-lg me-3 fa-fw"></i>
+            <div class="form-outline mb-0">
+                <select class="form-select"
+                    value={editMode ? currentValues.coldWaterOnly.toString() : ""}
+                    name="coldWaterOnly" id="coldWaterOnly" aria-label="Nur Kaltwasserzähler" required>
+                    <option value="false">Kalt- und Warmwasserzähler</option>
+                    <option value="true">Nur Kaltwasserzähler</option>
+                </select>
+            </div>
         </div>
         <div class="row ps-4 pe-4">
             <button class="btn btn-primary btn-block" type="submit" aria-label="Neuen Verbraucher hinzufügen">
