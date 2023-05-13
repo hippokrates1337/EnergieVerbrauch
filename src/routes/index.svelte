@@ -32,79 +32,99 @@
 </script>
 
 {#if cookieConsent == undefined || cookieConsent["strictly-necessary"] == false}
-    <div class="error">
+    <p class="fw-light bg-light p-3">
         Um diese Seite zu nutzen, müssen Sie mindestens der Verwendung funktional notwendiger Cookies zustimmen.
-    </div>
+    </p>
 {:else}
-    <div bind:clientWidth={width}>
-        <div class="">
-            <ConsumptionLineChart {chartData} type="electricity"
-            consumers={[{
-                uid: "",
-                name: "Alle Nutzer",
-                user: "",
-                area: 0,
-                adults: 0,
-                children: 0,
-                createdAt: new Date(),
-                updatedAt: new Date()}, 
-                {uid: "",
-                name: "Beobachtungen",
-                user: "",
-                area: 0,
-                adults: 0,
-                children: 0,
-                createdAt: new Date(),
-                updatedAt: new Date()}]}
-            title="Strom" {explanationText}
-            parentWidth={width} showObservations={true} legend={true} 
-            leftAxisTitle="kWh / Tag" rightAxisTitle="#" />
+    {#if chartData.data == undefined || chartData.data.length < 2}
+        <p class="fw-light bg-light p-3">
+            In unserer Datenbank liegen leider noch keine Daten vor, die hier angezeigt werden könnten.
+        </p>
+    {:else}
+        
+        <div bind:clientWidth={width}>
+            <div class="">
+                <ConsumptionLineChart {chartData} type="electricity"
+                consumers={[{
+                    uid: "",
+                    name: "Alle Nutzer",
+                    user: "",
+                    area: 0,
+                    adults: 0,
+                    children: 0,
+                    type: "",
+                    coldWaterOnly: false,
+                    createdAt: new Date(),
+                    updatedAt: new Date()}, 
+                    {uid: "",
+                    name: "Beobachtungen",
+                    user: "",
+                    area: 0,
+                    adults: 0,
+                    children: 0,
+                    type: "",
+                    coldWaterOnly: false,
+                    createdAt: new Date(),
+                    updatedAt: new Date()}]}
+                title="Strom" {explanationText}
+                parentWidth={width} showObservations={true} legend={true} 
+                leftAxisTitle="kWh / Tag" rightAxisTitle="#" />
+            </div>
+            <div class="mt-5">
+                <ConsumptionLineChart {chartData} type="coldWater"
+                consumers={[{
+                    uid: "",
+                    name: "Alle Nutzer",
+                    user: "",
+                    area: 0,
+                    adults: 0,
+                    children: 0,
+                    type: "",
+                    coldWaterOnly: false,
+                    createdAt: new Date(),
+                    updatedAt: new Date()}, 
+                    {uid: "",
+                    name: "Beobachtungen",
+                    user: "",
+                    area: 0,
+                    adults: 0,
+                    children: 0,
+                    type: "",
+                    coldWaterOnly: false,
+                    createdAt: new Date(),
+                    updatedAt: new Date()}]}
+                title="Kaltwasser" {explanationText}
+                parentWidth={width} showObservations={true} legend={true} 
+                leftAxisTitle="m3 / Tag" rightAxisTitle="#" />
+            </div>
+            <div class="mt-5">
+                <ConsumptionLineChart {chartData} type="warmWater"
+                consumers={[{
+                    uid: "",
+                    name: "Alle Nutzer",
+                    user: "",
+                    area: 0,
+                    adults: 0,
+                    children: 0,
+                    type: "",
+                    coldWaterOnly: false,
+                    createdAt: new Date(),
+                    updatedAt: new Date()}, 
+                    {uid: "",
+                    name: "Beobachtungen",
+                    user: "",
+                    area: 0,
+                    adults: 0,
+                    children: 0,
+                    type: "",
+                    coldWaterOnly: false,
+                    createdAt: new Date(),
+                    updatedAt: new Date()}]}
+                title="Warmwasser" {explanationText}
+                parentWidth={width} showObservations={true} legend={true} 
+                leftAxisTitle="m3 / Tag" rightAxisTitle="#" />
+            </div>
         </div>
-        <div class="mt-5">
-            <ConsumptionLineChart {chartData} type="coldWater"
-            consumers={[{
-                uid: "",
-                name: "Alle Nutzer",
-                user: "",
-                area: 0,
-                adults: 0,
-                children: 0,
-                createdAt: new Date(),
-                updatedAt: new Date()}, 
-                {uid: "",
-                name: "Beobachtungen",
-                user: "",
-                area: 0,
-                adults: 0,
-                children: 0,
-                createdAt: new Date(),
-                updatedAt: new Date()}]}
-            title="Kaltwasser" {explanationText}
-            parentWidth={width} showObservations={true} legend={true} 
-            leftAxisTitle="m3 / Tag" rightAxisTitle="#" />
-        </div>
-        <div class="mt-5">
-            <ConsumptionLineChart {chartData} type="warmWater"
-            consumers={[{
-                uid: "",
-                name: "Alle Nutzer",
-                user: "",
-                area: 0,
-                adults: 0,
-                children: 0,
-                createdAt: new Date(),
-                updatedAt: new Date()}, 
-                {uid: "",
-                name: "Beobachtungen",
-                user: "",
-                area: 0,
-                adults: 0,
-                children: 0,
-                createdAt: new Date(),
-                updatedAt: new Date()}]}
-            title="Warmwasser" {explanationText}
-            parentWidth={width} showObservations={true} legend={true} 
-            leftAxisTitle="m3 / Tag" rightAxisTitle="#" />
-        </div>
-    </div>
+    {/if}
+    
 {/if}
