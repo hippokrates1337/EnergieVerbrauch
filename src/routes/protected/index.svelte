@@ -54,7 +54,8 @@
     $: chartData = generateDailyData(readings, "consumer");
     $: benchmarkData = generateDailyData(populationReadings, "population");
 </script>
-{#if chartData.data == undefined || chartData.data.length < 2}
+
+{#if chartData.data == undefined || chartData.data.length < 1 || chartData.data[0].observations.length < 2}
     <p class="fw-light bg-light p-3">
         Du hast noch keine Daten eingegeben, die hier angezeigt werden könnten. Lege zunächst (mindestens einen) Verbraucher
         an und hinterlege dann (mindestens zwei) Zählerstände. Anschließend wird Dir hier eine Auswertung Deines Verbrauchs angezeigt.

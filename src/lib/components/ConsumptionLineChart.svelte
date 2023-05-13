@@ -109,7 +109,7 @@
     $: yScale = d3.scaleLinear().domain([minValue * (1 - yAxisMargin), maxValue * (1 + yAxisMargin)]).range([innerHeight, 0]).nice();
     $: yScaleRight = d3.scaleLinear().domain([minObs * (1 - yAxisMargin), maxObs * (1 + yAxisMargin)]).range([innerHeight, 0]).nice();
     $: colorScale = d3.scaleSequential().domain([0, chartData.data ? chartData.data.filter(d => d.type == type).length : 0]).interpolator(d3.interpolateRgb('blue', 'green'));
-    
+
     // Filter the chart data set on the type of consumption to be shown in the chart and keep only date and
     // consumption values; the filter at the end avoids ending up with an array that has several "undefined"
     // child-arrays in it for the types of consumption not shown in the chart
@@ -174,7 +174,9 @@
                 <!-- Markers for dates with meter readings -->
                 {#each readingsDates as data, i}
                     {#each data as point, j}
-                        <line x1="{xScale(point)}" y1="0" x2="{xScale(point)}" y2="{innerHeight}" stroke="{colorScale(i)}"/>
+                        {#if j > 0}
+                            <line x1="{xScale(point)}" y1="0" x2="{xScale(point)}" y2="{innerHeight}" stroke="{colorScale(i)}"/>
+                        {/if}
                     {/each}
                 {/each}
 

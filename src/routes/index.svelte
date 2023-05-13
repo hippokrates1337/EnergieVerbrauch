@@ -36,7 +36,7 @@
         Um diese Seite zu nutzen, müssen Sie mindestens der Verwendung funktional notwendiger Cookies zustimmen.
     </p>
 {:else}
-    {#if chartData.data == undefined || chartData.data.length < 2}
+    {#if chartData.data == undefined || chartData.data.length < 1 || chartData.data[0].observations.length < 2}
         <p class="fw-light bg-light p-3">
             In unserer Datenbank liegen leider noch keine Daten vor, die hier angezeigt werden könnten.
         </p>
