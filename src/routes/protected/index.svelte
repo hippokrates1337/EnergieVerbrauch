@@ -54,21 +54,27 @@
     $: chartData = generateDailyData(readings, "consumer");
     $: benchmarkData = generateDailyData(populationReadings, "population");
 </script>
-
-<div bind:clientWidth={width}>
-    <div class="">
-        <ConsumptionLineChart {chartData} {consumers} {benchmarkData}
-        type="electricity" title="Strom" {explanationText} parentWidth={width} 
-        leftAxisTitle="kWh / Tag" />
+{#if chartData.data == undefined || chartData.data.length < 2}
+    <p class="fw-light bg-light p-3">
+        Du hast noch keine Daten eingegeben, die hier angezeigt werden könnten. Lege zunächst (mindestens einen) Verbraucher
+        an und hinterlege dann (mindestens zwei) Zählerstände. Anschließend wird Dir hier eine Auswertung Deines Verbrauchs angezeigt.
+    </p>
+{:else}
+    <div bind:clientWidth={width}>
+        <div class="">
+            <ConsumptionLineChart {chartData} {consumers} {benchmarkData}
+            type="electricity" title="Strom" {explanationText} parentWidth={width} 
+            leftAxisTitle="kWh / Tag" />
+        </div>
+        <div class="mt-5">
+            <ConsumptionLineChart {chartData} {consumers} {benchmarkData}
+            type="coldWater" title="Kaltwasser" {explanationText} parentWidth={width} 
+            leftAxisTitle="m3 / Tag" />
+        </div>
+        <div class="mt-5">
+            <ConsumptionLineChart {chartData} {consumers} {benchmarkData}
+            type="warmWater" title="Warmwasser" {explanationText} parentWidth={width} 
+            leftAxisTitle="m3 / Tag" />
+        </div>
     </div>
-    <div class="mt-5">
-        <ConsumptionLineChart {chartData} {consumers} {benchmarkData}
-        type="coldWater" title="Kaltwasser" {explanationText} parentWidth={width} 
-        leftAxisTitle="m3 / Tag" />
-    </div>
-    <div class="mt-5">
-        <ConsumptionLineChart {chartData} {consumers} {benchmarkData}
-        type="warmWater" title="Warmwasser" {explanationText} parentWidth={width} 
-        leftAxisTitle="m3 / Tag" />
-    </div>
-</div>
+{/if}
