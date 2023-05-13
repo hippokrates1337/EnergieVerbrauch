@@ -118,6 +118,3 @@
 <ListConsumers {consumers} {readings} on:editConsumer={e => editConsumer(e.detail)} on:deleteConsumer={e => deleteConsumer(e.detail)}/>
 <hr style="border-top: 3px double #8c8b8b">
 <AddConsumer {editMode} {currentValues} on:addOrUpdate={e => addOrUpdateConsumer(e.detail)} {addConsumerError}/>
-
-
-
