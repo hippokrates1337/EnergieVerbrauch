@@ -4,14 +4,21 @@
 
     export let consumers: Consumer[];
     export let readings: Reading[];
+    let focusConsumer: string;
 
     const toggleEdit = (uid: string) => {
         dispatch("editConsumer", {uid: uid});
     }
 
-    const deleteConsumer = (uid: string) => {
-        dispatch("deleteConsumer", {uid: uid});
+    const deleteConsumer = () => {
+        dispatch("deleteConsumer", {uid: focusConsumer});
     }
+
+    const setFocusConsumer = (uid: string) => {
+        focusConsumer = uid;
+    }
+
+    
 </script>
 
 {#if consumers.length > 0}
@@ -25,7 +32,7 @@
                     <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => toggleEdit(consumer.uid)}>
                         <i class="fa fa-pencil" style="color:yellow"/>
                     </button>
-                    <button type="button" class="btn btn-sm btn-shadow-none" on:click={() => deleteConsumer(consumer.uid)}>
+                    <button type="button" class="btn btn-sm btn-shadow-none" id="delete-consumer" data-bs-toggle="modal" data-bs-target="#confirm-dialog" on:click={() => setFocusConsumer(consumer.uid)}>
                         <i class="fa fa-trash" style="color:red" />
                     </button>
                     </a>
@@ -60,3 +67,22 @@
     </div>
 {/if}
 
+<div class="modal" tabindex="-1" id="confirm-dialog" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Löschen bestätigen</h5>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Das Löschen eines Verbrauchers löscht auch alle damit verbundenen Zählerstände. Dieser
+                    Schritt kann nicht rückgängig gemacht werden. Möchtest Du den Verbraucher wirklich löschen?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="confirm-no">Nein</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="confirm-yes" on:click={() => deleteConsumer()}>Ja</button>
+            </div>
+        </div>
+    </div>
+</div>
